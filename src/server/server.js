@@ -52,12 +52,24 @@
  "width":90
 }
 
+//var io = require('socket.io').listen(8000);
+//io.set('log level',2);
+//io.sockets.on('connection', function (socket) {
+//  socket.emit('mapData', mapDataJson);
+//  socket.on('buildHouse', function (data) {
+//    console.log(data);
+//  });
+//});
 
-var io = require('socket.io').listen(8000);
-io.set('log level',2);
-io.sockets.on('connection', function (socket) {
-  socket.emit('mapData', mapDataJson);
-  socket.on('buildHouse', function (data) {
-    console.log(data);
-  });
-});
+express = require('express.io')
+app = express().http().io()
+
+
+app.io.route('ready', function(req) {
+    req.io.emit('mapData', {
+        message: mapDataJson
+    })
+})
+
+
+app.listen(8000)
