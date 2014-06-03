@@ -6,6 +6,7 @@
     "connect": "*",
     "mysql": "*",
     "express": "*",
-    "express.io": "*"
+    "express.io": "*",
+    "MD5": "*"
   }
 }
