@@ -52,12 +52,131 @@
  "width":90
 }
 
+//var io = require('socket.io').listen(8000);
+//io.set('log level',2);
+//io.sockets.on('connection', function (socket) {
+//  socket.emit('mapData', mapDataJson);
+//  socket.on('buildHouse', function (data) {
+//    console.log(data);
+//  });
+//});
 
-var io = require('socket.io').listen(8000);
-io.set('log level',2);
-io.sockets.on('connection', function (socket) {
-  socket.emit('mapData', mapDataJson);
-  socket.on('buildHouse', function (data) {
-    console.log(data);
-  });
-});
+var mysql      = require('mysql');
+
+var db_config = {
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'serenity'
+};
+var connection;
+function handleDisconnect() {
+    connection = mysql.createConnection(db_config); // Recreate the connection, since
+    // the old one cannot be reused.
+
+    connection.connect(function(err) {              // The server is either down
+        if(err) {                                     // or restarting (takes a while sometimes).
+            console.log('error when connecting to db:', err);
+            setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+        }                                     // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+    // If you're also serving http, display a 503 error.
+    connection.on('error', function(err) {
+        console.log('db error', err);
+        if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+            handleDisconnect();                         // lost due to either server restart, or a
+        } else {                                      // connnection idle timeout (the wait_timeout
+            throw err;                                 // server variable configures this)
+        }}
+    );
+}
+handleDisconnect();
+
+express = require('express.io')
+app = express().http().io()
+
+var md5 = require('MD5');
+
+// Setup sessions
+app.use(express.cookieParser())
+app.use(express.session({secret: 'thisIsAnAwesomeGame'}))
+
+app.use(express.static('../client'));
+
+// Session is automatically setup on initial request.
+app.get('/', function(req, res) {
+    req.session.loginDate = new Date().toString()
+    res.sendfile('../client/index.html')
+})
+
+app.io.route('login', function(req) {
+
+    var sid = req.sessionID;
+    var username = req.data.user;
+    var password = md5(req.data.pass);
+
+    connection.query('SELECT userId, username, sessionId FROM `serenity`.`users` WHERE username = ? AND password = ?', [username, password] , function(err, rows, fields) {
+        if (err) throw err;
+        console.log(rows.length);
+
+        if(rows.length > 0){
+            console.log('userId: ' + rows[0]['userId'] + ' username: ' + rows[0]['username']);
+            req.session.username = result[0]['username'];
+            req.session.userId = result[0]['userId'];
+
+            if(result[0]['sessionId'] != sid) {
+
+            }
+        } else {
+            console.log('No Results');
+        }
+    });
+
+})
+
+app.io.route('register', function(req) {
+
+    var sid = req.sessionID;
+    var username = req.data.user;
+    var password = md5(req.data.pass);
+    var email = req.data.email;
+
+    connection.query('SELECT userId, username, sessionId FROM `serenity`.`users` WHERE username = ? AND password = ?', [username, password] , function(err, rows, fields) {
+        if (err) throw err;
+        console.log(rows.length);
+
+        if(rows.length > 0){
+            console.log('userId: ' + rows[0]['userId'] + ' username: ' + rows[0]['username']);
+            req.session.username = result[0]['username'];
+            req.session.userId = result[0]['userId'];
+
+            if(result[0]['sessionId'] != sid) {
+
+            }
+        } else {
+            console.log('No Results');
+        }
+    });
+
+})
+
+app.io.route('ready', function(req) {
+    var sid = req.sessionID;
+    // check if correct login:
+    connection.query('SELECT sessionId FROM `serenity`.`users` WHERE sessionId = ?', [sid] , function(err, rows, fields) {
+        if (err) throw err;
+        console.log(rows.length);
+        if(rows.length > 0) {
+            req.io.emit('mapData', {
+                message: mapDataJson
+            })
+        }
+        else {
+            req.io.emit('loginPrompt');
+        }
+    });
+
+})
+
+
+app.listen(80)
