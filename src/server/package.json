@@ -3,10 +3,9 @@
   "version": "0.0.1",
   "dependencies": {
     "socket.io": "*",
-    "connect": "*",
     "mysql": "*",
     "express": "*",
     "express.io": "*",
-    "MD5": "*"
+    "bcrypt": "*"
   }
 }

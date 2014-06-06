@@ -61,7 +61,16 @@
 //  });
 //});
 
-var mysql      = require('mysql');
+
+
+// Load the bcrypt module
+var bcrypt = require('bcrypt');
+// Generate a salt
+var salt = bcrypt.genSaltSync(10);
+
+
+
+var mysql = require('mysql');
 
 var db_config = {
     host: 'localhost',
@@ -95,7 +104,7 @@ handleDisconnect();
 express = require('express.io')
 app = express().http().io()
 
-var md5 = require('MD5');
+//var md5 = require('MD5');
 
 // Setup sessions
 app.use(express.cookieParser())
@@ -112,8 +121,8 @@ app.get('/', function(req, res) {
 app.io.route('login', function(req) {
 
     var sid = req.sessionID;
-    var username = req.data.user;
-    var password = md5(req.data.pass);
+    var username = req.data.name;
+    var password = req.data.password;
 
     connection.query('SELECT userId, username, sessionId FROM `serenity`.`users` WHERE username = ? AND password = ?', [username, password] , function(err, rows, fields) {
         if (err) throw err;
@@ -137,24 +146,40 @@ app.io.route('login', function(req) {
 app.io.route('register', function(req) {
 
     var sid = req.sessionID;
-    var username = req.data.user;
-    var password = md5(req.data.pass);
+    var username = req.data.name;
+    var password = req.data.password;
     var email = req.data.email;
 
-    connection.query('SELECT userId, username, sessionId FROM `serenity`.`users` WHERE username = ? AND password = ?', [username, password] , function(err, rows, fields) {
+    connection.query('SELECT userId,username,email FROM `serenity`.`users` WHERE username = ? OR email = ?', [username, email] , function(err, rows, fields) {
         if (err) throw err;
-        console.log(rows.length);
+        console.log('rows.length=' + rows.length);
 
         if(rows.length > 0){
-            console.log('userId: ' + rows[0]['userId'] + ' username: ' + rows[0]['username']);
-            req.session.username = result[0]['username'];
-            req.session.userId = result[0]['userId'];
-
-            if(result[0]['sessionId'] != sid) {
-
+            var errormessage = "";
+            if(rows[0]['username']==username) {
+                errormessage = "username already exists!";
             }
+            if(rows[0]['email']==email) {
+                errormessage = "email already exists!";
+            }
+            req.io.emit('registerFeedback', {
+                success: false,
+                errormessage: errormessage
+            })
         } else {
-            console.log('No Results');
+            // Hash the password with the salt
+            var pwhash = bcrypt.hashSync(password, salt);
+            //console.log("pwhash length = " + pwhash.length)
+            connection.query('INSERT INTO `serenity`.`users` SET ?', {username: username,email: email,password: pwhash,sessionId: sid}, function(err, result) {
+                if (err) throw err;
+
+                console.log("insertId="+result.insertId);
+                req.session.username = username;
+                req.session.userId = result.insertId;
+                req.io.emit('registerFeedback', {
+                    success: true
+                })
+            });
         }
     });
 
@@ -162,14 +187,23 @@ app.io.route('register', function(req) {
 
 app.io.route('ready', function(req) {
     var sid = req.sessionID;
+
+            req.io.emit('mapData', {
+                message: mapDataJson
+            });
+
+})
+
+app.io.route('buildHouse', function(req) {
+    var sid = req.sessionID;
     // check if correct login:
-    connection.query('SELECT sessionId FROM `serenity`.`users` WHERE sessionId = ?', [sid] , function(err, rows, fields) {
+    connection.query('SELECT sessionId,userId FROM `serenity`.`users` WHERE sessionId = ?', [sid] , function(err, rows, fields) {
         if (err) throw err;
         console.log(rows.length);
         if(rows.length > 0) {
-            req.io.emit('mapData', {
-                message: mapDataJson
-            })
+            //ok to build
+            var userId = rows[0]['userId'];
+            console.log("userId = " + userId + " has build a house")
         }
         else {
             req.io.emit('loginPrompt');
@@ -179,4 +213,5 @@ app.io.route('ready', function(req) {
 })
 
 
-app.listen(80)
+
+app.listen(8080)
