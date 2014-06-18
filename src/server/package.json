@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "dependencies": {
     "socket.io": "*",
-    "mysql": "*",
     "express": "*",
     "express.io": "*",
-    "bcrypt": "*"
+    "mongodb": "*",
+    "bcrypt": "*",
+    "connect-mongo": "*"
   }
 }
