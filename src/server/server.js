@@ -3,11 +3,14 @@ var MongoStore = require('connect-mongo')(express)
 var fs = require('fs');
 
 window = {};
+eval(fs.readFileSync('../game/GameList.js') + '');
 eval(fs.readFileSync('../game/GameData.js') + '');
-eval(fs.readFileSync('../game/MapData.js') + '');
+eval(fs.readFileSync('../game/mapData.js') + '');
 eval(fs.readFileSync('../game/MapType.js') + '');
 eval(fs.readFileSync('../game/MapObject.js') + '');
-eval(fs.readFileSync('../game/ObjectType.js') + '');
+eval(fs.readFileSync('../game/objectType.js') + '');
+eval(fs.readFileSync('../game/Spritesheet.js') + '');
+eval(fs.readFileSync('../game/User.js') + '');
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
 app = express().http().io()
@@ -20,33 +23,52 @@ var collMapTypes;
 var collObjectType;
 var collMaps;
 var collMapObjects;
+var collGameVars;
 
 var gameData = new GameData();
+var gameVars = {};
 
 var mongodb = require('mongodb');
 var BSON = mongodb.BSONPure;
 
-var db = new mongodb.Db('serenitytest', new mongodb.Server('localhost', mongodb.Connection.DEFAULT_PORT, {auto_reconnect: true}),{w: 1});
+var db = new mongodb.Db('serenity', new mongodb.Server('localhost', mongodb.Connection.DEFAULT_PORT, {auto_reconnect: true}), {w: 1});
 db.open(function (err, db) {
     if (!err) {
         console.log("Connection to mongodb established.");
 
         // load gamedata:
+        mapDataCollection = db.collection('mapData');
+        userCollection = db.collection('users');
+        collSpritesheets = db.collection('spritesheets');
+        collMapTypes = db.collection('mapTypes');
+        collObjectType = db.collection('objTypes');
+        collMaps = db.collection('maps');
+        collMapObjects = db.collection('mapObjects');
+        collGameVars = db.collection('gameVars');
 
-         mapDataCollection = db.collection('mapData');
-         userCollection = db.collection('users');
-         collSpritesheets = db.collection('spritesheets');
-         collMapTypes = db.collection('mapTypes');
-         collObjectType = db.collection('objTypes');
-         collMaps = db.collection('maps');
-         collMapObjects = db.collection('mapObjects');
-
+        collSpritesheets.find().toArray(function (err, docs) {
+            console.log(docs);
+            gameData.spritesheets = new GameList(Spritesheet, docs);
+        });
+        collMapTypes.find().toArray(function (err, docs) {
+            gameData.mapTypes = new GameList(MapType, docs);
+        });
+        collObjectType.find().toArray(function (err, docs) {
+            gameData.objectTypes = new GameList(ObjectType, docs);
+        });
+        collMaps.find().each(function (err, doc) {
+            var currentMapData = gameData.maps.add(doc);
+            collMapObjects.find({'mapId': currentMapData._id}).toArray(function (err, docs) {
+                currentMapData.mapObjects = new GameList(MapObject, docs);
+            });
+        });
+        collGameVars.findOne([], function (err, doc) {
+            gameVars = doc;
+        });
 
 
     }
 })
-
-
 
 
 // Load the bcrypt module
@@ -119,12 +141,12 @@ app.io.route('register', function (req) {
             var pwhash = bcrypt.hashSync(password, salt);
             //console.log("pwhash length = " + pwhash.length)
             var userObject = {name: username, email: email, pw: pwhash, sid: sid};
-            userCollection.insert(userObject, {w: 1 }, function (err, doc) {
+            userCollection.insert(userObject, {w: 1 }, function (err) {
                 if (err) throw err;
 
                 console.log("insertId=" + userObject._id);
-                req.session.username = doc.name;
-                req.session.userId = doc._id;
+                req.session.username = userObject.name;
+                req.session.userId = userObject._id;
                 req.session.loggedIn = true;
                 req.io.emit('registerFeedback', {
                     success: true
@@ -171,6 +193,20 @@ app.io.route('ready', function (req) {
         if (err) throw err;
         req.io.emit('mapData', {message: doc.mapDataJson});
     })
+
+    // send spritesheet data:
+    req.io.emit('spritesheets', gameData.spritesheets);
+    req.io.emit('mapTypes', gameData.mapTypes);
+    req.io.emit('objectTypes', gameData.objectTypes);
+
+    var mapData = gameData.maps.hashList[gameVars.rootMapId];
+
+    req.io.emit('map', gameData.maps.hashList[gameVars.rootMapId]);
+
+})
+
+app.io.route('getMap', function (req) {
+    req.io.emit('map', gameData.maps.hashList[req.data.mapId]);
 })
 
 app.io.route('buildHouse', function (req) {
