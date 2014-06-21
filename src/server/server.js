@@ -1,3 +1,7 @@
+// Load the bcrypt module
+var bcrypt = require('bcrypt');
+var salt = bcrypt.genSaltSync(10);
+
 express = require('express.io')
 var MongoStore = require('connect-mongo')(express)
 var fs = require('fs');
@@ -47,22 +51,27 @@ db.open(function (err, db) {
         collGameVars = db.collection('gameVars');
 
         collSpritesheets.find().toArray(function (err, docs) {
-            console.log(docs);
+            if (err) throw err;
             gameData.spritesheets = new GameList(Spritesheet, docs);
         });
         collMapTypes.find().toArray(function (err, docs) {
+            if (err) throw err;
             gameData.mapTypes = new GameList(MapType, docs);
         });
         collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
             gameData.objectTypes = new GameList(ObjectType, docs);
         });
         collMaps.find().each(function (err, doc) {
+            if (err) throw err;
             var currentMapData = gameData.maps.add(doc);
             collMapObjects.find({'mapId': currentMapData._id}).toArray(function (err, docs) {
+                if (err) throw err;
                 currentMapData.mapObjects = new GameList(MapObject, docs);
             });
         });
         collGameVars.findOne([], function (err, doc) {
+            if (err) throw err;
             gameVars = doc;
         });
 
@@ -71,9 +80,7 @@ db.open(function (err, db) {
 })
 
 
-// Load the bcrypt module
-var bcrypt = require('bcrypt');
-var salt = bcrypt.genSaltSync(10);
+
 
 // Setup sessions
 app.use(express.cookieParser())
