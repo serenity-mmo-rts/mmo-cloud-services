@@ -1,11 +1,14 @@
 var fs = require('fs');
 
 window = {};
+eval(fs.readFileSync('../game/GameList.js') + '');
 eval(fs.readFileSync('../game/GameData.js') + '');
-eval(fs.readFileSync('../game/MapData.js') + '');
+eval(fs.readFileSync('../game/mapData.js') + '');
 eval(fs.readFileSync('../game/MapType.js') + '');
 eval(fs.readFileSync('../game/MapObject.js') + '');
-eval(fs.readFileSync('../game/ObjectType.js') + '');
+eval(fs.readFileSync('../game/objectType.js') + '');
+eval(fs.readFileSync('../game/Spritesheet.js') + '');
+eval(fs.readFileSync('../game/User.js') + '');
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
 
@@ -67,7 +70,7 @@ var mapDataJson = { "height": 90,
 
 
 var mongoClient = require('mongodb').MongoClient;
-mongoClient.connect('mongodb://localhost:27017/serenitytest', {db: {native_parser: true}}, function(err, db) {
+mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: true}}, function(err, db) {
     if(!err) {
         console.log("We are connected");
     }
@@ -137,8 +140,8 @@ mongoClient.connect('mongodb://localhost:27017/serenitytest', {db: {native_parse
         var collObjectType = db.collection('objTypes');
         db.dropCollection('objTypes',function(err){
             objectTypeRock = {
-                width : 100,
-                height : 100,
+                initWidth : 100,
+                initHeight : 100,
                 allowOnMapTypeId: mapTypeCity._id,
                 name : "rock",
                 spritesheetId: spritesheetForest._id,
@@ -175,17 +178,41 @@ mongoClient.connect('mongodb://localhost:27017/serenitytest', {db: {native_parse
             for(var i=1; i<10; i++) {
                 mapObjectsRocks.push({
                     mapId: mapCity._id,
-                    xCoord: Math.floor(Math.random() * 10000),
-                    yCoord: Math.floor(Math.random() * 10000),
+                    x: Math.floor(Math.random() * 10000),
+                    y: Math.floor(Math.random() * 10000),
+                    width: objectTypeRock.initWidth,
+                    height: objectTypeRock.initHeight,
                     objTypeId: objectTypeRock._id,
                     userId: 0
                 });
             }
+            mapObjectsRocks.push({
+                mapId: mapCity._id,
+                x: 0,
+                y: 0,
+                width: objectTypeRock.initWidth,
+                height: objectTypeRock.initHeight,
+                objTypeId: objectTypeRock._id,
+                userId: 0
+            });
             collMapObjects.insert(mapObjectsRocks, function(err,docs) {
+                if (err) throw err;
+            });
+            addGameVariables();
+        });
+
+
+    }
+
+    function addGameVariables() {
+        var collGameVars = db.collection('gameVars');
+        db.dropCollection('gameVars',function(err){
+            gameVars = {
+                rootMapId : mapCity._id
+            }
+            collGameVars.insert(gameVars, function(err,docs) {
                 if (err) throw err;
             });
         });
     }
-
-
 });
