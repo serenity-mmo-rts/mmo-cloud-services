@@ -101,7 +101,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         var collSpritesheets = db.collection('spritesheets');
         db.dropCollection('spritesheets',function(err){
             spritesheetForest = {
-                images: ["forest.png"],
+                images: ["resources/forest.png"],
                 frames: [
                     // x, y, width, height, imageIndex, regX, regY
                     [0,448,64,64,0,32,16],
@@ -159,8 +159,8 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         var collMaps = db.collection('maps');
         db.dropCollection('maps',function(err){
             mapCity = {
-                width: 10000,
-                height: 10000,
+                width: 1000,
+                height: 1000,
                 mapTypeId: mapTypeCity._id
             }
             collMaps.insert(mapCity, function(err,docs) {
@@ -178,8 +178,8 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             for(var i=1; i<10; i++) {
                 mapObjectsRocks.push({
                     mapId: mapCity._id,
-                    x: Math.floor(Math.random() * 10000),
-                    y: Math.floor(Math.random() * 10000),
+                    x: Math.floor(Math.random() * 1000),
+                    y: Math.floor(Math.random() * 1000),
                     width: objectTypeRock.initWidth,
                     height: objectTypeRock.initHeight,
                     objTypeId: objectTypeRock._id,

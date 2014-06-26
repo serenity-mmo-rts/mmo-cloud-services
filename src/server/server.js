@@ -196,20 +196,18 @@ app.io.route('ready', function (req) {
     })
 
     // send map data anyway:
-    mapDataCollection.findOne(function (err, doc) {
+    /*mapDataCollection.findOne(function (err, doc) {
         if (err) throw err;
         req.io.emit('mapData', {message: doc.mapDataJson});
-    })
+    })*/
 
-    // send spritesheet data:
-    req.io.emit('spritesheets', gameData.spritesheets);
-    req.io.emit('mapTypes', gameData.mapTypes);
-    req.io.emit('objectTypes', gameData.objectTypes);
-
-    var mapData = gameData.maps.hashList[gameVars.rootMapId];
-
-    req.io.emit('map', gameData.maps.hashList[gameVars.rootMapId]);
-
+    initGameData = {
+        spritesheets: gameData.spritesheets,
+        mapTypes: gameData.mapTypes,
+        objectTypes: gameData.objectTypes,
+        initMap: gameData.maps.hashList[gameVars.rootMapId]
+    };
+    req.io.emit('initGameData', initGameData);
 })
 
 app.io.route('getMap', function (req) {
