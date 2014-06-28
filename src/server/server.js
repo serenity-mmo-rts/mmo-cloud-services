@@ -196,11 +196,6 @@ app.io.route('ready', function (req) {
     })
 
     // send map data anyway:
-    /*mapDataCollection.findOne(function (err, doc) {
-        if (err) throw err;
-        req.io.emit('mapData', {message: doc.mapDataJson});
-    })*/
-
     initGameData = {
         spritesheets: gameData.spritesheets,
         mapTypes: gameData.mapTypes,
