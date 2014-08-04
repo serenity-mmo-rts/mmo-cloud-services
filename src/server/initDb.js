@@ -38,8 +38,8 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                 images: ["resources/forest.png"],
                 frames: [
                     // x, y, width, height, imageIndex, regX, regY
-                    [0,448,64,64,0,32,16],
-                    [64,448,64,64,0,32,16]
+                    [0,448,64,64,0,32,48],
+                    [64,448,64,64,0,32,48]
                 ]
             }
             collSpritesheets.insert(spritesheetForest, function(err,docs) {
@@ -72,16 +72,16 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     function addObjectTypes() {
         var collObjectType = db.collection('objTypes');
         objectTypeRock = {
-            initWidth : 48,
-            initHeight : 48,
+            initWidth : 32,
+            initHeight : 32,
             allowOnMapTypeId: mapTypeCity._id,
             name : "rock",
             spritesheetId: spritesheetForest._id,
             spriteFrame: 0
         }
         objectTypeRock2 = {
-            initWidth : 48,
-            initHeight : 48,
+            initWidth : 32,
+            initHeight : 32,
             allowOnMapTypeId: mapTypeCity._id,
             name : "rock2",
             spritesheetId: spritesheetForest._id,
@@ -169,6 +169,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             collGameVars.insert(gameVars, function(err,docs) {
                 if (err) throw err;
                 console.log("database is now ready!");
+                db.close();
             });
         });
     }
