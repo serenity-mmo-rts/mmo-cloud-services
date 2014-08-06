@@ -64,11 +64,13 @@ db.open(function (err, db) {
         });
         collMaps.find().each(function (err, doc) {
             if (err) throw err;
-            var currentMapData = gameData.maps.add(doc);
-            collMapObjects.find({'mapId': currentMapData._id}).toArray(function (err, docs) {
-                if (err) throw err;
-                currentMapData.mapObjects = new GameList(MapObject, docs);
-            });
+            if (doc != null) {
+                var currentMapData = gameData.maps.add(doc);
+                collMapObjects.find({'mapId': currentMapData._id}).toArray(function (err, docs) {
+                    if (err) throw err;
+                    currentMapData.mapObjects = new GameList(MapObject, docs);
+                });
+            }
         });
         collGameVars.findOne([], function (err, doc) {
             if (err) throw err;
@@ -88,7 +90,7 @@ app.use(express.session({secret: 'thisIsAnAwesomeGame',
     store: new MongoStore({db: db})}))
 
 app.use(express.static('../client'));
-app.use(express.static('../game'));
+app.use('/game', express.static('../game'));
 
 // Session is automatically setup on initial request.
 app.get('/', function (req, res) {

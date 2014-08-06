@@ -129,22 +129,22 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         var collMapObjects = db.collection('mapObjects');
         db.dropCollection('mapObjects',function(err){
             mapObjectsRocks = [];
-            for(var i=1; i<500; i++) {
+            for(var i=1; i<200; i++) {
                 mapObjectsRocks.push({
                     mapId: mapCity._id,
-                    x: Math.floor((Math.random()-0.5) * (mapCity.width-objectTypeRock.initWidth)),
-                    y: Math.floor((Math.random()-0.5) * (mapCity.height-objectTypeRock.initHeight)),
+                    x: Math.floor((Math.random()-0.5) * (mapCity.width-objectTypeRock.initWidth/2)),
+                    y: Math.floor((Math.random()-0.5) * (mapCity.height-objectTypeRock.initHeight/2)),
                     width: objectTypeRock.initWidth,
                     height: objectTypeRock.initHeight,
                     objTypeId: objectTypeRock._id,
                     userId: 0
                 });
             }
-            for(var i=1; i<500; i++) {
+            for(var i=1; i<200; i++) {
                 mapObjectsRocks.push({
                     mapId: mapCity._id,
-                    x: Math.floor((Math.random()-0.5) * (mapCity.width-objectTypeRock2.initWidth)),
-                    y: Math.floor((Math.random()-0.5) * (mapCity.height-objectTypeRock2.initHeight)),
+                    x: Math.floor((Math.random()-0.5) * (mapCity.width-objectTypeRock2.initWidth/2)),
+                    y: Math.floor((Math.random()-0.5) * (mapCity.height-objectTypeRock2.initHeight/2)),
                     width: objectTypeRock2.initWidth,
                     height: objectTypeRock2.initHeight,
                     objTypeId: objectTypeRock2._id,
