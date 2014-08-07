@@ -34,14 +34,14 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     function addSpritesheets() {
         var collSpritesheets = db.collection('spritesheets');
         db.dropCollection('spritesheets',function(err){
-            spritesheetForest = {
+            spritesheetForest = new Spritesheet({
                 images: ["resources/forest.png"],
                 frames: [
                     // x, y, width, height, imageIndex, regX, regY
                     [0,448,64,64,0,32,48],
                     [64,448,64,64,0,32,48]
                 ]
-            }
+            });
             collSpritesheets.insert(spritesheetForest, function(err,docs) {
                 if (err) throw err;
                 addMapTypes();
@@ -54,14 +54,14 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     function addMapTypes() {
         var collMapTypes = db.collection('mapTypes');
         db.dropCollection('mapTypes',function(err){
-            mapTypeCity = {
+            mapTypeCity = new MapType({
                 name: "City",
                 scale: 1,
                 ratioWidthHeight: 2,
                 bgColor: 000000,
                 groundImage: "resources/ground.png",
                 groundImageScaling: 1
-            }
+            });
             collMapTypes.insert(mapTypeCity, function(err,docs) {
                 if (err) throw err;
                 addObjectTypes();
@@ -71,22 +71,22 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addObjectTypes() {
         var collObjectType = db.collection('objTypes');
-        objectTypeRock = {
+        objectTypeRock = new ObjectType({
             initWidth : 32,
             initHeight : 32,
             allowOnMapTypeId: mapTypeCity._id,
             name : "rock",
             spritesheetId: spritesheetForest._id,
             spriteFrame: 0
-        }
-        objectTypeRock2 = {
+        })
+        objectTypeRock2 = new ObjectType({
             initWidth : 32,
             initHeight : 32,
             allowOnMapTypeId: mapTypeCity._id,
             name : "rock2",
             spritesheetId: spritesheetForest._id,
             spriteFrame: 1
-        }
+        });
 
         db.dropCollection('objTypes',function(err){
             if (err) throw err;
@@ -113,11 +113,11 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     function addMaps() {
         var collMaps = db.collection('maps');
         db.dropCollection('maps',function(err){
-            mapCity = {
+            mapCity = new MapData({
                 width: 1000,
                 height: 1000,
                 mapTypeId: mapTypeCity._id
-            }
+            });
             collMaps.insert(mapCity, function(err,docs) {
                 if (err) throw err;
                 addMapObjects();
@@ -130,7 +130,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         db.dropCollection('mapObjects',function(err){
             mapObjectsRocks = [];
             for(var i=1; i<200; i++) {
-                mapObjectsRocks.push({
+                mapObjectsRocks.push(new MapObject({
                     mapId: mapCity._id,
                     x: Math.floor((Math.random()-0.5) * (mapCity.width-objectTypeRock.initWidth/2)),
                     y: Math.floor((Math.random()-0.5) * (mapCity.height-objectTypeRock.initHeight/2)),
@@ -138,10 +138,10 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                     height: objectTypeRock.initHeight,
                     objTypeId: objectTypeRock._id,
                     userId: 0
-                });
+                }));
             }
             for(var i=1; i<200; i++) {
-                mapObjectsRocks.push({
+                mapObjectsRocks.push(new MapObject({
                     mapId: mapCity._id,
                     x: Math.floor((Math.random()-0.5) * (mapCity.width-objectTypeRock2.initWidth/2)),
                     y: Math.floor((Math.random()-0.5) * (mapCity.height-objectTypeRock2.initHeight/2)),
@@ -149,7 +149,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                     height: objectTypeRock2.initHeight,
                     objTypeId: objectTypeRock2._id,
                     userId: 0
-                });
+                }));
             }
             collMapObjects.insert(mapObjectsRocks, function(err,docs) {
                 if (err) throw err;
