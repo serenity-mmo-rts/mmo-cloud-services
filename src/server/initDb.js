@@ -33,7 +33,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addSpritesheets() {
         var collSpritesheets = db.collection('spritesheets');
-        db.dropCollection('spritesheets',function(err){
+        
             spritesheetForest = new Spritesheet({
                 images: ["resources/forest.png"],
                 frames: [
@@ -46,14 +46,12 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                 if (err) throw err;
                 addMapTypes();
             });
-        })
     }
 
 
 
     function addMapTypes() {
         var collMapTypes = db.collection('mapTypes');
-        db.dropCollection('mapTypes',function(err){
             mapTypeCity = new MapType({
                 name: "City",
                 scale: 1,
@@ -66,7 +64,6 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                 if (err) throw err;
                 addObjectTypes();
             });
-        });
     }
 
     function addObjectTypes() {
@@ -88,10 +85,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             spriteFrame: 1
         });
 
-        db.dropCollection('objTypes',function(err){
-            if (err) throw err;
             addRock1();
-        });
 
 
 
@@ -112,7 +106,6 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addMaps() {
         var collMaps = db.collection('maps');
-        db.dropCollection('maps',function(err){
             mapCity = new MapData({
                 width: 1000,
                 height: 1000,
@@ -122,12 +115,10 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                 if (err) throw err;
                 addMapObjects();
             });
-        });
     }
 
     function addMapObjects() {
         var collMapObjects = db.collection('mapObjects');
-        db.dropCollection('mapObjects',function(err){
             mapObjectsRocks = [];
             for(var i=1; i<200; i++) {
                 mapObjectsRocks.push(new MapObject({
@@ -155,14 +146,12 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                 if (err) throw err;
             });
             addGameVariables();
-        });
 
 
     }
 
     function addGameVariables() {
         var collGameVars = db.collection('gameVars');
-        db.dropCollection('gameVars',function(err){
             gameVars = {
                 rootMapId : mapCity._id
             }
@@ -171,6 +160,5 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                 console.log("database is now ready!");
                 db.close();
             });
-        });
     }
 });
