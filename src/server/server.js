@@ -110,7 +110,7 @@ app.io.route('login', function (req) {
             req.io.emit('loginError', {msg: "username does not exist!"});
         }
         else {
-            bcrypt.compare(doc.pw, password, function (err, res) {
+            bcrypt.compare(password, doc.pw, function (err, res) {
                 if (res) {
                     if (doc.sid != sid) {
                         userCollection.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
@@ -148,7 +148,6 @@ app.io.route('register', function (req) {
         if (doc == null) {
             // Hash the password with the salt
             var pwhash = bcrypt.hashSync(password, salt);
-            //console.log("pwhash length = " + pwhash.length)
             var userObject = {name: username, email: email, pw: pwhash, sid: sid};
             userCollection.insert(userObject, {w: 1 }, function (err) {
                 if (err) throw err;
