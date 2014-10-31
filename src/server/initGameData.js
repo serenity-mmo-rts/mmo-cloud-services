@@ -155,7 +155,7 @@ var pointerToBurgerhouse = initGameData.objectTypes.hashList["burgerhouse"];
 var pointerToButcher = initGameData.objectTypes.hashList["butcher"];
 var pointerToBank = initGameData.objectTypes.hashList["bank"];
 var pointerToFactory = initGameData.objectTypes.hashList["factory"];
-for(var i=1; i<200; i++) {
+for(var i=1; i<50; i++) {
     pointerToCityMap.mapObjects.add(new MapObject({
         _id: "rock01inst"+i,
         mapId: pointerToCityMap._id,
@@ -165,7 +165,7 @@ for(var i=1; i<200; i++) {
         userId: 0
     }))
 }
-for(var i=1; i<200; i++) {
+for(var i=1; i<50; i++) {
     pointerToCityMap.mapObjects.add(new MapObject({
         _id: "rock02inst"+i,
         mapId: pointerToCityMap._id,

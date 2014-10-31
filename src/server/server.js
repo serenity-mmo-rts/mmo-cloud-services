@@ -213,7 +213,7 @@ app.io.route('getMap', function (req) {
 app.io.route('buildHouse', function (req) {
     // check if correct login:
     if (req.session.loggedIn) {
-        console.log("user " + req.session.username + " has build a house")
+        console.log("user " + req.session.username + " has build a " + req.data.objTypeId + " at coordinates ("+ req.data.x+","+req.data.y+")");
     }
     else {
         req.io.emit('loginPrompt');
