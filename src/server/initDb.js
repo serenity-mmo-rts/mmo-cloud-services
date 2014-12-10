@@ -1,19 +1,9 @@
 var fs = require('fs');
 
 window = {};
-eval(fs.readFileSync('../game/GameList.js') + '');
-eval(fs.readFileSync('../game/GameData.js') + '');
-eval(fs.readFileSync('../game/mapData.js') + '');
-eval(fs.readFileSync('../game/MapType.js') + '');
-eval(fs.readFileSync('../game/MapObject.js') + '');
-eval(fs.readFileSync('../game/objectType.js') + '');
-eval(fs.readFileSync('../game/Spritesheet.js') + '');
-eval(fs.readFileSync('../game/User.js') + '');
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
 initGameData = require('./initGameData');
-
-var gameData;
 
 var mongoClient = require('mongodb').MongoClient;
 mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: true}}, function(err, db) {
@@ -52,7 +42,9 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     });
 
     function addSpritesheets() {
-        collSpritesheets.insert(initGameData.gameData.spritesheets.getArray(), function(err,docs) {
+        console.log("add sprites")
+        var saveData = initGameData.gameData.spritesheets.save();
+        collSpritesheets.insert(saveData, function(err,docs) {
             if (err) throw err;
             addMapTypes();
         });
@@ -61,36 +53,41 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
 
     function addMapTypes() {
-        collMapTypes.insert(initGameData.gameData.mapTypes.getArray(), function(err,docs) {
+        console.log("add map types")
+        collMapTypes.insert(initGameData.gameData.mapTypes.save(), function(err,docs) {
             if (err) throw err;
             addObjectTypes();
         });
     }
 
     function addObjectTypes() {
-        collObjectType.insert(initGameData.gameData.objectTypes.getArray(), function(err,docs) {
+        console.log("add object types")
+        collObjectType.insert(initGameData.gameData.objectTypes.save(), function(err,docs) {
             if (err) throw err;
             addMaps();
         });
     }
 
     function addMaps() {
-        collMaps.insert(initGameData.gameData.maps.getArray(), function(err,docs) {
+        console.log("add maps")
+        collMaps.insert(initGameData.gameData.maps.save(), function(err,docs) {
             if (err) throw err;
             addMapObjects();
         });
     }
 
     function addMapObjects() {
-        for( var k in initGameData.gameData.maps.hashList ) {
-            collMapObjects.insert(initGameData.gameData.maps.hashList[k].mapObjects.getArray(), function(err,docs) {
+        console.log("add map objects")
+        initGameData.gameData.maps.each(function(map) {
+            collMapObjects.insert(map.mapObjects.save(), function(err,docs) {
                 if (err) throw err;
             });
-        }
+        });
         addGameVariables();
     }
 
     function addGameVariables() {
+        console.log("add game variables")
         collGameVars.insert(initGameData.gameVars, function(err,docs) {
             if (err) throw err;
             console.log("database is now ready!");

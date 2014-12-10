@@ -4,17 +4,19 @@ var salt = bcrypt.genSaltSync(10);
 
 express = require('express.io')
 var MongoStore = require('connect-mongo')(express)
-var fs = require('fs');
 
+var GameList = require('../game/GameList').GameList;
+var GameData = require('../game/GameData').GameData;
+var MapObject = require('../game/MapObject').MapObject;
+var MapType = require('../game/MapType').MapType;
+var ObjectType = require('../game/ObjectType').ObjectType;
+var Spritesheet = require('../game/Spritesheet').Spritesheet;
+var MapData = require('../game/MapData').MapData;
+var User = require('../game/User').User;
+
+
+var fs = require('fs');
 window = {};
-eval(fs.readFileSync('../game/GameList.js') + '');
-eval(fs.readFileSync('../game/GameData.js') + '');
-eval(fs.readFileSync('../game/mapData.js') + '');
-eval(fs.readFileSync('../game/MapType.js') + '');
-eval(fs.readFileSync('../game/MapObject.js') + '');
-eval(fs.readFileSync('../game/objectType.js') + '');
-eval(fs.readFileSync('../game/Spritesheet.js') + '');
-eval(fs.readFileSync('../game/User.js') + '');
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
 app = express().http().io()
@@ -52,24 +54,20 @@ db.open(function (err, db) {
 
         collSpritesheets.find().toArray(function (err, docs) {
             if (err) throw err;
-            gameData.spritesheets = new GameList(Spritesheet, docs);
+            gameData.spritesheets = new GameList(gameData,Spritesheet, docs);
         });
         collMapTypes.find().toArray(function (err, docs) {
             if (err) throw err;
-            gameData.mapTypes = new GameList(MapType, docs);
+            gameData.mapTypes = new GameList(gameData,MapType, docs);
         });
         collObjectType.find().toArray(function (err, docs) {
             if (err) throw err;
-            gameData.objectTypes = new GameList(ObjectType, docs);
+            gameData.objectTypes = new GameList(gameData,ObjectType, docs);
         });
         collMaps.find().each(function (err, doc) {
             if (err) throw err;
             if (doc != null) {
-                var currentMapData = gameData.maps.add(doc);
-                collMapObjects.find({'mapId': currentMapData._id}).toArray(function (err, docs) {
-                    if (err) throw err;
-                    currentMapData.mapObjects = new GameList(MapObject, docs);
-                });
+                var currentMapData = gameData.maps.add(new MapData(gameData,doc));
             }
         });
         collGameVars.findOne([], function (err, doc) {
@@ -198,22 +196,32 @@ app.io.route('ready', function (req) {
 
     // send map data anyway:
     initGameData = {
-        spritesheets: gameData.spritesheets,
-        mapTypes: gameData.mapTypes,
-        objectTypes: gameData.objectTypes,
-        initMap: gameData.maps.hashList[gameVars.rootMapId]
+        spritesheets: gameData.spritesheets.save(),
+        mapTypes: gameData.mapTypes.save(),
+        objectTypes: gameData.objectTypes.save(),
+        initMap: gameData.maps.get(gameVars.rootMapId).save()
     };
     req.io.emit('initGameData', initGameData);
 })
 
 app.io.route('getMap', function (req) {
-    req.io.emit('map', gameData.maps.hashList[req.data.mapId]);
+    req.io.emit('map', gameData.maps.get(req.data.mapId));
 })
 
 app.io.route('buildHouse', function (req) {
     // check if correct login:
     if (req.session.loggedIn) {
-        console.log("user " + req.session.username + " has build a " + req.data.objTypeId + " at coordinates ("+ req.data.x+","+req.data.y+")");
+        var mapId = req.data[0];
+        var buildHouse = new MapObject(gameData,req.data[1]);
+        buildHouse._id = new mongodb.ObjectID();
+        gameData.maps.get(mapId).mapObjects.add(buildHouse);
+        collMaps.update({ _id: mapId }, {$push: { 'a.3': buildHouse.save() }}, function(err,docs) {
+            if (err) throw err;
+            collMapObjects.insert(buildHouse.save(), function(err,docs) {
+                if (err) throw err;
+                console.log("user " + req.session.username + " has build a " + buildHouse.objTypeId + " at coordinates ("+ buildHouse.x+","+buildHouse.y+")");
+            });
+        });
     }
     else {
         req.io.emit('loginPrompt');
