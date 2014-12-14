@@ -15,6 +15,9 @@ var MapData = require('../game/MapData').MapData;
 var User = require('../game/User').User;
 
 
+
+var ntp = require('socket-ntp');
+
 var fs = require('fs');
 window = {};
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
@@ -89,13 +92,13 @@ app.use(express.session({secret: 'thisIsAnAwesomeGame',
 
 app.use(express.static('../client'));
 app.use('/game', express.static('../game'));
+app.use('/ntpClient', express.static('node_modules/socket-ntp/client'));
 
 // Session is automatically setup on initial request.
 app.get('/', function (req, res) {
     req.session.lastActive = new Date().toString()
     res.sendfile('../client/index.html')
 })
-
 
 app.io.route('login', function (req) {
     var sid = req.sessionID;
@@ -177,6 +180,8 @@ app.io.route('register', function (req) {
 })
 
 app.io.route('ready', function (req) {
+    ntp.sync(req.io.socket);
+
     var sid = req.sessionID;
     console.log("sid=" + sid);
     // check if logged in:
@@ -190,7 +195,8 @@ app.io.route('ready', function (req) {
             req.session.username = doc.name;
             req.session.userId = doc._id;
             req.session.loggedIn = true;
-            console.log("user " + doc.name + " is back! (userId=" + doc._id + ")")
+            console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
+            req.io.emit('loggedIn', {userId: doc._id});
         }
     })
 
@@ -220,6 +226,7 @@ app.io.route('buildHouse', function (req) {
             collMapObjects.insert(buildHouse.save(), function(err,docs) {
                 if (err) throw err;
                 console.log("user " + req.session.username + " has build a " + buildHouse.objTypeId + " at coordinates ("+ buildHouse.x+","+buildHouse.y+")");
+                app.io.broadcast('buildHouse',[mapId, buildHouse.save()]);
             });
         });
     }
