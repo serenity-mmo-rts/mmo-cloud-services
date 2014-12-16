@@ -23,6 +23,18 @@ if (node) {
     })
     gameData.spritesheets.add(forestSprite);
 
+    var moonSprite = new Spritesheet(gameData,{
+        _id: 'moonSprite01',
+        images: ["resources/objects/crater.png","resources/objects/dome.png","resources/objects/domeIcon.png"],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            [0, 0, 242, 122, 0, 121, 61],
+            [0, 0, 164, 79, 1, 82, 45],
+            [0, 0, 32, 15, 2, 0, 0]
+        ]
+    })
+    gameData.spritesheets.add(moonSprite);
+
     var citySprite = new Spritesheet(gameData,{
         _id: 'cityBuildingsSprite01',
         images: ["resources/CityBuildings.png", "resources/CityBuildingsIcons.png"],
@@ -56,6 +68,29 @@ if (node) {
         groundImageScaling: 1
     })
     gameData.mapTypes.add(cityMapType);
+
+    var moonMapType = new MapType(gameData,{
+        _id: "moonMapType01",
+        name: "Moon",
+        scale: 1,
+        ratioWidthHeight: 2,
+        bgColor: 000000,
+        groundImage: "resources/moonGround.png",
+        groundImageScaling: 1
+    })
+    gameData.mapTypes.add(moonMapType);
+
+    var crater01 = new ObjectType(gameData,{
+        _id: "crater01",
+        initWidth: 32,
+        initHeight: 32,
+        allowOnMapTypeId: "moonMapType01",
+        name: "crater01",
+        spritesheetId: moonSprite._id,
+        spriteFrame: 0,
+        spriteFrameIcon: 0
+    })
+    gameData.objectTypes.add(crater01);
 
     var rock01 = new ObjectType(gameData,{
         _id: "rock01",
@@ -141,12 +176,37 @@ if (node) {
     });
     gameData.objectTypes.add(factory);
 
+    var dome = gameData.objectTypes.add(new ObjectType(gameData,{
+        _id: "dome",
+        initWidth: 80,
+        initHeight: 80,
+        allowOnMapTypeId: "moonMapType01",
+        name: "dome",
+        spritesheetId: moonSprite._id,
+        spriteFrame: 1,
+        spriteFrameIcon: 2
+    }));
+
 // save build categories:
     gameData.mapTypes.get("cityMapType01").buildCategories = [
         {name: 'Resources', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "factory"]},
         {name: 'Production', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "bank", "factory"]},
         {name: 'Military', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "bank", "factory"]}
     ];
+
+    // save build categories:
+    gameData.mapTypes.get("moonMapType01").buildCategories = [
+        {name: 'Habitat', objectTypeIds: ["dome"]}
+    ];
+
+    var moonMap = new MapData(gameData,{
+        _id: "moonMap01",
+        width: 1000,
+        height: 1000,
+        mapTypeId: "moonMapType01",
+        gameData: gameData
+    });
+    gameData.maps.add(moonMap);
 
     var cityMap = new MapData(gameData,{
         _id: "cityMap01",
@@ -156,6 +216,18 @@ if (node) {
         gameData: gameData
     });
     gameData.maps.add(cityMap);
+
+
+    for (var i = 1; i < 50; i++) {
+        moonMap.mapObjects.add(new MapObject(gameData,{
+            _id: "crater01inst" + i,
+            mapId: moonMap._id,
+            x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01.initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (moonMap.height - crater01.initHeight / 2)),
+            objTypeId: crater01._id,
+            userId: 0
+        }));
+    }
 
 // Now start adding example objects to our example cityMap01
     for (var i = 1; i < 50; i++) {
@@ -188,7 +260,7 @@ if (node) {
     }));
 
     var gameVars = {
-        rootMapId: "cityMap01"
+        rootMapId: moonMap._id
     }
 
     exports.gameData = gameData;
