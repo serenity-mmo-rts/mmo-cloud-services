@@ -230,7 +230,7 @@ if (node) {
     }
 
 // Now start adding example objects to our example cityMap01
-    for (var i = 1; i < 20; i++) {
+    for (var i = 1; i < 500; i++) {
         cityMap.mapObjects.add(new MapObject(gameData,{
             _id: "rock01inst" + i,
             mapId: cityMap._id,
@@ -240,7 +240,7 @@ if (node) {
             userId: 0
         }));
     }
-    for (var i = 1; i < 20; i++) {
+    for (var i = 1; i < 500; i++) {
         cityMap.mapObjects.add(new MapObject(gameData,{
             _id: "rock02inst" + i,
             mapId: cityMap._id,
@@ -260,7 +260,7 @@ if (node) {
     }));
 
     var gameVars = {
-        rootMapId: moonMap._id
+        rootMapId: cityMap._id
     }
 
     exports.gameData = gameData;
