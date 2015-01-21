@@ -78,12 +78,16 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addMapObjects() {
         console.log("add map objects")
+        var numMapsToAdd = initGameData.gameData.maps.length();
         initGameData.gameData.maps.each(function(map) {
             collMapObjects.insert(map.mapObjects.save(), function(err,docs) {
                 if (err) throw err;
+                numMapsToAdd--;
+                if(numMapsToAdd <= 0) {
+                    addGameVariables();
+                }
             });
         });
-        addGameVariables();
     }
 
     function addGameVariables() {
