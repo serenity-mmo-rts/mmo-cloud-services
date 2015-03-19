@@ -201,8 +201,8 @@ if (node) {
 
     var moonMap = new MapData(gameData,{
         _id: "moonMap01",
-        width: 30000,              // pixelsize / 4
-        height: 30000,             // pixelsize / 2
+        width: 20000,              // pixelsize / 4
+        height: 20000,             // pixelsize / 2
         mapTypeId: "moonMapType01",
         gameData: gameData
     });
@@ -218,7 +218,7 @@ if (node) {
     gameData.maps.add(cityMap);
 
 
-    for (var i = 1; i < 10000; i++) {
+    for (var i = 1; i < 2000; i++) {
         moonMap.mapObjects.add(new MapObject(gameData,{
             _id: "crater01inst" + i,
             mapId: moonMap._id,
@@ -260,7 +260,7 @@ if (node) {
     }));
 
     var gameVars = {
-        rootMapId: cityMap._id
+        rootMapId: moonMap._id
     }
 
     exports.gameData = gameData;
