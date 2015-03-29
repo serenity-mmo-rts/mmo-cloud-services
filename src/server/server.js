@@ -214,19 +214,20 @@ app.io.route('getMap', function (req) {
     req.io.emit('map', gameData.maps.get(req.data.mapId));
 })
 
-app.io.route('buildHouse', function (req) {
+
+app.io.route('BuildObjectEvent', function (req) {
     // check if correct login:
     if (req.session.loggedIn) {
         var mapId = req.data[0];
-        var buildHouse = new MapObject(gameData,req.data[1]);
-        buildHouse._id = new mongodb.ObjectID();
-        gameData.maps.get(mapId).mapObjects.add(buildHouse);
-        collMaps.update({ _id: mapId }, {$push: { 'a.3': buildHouse.save() }}, function(err,docs) {
+        var BuildObjectEvent = new MapObject(gameData,req.data[1]);
+        BuildObjectEvent._id = new mongodb.ObjectID();
+        gameData.maps.get(mapId).mapObjects.add(BuildObjectEvent);
+        collMaps.update({ _id: mapId }, {$push: { 'a.3': BuildObjectEvent.save() }}, function(err,docs) {
             if (err) throw err;
-            collMapObjects.insert(buildHouse.save(), function(err,docs) {
+            collMapObjects.insert(BuildObjectEvent.save(), function(err,docs) {
                 if (err) throw err;
-                console.log("user " + req.session.username + " has build a " + buildHouse.objTypeId + " at coordinates ("+ buildHouse.x+","+buildHouse.y+")");
-                app.io.broadcast('buildHouse',[mapId, buildHouse.save()]);
+                console.log("user " + req.session.username + " has build a " + BuildObjectEvent.objTypeId + " at coordinates ("+ BuildObjectEvent.x+","+BuildObjectEvent.y+")");
+                app.io.broadcast('BuildObjectEvent',[mapId, BuildObjectEvent.save()]);
             });
         });
     }
