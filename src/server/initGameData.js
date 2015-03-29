@@ -82,8 +82,8 @@ if (node) {
 
     var crater01 = new ObjectType(gameData,{
         _id: "crater01",
-        initWidth: 32,
-        initHeight: 32,
+        initWidth: 10,
+        initHeight: 10,
         allowOnMapTypeId: "moonMapType01",
         name: "crater01",
         spritesheetId: moonSprite._id,
@@ -94,8 +94,8 @@ if (node) {
 
     var rock01 = new ObjectType(gameData,{
         _id: "rock01",
-        initWidth: 32,
-        initHeight: 32,
+        initWidth: 12,
+        initHeight: 12,
         allowOnMapTypeId: "cityMapType01",
         name: "rock01",
         spritesheetId: "forestSprite01",
@@ -106,8 +106,8 @@ if (node) {
 
     var rock02 = new ObjectType(gameData,{
         _id: "rock02",
-        initWidth: 32,
-        initHeight: 32,
+        initWidth: 12,
+        initHeight: 12,
         allowOnMapTypeId: "cityMapType01",
         name: "rock2",
         spritesheetId: "forestSprite01",
@@ -118,8 +118,8 @@ if (node) {
 
     var bakehouse = new ObjectType(gameData,{
         _id: "bakehouse",
-        initWidth: 64,
-        initHeight: 64,
+        initWidth: 36,
+        initHeight: 36,
         allowOnMapTypeId: "cityMapType01",
         name: "bakehouse",
         spritesheetId: "cityBuildingsSprite01",
@@ -130,8 +130,8 @@ if (node) {
 
     var burgerhouse = new ObjectType(gameData,{
         _id: "burgerhouse",
-        initWidth: 64,
-        initHeight: 64,
+        initWidth: 36,
+        initHeight: 36,
         allowOnMapTypeId: "cityMapType01",
         name: "burgerhouse",
         spritesheetId: "cityBuildingsSprite01",
@@ -142,8 +142,8 @@ if (node) {
 
     var butcher = new ObjectType(gameData,{
         _id: "butcher",
-        initWidth: 64,
-        initHeight: 64,
+        initWidth: 36,
+        initHeight: 36,
         allowOnMapTypeId: "cityMapType01",
         name: "butcher",
         spritesheetId: "cityBuildingsSprite01",
@@ -154,8 +154,8 @@ if (node) {
 
     var bank = new ObjectType(gameData,{
         _id: "bank",
-        initWidth: 100,
-        initHeight: 100,
+        initWidth: 48,
+        initHeight: 48,
         allowOnMapTypeId: "cityMapType01",
         name: "bank",
         spritesheetId: "cityBuildingsSprite01",
@@ -166,8 +166,8 @@ if (node) {
 
     var factory = new ObjectType(gameData,{
         _id: "factory",
-        initWidth: 80,
-        initHeight: 80,
+        initWidth: 48,
+        initHeight: 48,
         allowOnMapTypeId: "cityMapType01",
         name: "factory",
         spritesheetId: "cityBuildingsSprite01",
@@ -260,7 +260,7 @@ if (node) {
     }));
 
     var gameVars = {
-        rootMapId: moonMap._id
+        rootMapId: cityMap._id
     }
 
     exports.gameData = gameData;
