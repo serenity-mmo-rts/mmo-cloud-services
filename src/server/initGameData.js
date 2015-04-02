@@ -45,15 +45,16 @@ if (node) {
             [0, 0, 128, 128, 0, 64, 90],
             [128, 0, 128, 128, 0, 60, 90],
             [256, 0, 128, 128, 0, 64, 83],
+            [386, 0, 254, 147, 0, 128, 74],
             [0, 128, 192, 192, 0, 96, 146],
             [192, 128, 192, 192, 0, 96, 122],
 
             //icons:
-            [0, 0, 32, 32, 1, 0, 0],
-            [32, 0, 32, 32, 1, 0, 0],
-            [64, 0, 32, 32, 1, 0, 0],
-            [96, 0, 32, 32, 1, 0, 0],
-            [128, 0, 32, 32, 1, 0, 0]
+            [0, 0, 32, 32, 1, 0,0],
+            [32, 0, 32, 32, 1, 0,0],
+            [64, 0, 32, 32, 1, 0,0],
+            [96, 0, 32, 32, 1,  0,0],
+            [128, 0, 32, 32, 1, 0,0]
         ]
     });
     gameData.spritesheets.add(citySprite);
@@ -124,7 +125,7 @@ if (node) {
         name: "bakehouse",
         spritesheetId: "cityBuildingsSprite01",
         spriteFrame: 0,
-        spriteFrameIcon: 5
+        spriteFrameIcon: 6
     })
     gameData.objectTypes.add(bakehouse);
 
@@ -136,7 +137,7 @@ if (node) {
         name: "burgerhouse",
         spritesheetId: "cityBuildingsSprite01",
         spriteFrame: 1,
-        spriteFrameIcon: 6
+        spriteFrameIcon: 7
     });
     gameData.objectTypes.add(burgerhouse);
 
@@ -148,7 +149,7 @@ if (node) {
         name: "butcher",
         spritesheetId: "cityBuildingsSprite01",
         spriteFrame: 2,
-        spriteFrameIcon: 7
+        spriteFrameIcon: 8
     });
     gameData.objectTypes.add(butcher);
 
@@ -159,8 +160,8 @@ if (node) {
         allowOnMapTypeId: "cityMapType01",
         name: "bank",
         spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 3,
-        spriteFrameIcon: 8
+        spriteFrame: 4,
+        spriteFrameIcon: 9
     });
     gameData.objectTypes.add(bank);
 
@@ -171,10 +172,22 @@ if (node) {
         allowOnMapTypeId: "cityMapType01",
         name: "factory",
         spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 4,
-        spriteFrameIcon: 9
+        spriteFrame: 5,
+        spriteFrameIcon: 10
     });
     gameData.objectTypes.add(factory);
+
+    var constructionSite = new ObjectType(gameData,{
+        _id: "constructionSite",
+        initWidth: 48,
+        initHeight: 48,
+        allowOnMapTypeId: "cityMapType01",
+        name: "constructionSite",
+        spritesheetId: "cityBuildingsSprite01",
+        spriteFrame: 3,
+        spriteFrameIcon: 10
+    });
+    gameData.objectTypes.add(constructionSite);
 
     var dome = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "dome",
