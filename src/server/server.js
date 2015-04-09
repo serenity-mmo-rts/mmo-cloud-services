@@ -204,6 +204,9 @@ app.io.route('newGameEvent', function (req) {
         }
     }
     else {
+        req.io.respond({
+            success: false
+        });
         req.io.emit('loginPrompt');
     }
 })
