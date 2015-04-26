@@ -90,6 +90,7 @@ if (node) {
         spritesheetId: moonSprite._id,
         spriteFrame: 0,
         spriteFrameIcon: 0
+
     })
     gameData.objectTypes.add(crater01);
 
@@ -199,6 +200,14 @@ if (node) {
         spriteFrame: 1,
         spriteFrameIcon: 2
     }));
+
+    var carbon = gameData.RessourceTypes.add(new RessourceType(gameData,{
+        _id: "carbon",
+        allowOnMapTypeId: "moonMapType01",
+        name: "carbon",
+        spriteFrameIcon: 6
+    }));
+
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01").buildCategories = [

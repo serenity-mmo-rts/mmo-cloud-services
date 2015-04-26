@@ -16,6 +16,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     var collSpritesheets = db.collection('spritesheets');
     var collMapTypes = db.collection('mapTypes');
     var collObjectType = db.collection('objTypes');
+    var collRessourceType = db.collection('resTypes');
     var collMaps = db.collection('maps');
     var collMapObjects = db.collection('mapObjects');
     var collGameVars = db.collection('gameVars');
@@ -26,12 +27,14 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     collSpritesheets.remove({},function(err, removed){
         collMapTypes.remove({},function(err, removed){
             collObjectType.remove({},function(err, removed){
-                collMaps.remove({},function(err, removed){
-                    collMapObjects.remove({},function(err, removed){
-                        collGameVars.remove({},function(err, removed){
-                            collUsers.remove({},function(err, removed){
-                                collSessions.remove({},function(err, removed){
-                                    addSpritesheets();
+                collRessourceType.remove({},function(err, removed){
+                    collMaps.remove({},function(err, removed){
+                        collMapObjects.remove({},function(err, removed){
+                            collGameVars.remove({},function(err, removed){
+                                collUsers.remove({},function(err, removed){
+                                    collSessions.remove({},function(err, removed){
+                                        addSpritesheets();
+                                    });
                                 });
                             });
                         });
@@ -63,6 +66,14 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     function addObjectTypes() {
         console.log("add object types")
         collObjectType.insert(initGameData.gameData.objectTypes.save(), function(err,docs) {
+            if (err) throw err;
+            addRessourceTypes();
+        });
+    }
+
+    function addRessourceTypes() {
+        console.log("add ressource types")
+        collObjectType.insert(initGameData.gameData.RessourceTypes.save(), function(err,docs) {
             if (err) throw err;
             addMaps();
         });
