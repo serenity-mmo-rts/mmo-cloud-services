@@ -4,6 +4,7 @@ if (node) {
     var MapObject = require('../game/MapObject').MapObject;
     var MapType = require('../game/MapType').MapType;
     var ObjectType = require('../game/objectType').ObjectType;
+    var RessourceType = require('../game/RessourceType').RessourceType;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
@@ -201,12 +202,12 @@ if (node) {
         spriteFrameIcon: 2
     }));
 
-    var carbon = gameData.RessourceTypes.add(new RessourceType(gameData,{
+    var carbon = new RessourceType(gameData,{
         _id: "carbon",
-        allowOnMapTypeId: "moonMapType01",
+        allowOnMapTypeId: "cityMapType01",
         name: "carbon",
         spriteFrameIcon: 6
-    }));
+    });
 
 
 // save build categories:

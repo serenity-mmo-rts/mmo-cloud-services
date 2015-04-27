@@ -169,6 +169,7 @@ app.io.route('ready', function (req) {
         spritesheets: gameData.spritesheets.save(),
         mapTypes: gameData.mapTypes.save(),
         objectTypes: gameData.objectTypes.save(),
+        RessourceTypes: gameData.RessourceTypes.save(),
         initMap: gameData.maps.get(gameVars.rootMapId).save(),
         initMapObjects: gameData.maps.get(gameVars.rootMapId).mapObjects.save()
     };
