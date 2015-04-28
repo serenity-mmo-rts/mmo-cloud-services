@@ -208,7 +208,7 @@ if (node) {
         name: "carbon",
         spriteFrameIcon: 6
     });
-
+    gameData.RessourceTypes.add(carbon);
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01").buildCategories = [
