@@ -4,6 +4,7 @@ if (node) {
     var MapObject = require('../game/MapObject').MapObject;
     var MapType = require('../game/MapType').MapType;
     var ObjectType = require('../game/objectType').ObjectType;
+    var RessourceType = require('../game/RessourceType').RessourceType;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
@@ -90,6 +91,7 @@ if (node) {
         spritesheetId: moonSprite._id,
         spriteFrame: 0,
         spriteFrameIcon: 0
+
     })
     gameData.objectTypes.add(crater01);
 
@@ -199,6 +201,14 @@ if (node) {
         spriteFrame: 1,
         spriteFrameIcon: 2
     }));
+
+    var carbon = new RessourceType(gameData,{
+        _id: "carbon",
+        allowOnMapTypeId: "cityMapType01",
+        name: "carbon",
+        spriteFrameIcon: 6
+    });
+    gameData.RessourceTypes.add(carbon);
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01").buildCategories = [

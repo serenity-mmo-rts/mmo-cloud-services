@@ -10,6 +10,7 @@ var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
 var MapType = require('../game/MapType').MapType;
 var ObjectType = require('../game/objectType').ObjectType;
+var RessourceType = require('../game/RessourceType').RessourceType;
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/MapData').MapData;
 var User = require('../game/User').User;
@@ -168,6 +169,7 @@ app.io.route('ready', function (req) {
         spritesheets: gameData.spritesheets.save(),
         mapTypes: gameData.mapTypes.save(),
         objectTypes: gameData.objectTypes.save(),
+        RessourceTypes: gameData.RessourceTypes.save(),
         initMap: gameData.maps.get(gameVars.rootMapId).save(),
         initMapObjects: gameData.maps.get(gameVars.rootMapId).mapObjects.save()
     };

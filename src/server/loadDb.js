@@ -4,6 +4,7 @@ var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
 var MapType = require('../game/MapType').MapType;
 var ObjectType = require('../game/objectType').ObjectType;
+var RessourceType = require('../game/RessourceType').RessourceType;
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/MapData').MapData;
 
@@ -46,6 +47,14 @@ function fillGameData(gameData, gameVars) {
         collObjectType.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.objectTypes = new GameList(gameData, ObjectType, docs);
+        });
+    });
+
+    dbConn.get('resTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.RessourceTypes= new GameList(gameData, RessourceType, docs);
         });
     });
 
