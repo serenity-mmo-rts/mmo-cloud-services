@@ -1,10 +1,14 @@
 var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
-    var MapObject = require('../game/MapObject').MapObject;
+    var MapObject = require('../game/mapObjects/MapObject').MapObject;
     var MapType = require('../game/MapType').MapType;
-    var ObjectType = require('../game/objectType').ObjectType;
-    var RessourceType = require('../game/RessourceType').RessourceType;
+    var ObjectType = require('../game/types/ObjectType').ObjectType;
+    var RessourceType = require('../game/types/RessourceType').RessourceType;
+    var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
+    var ItemType = require('../game/types/ItemType').ItemType;
+    var UnitType = require('../game/types/UnitType').UnitType;
+    var UpgradeType = require('../game/types/UpgradeType').UpgradeType;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
@@ -59,6 +63,25 @@ if (node) {
         ]
     });
     gameData.spritesheets.add(citySprite);
+
+
+    var ressourceSprite = new Spritesheet(gameData,{
+        _id: 'ressourceSprite01',
+        images: ["resources/RessourceIcons.png"],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+
+            //icons:
+            [0, 0, 32, 32, 0, 0,0],
+            [32, 0, 32, 32, 0, 0,0],
+            [64, 0, 32, 32, 0, 0,0],
+            [96, 0, 32, 32, 0,  0,0],
+            [128, 0, 32, 32, 0, 0,0]
+        ]
+    });
+    gameData.spritesheets.add(ressourceSprite);
+
+
 
     var cityMapType = new MapType(gameData,{
         _id: "cityMapType01",
@@ -203,12 +226,19 @@ if (node) {
     }));
 
     var carbon = new RessourceType(gameData,{
-        _id: "carbon",
-        allowOnMapTypeId: "cityMapType01",
-        name: "carbon",
-        spriteFrameIcon: 6
+        //_type: "RessourceType",
+        _id: "12345",
+        _name : "carbon",
+        //rendering
+        _spritesheetId : "ressourceSprite01",
+        _spriteFrameIcon : 4,
+        _buildMenuTooltip :"carbon is great"
+
     });
-    gameData.RessourceTypes.add(carbon);
+    gameData.ressourceTypes.add(carbon);
+
+
+
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01").buildCategories = [
@@ -273,6 +303,7 @@ if (node) {
             userId: 0
         }));
     }
+    // Add Start Building
     cityMap.mapObjects.add(new MapObject(gameData,{
         _id: "factory01" + i,
         mapId: cityMap._id,

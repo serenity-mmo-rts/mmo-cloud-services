@@ -15,8 +15,14 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     var collSpritesheets = db.collection('spritesheets');
     var collMapTypes = db.collection('mapTypes');
+
     var collObjectType = db.collection('objTypes');
     var collRessourceType = db.collection('resTypes');
+    var collTechnologyType = db.collection('techTypes');
+    var collUnitType = db.collection('unitTypes');
+    var collItemType = db.collection('itemTypes');
+    var collUpgradeType = db.collection('upgradeTypes');
+
     var collMaps = db.collection('maps');
     var collMapObjects = db.collection('mapObjects');
     var collGameVars = db.collection('gameVars');
@@ -28,12 +34,20 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         collMapTypes.remove({},function(err, removed){
             collObjectType.remove({},function(err, removed){
                 collRessourceType.remove({},function(err, removed){
-                    collMaps.remove({},function(err, removed){
-                        collMapObjects.remove({},function(err, removed){
-                            collGameVars.remove({},function(err, removed){
-                                collUsers.remove({},function(err, removed){
-                                    collSessions.remove({},function(err, removed){
-                                        addSpritesheets();
+                    collTechnologyType.remove({},function(err, removed){
+                        collUnitType.remove({},function(err, removed){
+                            collItemType.remove({},function(err, removed){
+                                collUpgradeType.remove({},function(err, removed){
+                                    collMaps.remove({},function(err, removed){
+                                        collMapObjects.remove({},function(err, removed){
+                                            collGameVars.remove({},function(err, removed){
+                                                collUsers.remove({},function(err, removed){
+                                                    collSessions.remove({},function(err, removed){
+                                                        addSpritesheets();
+                                                    });
+                                                });
+                                            });
+                                        });
                                     });
                                 });
                             });
@@ -53,8 +67,6 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         });
     }
 
-
-
     function addMapTypes() {
         console.log("add map types")
         collMapTypes.insert(initGameData.gameData.mapTypes.save(), function(err,docs) {
@@ -73,7 +85,40 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addRessourceTypes() {
         console.log("add ressource types")
-        collObjectType.insert(initGameData.gameData.RessourceTypes.save(), function(err,docs) {
+        collObjectType.insert(initGameData.gameData.ressourceTypes.save(), function(err,docs) {
+            if (err) throw err;
+            addTechnologyTypes();
+        });
+    }
+
+    function addTechnologyTypes() {
+        console.log("add technology types")
+        collObjectType.insert(initGameData.gameData.technologyTypes.save(), function(err,docs) {
+            if (err) throw err;
+            addUnitTypes();
+        });
+    }
+
+
+    function addUnitTypes() {
+        console.log("add unit types")
+        collObjectType.insert(initGameData.gameData.unitTypes.save(), function(err,docs) {
+            if (err) throw err;
+            addItemTypes();
+        });
+    }
+
+    function addItemTypes() {
+        console.log("add item types")
+        collObjectType.insert(initGameData.gameData.itemTypes.save(), function(err,docs) {
+            if (err) throw err;
+            addUpgradeTypes();
+        });
+    }
+
+    function addUpgradeTypes() {
+        console.log("add upgrade types")
+        collObjectType.insert(initGameData.gameData.upgradeTypes.save(), function(err,docs) {
             if (err) throw err;
             addMaps();
         });
