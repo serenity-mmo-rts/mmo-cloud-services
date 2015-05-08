@@ -85,7 +85,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addRessourceTypes() {
         console.log("add ressource types")
-        collObjectType.insert(initGameData.gameData.ressourceTypes.save(), function(err,docs) {
+        collRessourceType.insert(initGameData.gameData.ressourceTypes.save(), function(err,docs) {
             if (err) throw err;
             addTechnologyTypes();
         });
@@ -93,7 +93,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addTechnologyTypes() {
         console.log("add technology types")
-        collObjectType.insert(initGameData.gameData.technologyTypes.save(), function(err,docs) {
+        collTechnologyType.insert(initGameData.gameData.technologyTypes.save(), function(err,docs) {
             if (err) throw err;
             addUnitTypes();
         });
@@ -102,7 +102,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addUnitTypes() {
         console.log("add unit types")
-        collObjectType.insert(initGameData.gameData.unitTypes.save(), function(err,docs) {
+        collUnitType.insert(initGameData.gameData.unitTypes.save(), function(err,docs) {
             if (err) throw err;
             addItemTypes();
         });
@@ -110,7 +110,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addItemTypes() {
         console.log("add item types")
-        collObjectType.insert(initGameData.gameData.itemTypes.save(), function(err,docs) {
+        collItemType.insert(initGameData.gameData.itemTypes.save(), function(err,docs) {
             if (err) throw err;
             addUpgradeTypes();
         });
@@ -118,7 +118,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addUpgradeTypes() {
         console.log("add upgrade types")
-        collObjectType.insert(initGameData.gameData.upgradeTypes.save(), function(err,docs) {
+        collUpgradeType.insert(initGameData.gameData.upgradeTypes.save(), function(err,docs) {
             if (err) throw err;
             addMaps();
         });

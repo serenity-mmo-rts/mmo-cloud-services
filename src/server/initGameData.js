@@ -85,170 +85,210 @@ if (node) {
 
     var cityMapType = new MapType(gameData,{
         _id: "cityMapType01",
-        name: "City",
-        scale: 1,
-        ratioWidthHeight: 2,
-        bgColor: 000000,
-        groundImage: "resources/ground.png",
-        groundImageScaling: 1
+        _name: "City",
+        _scale: 1,
+        _ratioWidthHeight: 2,
+        _bgColor: 000000,
+        _groundImage: "resources/ground.png",
+        _groundImageScaling: 1
     })
     gameData.mapTypes.add(cityMapType);
 
     var moonMapType = new MapType(gameData,{
         _id: "moonMapType01",
-        name: "Moon",
-        scale: 1,
-        ratioWidthHeight: 2,
-        bgColor: 000000,
-        groundImage: "resources/moonGround.png",
-        groundImageScaling: 1
+        _name: "Moon",
+        _scale: 1,
+        _ratioWidthHeight: 2,
+        _bgColor: 000000,
+        _groundImage: "resources/moonGround.png",
+        _groundImageScaling: 1
     })
     gameData.mapTypes.add(moonMapType);
 
     var crater01 = new ObjectType(gameData,{
         _id: "crater01",
-        initWidth: 10,
-        initHeight: 10,
-        allowOnMapTypeId: "moonMapType01",
-        name: "crater01",
-        spritesheetId: moonSprite._id,
-        spriteFrame: 0,
-        spriteFrameIcon: 0
+        _initWidth: 10,
+        _initHeight: 10,
+        _allowOnMapTypeId: "moonMapType01",
+        _name: "crater01",
+        _spritesheetId: moonSprite._id,
+        _spriteFrame: 0,
+        _iconSpritesheetId: moonSprite._id,
+        _iconSpriteFrame: 0
 
     })
     gameData.objectTypes.add(crater01);
 
     var rock01 = new ObjectType(gameData,{
         _id: "rock01",
-        initWidth: 12,
-        initHeight: 12,
-        allowOnMapTypeId: "cityMapType01",
-        name: "rock01",
-        spritesheetId: "forestSprite01",
-        spriteFrame: 0,
-        spriteFrameIcon: 0
+        _initWidth: 12,
+        _initHeight: 12,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "rock01",
+        _spritesheetId: "forestSprite01",
+        _spriteFrame: 0,
+        _iconSpritesheetId: "forestSprite01",
+        _iconSpriteFrame: 0
     })
     gameData.objectTypes.add(rock01);
 
     var rock02 = new ObjectType(gameData,{
         _id: "rock02",
-        initWidth: 12,
-        initHeight: 12,
-        allowOnMapTypeId: "cityMapType01",
-        name: "rock2",
-        spritesheetId: "forestSprite01",
-        spriteFrame: 1,
-        spriteFrameIcon: 0
+        _initWidth: 12,
+        _initHeight: 12,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "rock2",
+        _spritesheetId: "forestSprite01",
+        _spriteFrame: 1,
+        _iconSpritesheetId: "forestSprite01",
+        _iconSpriteFrame: 0
     });
     gameData.objectTypes.add(rock02);
 
     var bakehouse = new ObjectType(gameData,{
         _id: "bakehouse",
-        initWidth: 36,
-        initHeight: 36,
-        allowOnMapTypeId: "cityMapType01",
-        name: "bakehouse",
-        spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 0,
-        spriteFrameIcon: 6
+        _initWidth: 36,
+        _initHeight: 36,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "bakehouse",
+        _spritesheetId: "cityBuildingsSprite01",
+        _spriteFrame: 0,
+        _iconSpritesheetId: "cityBuildingsSprite01",
+        _iconSpriteFrame: 6
     })
     gameData.objectTypes.add(bakehouse);
 
     var burgerhouse = new ObjectType(gameData,{
         _id: "burgerhouse",
-        initWidth: 36,
-        initHeight: 36,
-        allowOnMapTypeId: "cityMapType01",
-        name: "burgerhouse",
-        spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 1,
-        spriteFrameIcon: 7
+        _initWidth: 36,
+        _initHeight: 36,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "burgerhouse",
+        _spritesheetId: "cityBuildingsSprite01",
+        _spriteFrame: 1,
+        _iconSpritesheetId: "cityBuildingsSprite01",
+        _iconSpriteFrame: 7
     });
     gameData.objectTypes.add(burgerhouse);
 
     var butcher = new ObjectType(gameData,{
         _id: "butcher",
-        initWidth: 36,
-        initHeight: 36,
-        allowOnMapTypeId: "cityMapType01",
-        name: "butcher",
-        spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 2,
-        spriteFrameIcon: 8
+        _initWidth: 36,
+        _initHeight: 36,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "butcher",
+        _spritesheetId: "cityBuildingsSprite01",
+        _spriteFrame: 2,
+        _iconSpritesheetId: "cityBuildingsSprite01",
+        _iconSpriteFrame: 8
     });
     gameData.objectTypes.add(butcher);
 
     var bank = new ObjectType(gameData,{
         _id: "bank",
-        initWidth: 48,
-        initHeight: 48,
-        allowOnMapTypeId: "cityMapType01",
-        name: "bank",
-        spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 4,
-        spriteFrameIcon: 9
+        _initWidth: 48,
+        _initHeight: 48,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "bank",
+        _spritesheetId: "cityBuildingsSprite01",
+        _spriteFrame: 4,
+        _iconSpritesheetId: "cityBuildingsSprite01",
+        _iconSpriteFrame: 9
     });
     gameData.objectTypes.add(bank);
 
     var factory = new ObjectType(gameData,{
         _id: "factory",
-        initWidth: 48,
-        initHeight: 48,
-        allowOnMapTypeId: "cityMapType01",
-        name: "factory",
-        spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 5,
-        spriteFrameIcon: 10
+        _initWidth: 48,
+        _initHeight: 48,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "factory",
+        _spritesheetId: "cityBuildingsSprite01",
+        _spriteFrame: 5,
+        _iconSpritesheetId: "cityBuildingsSprite01",
+        _iconSpriteFrame: 10
     });
     gameData.objectTypes.add(factory);
 
     var constructionSite = new ObjectType(gameData,{
         _id: "constructionSite",
-        initWidth: 48,
-        initHeight: 48,
-        allowOnMapTypeId: "cityMapType01",
-        name: "constructionSite",
-        spritesheetId: "cityBuildingsSprite01",
-        spriteFrame: 3,
-        spriteFrameIcon: 10
+        _initWidth: 48,
+        _initHeight: 48,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "constructionSite",
+        _spritesheetId: "cityBuildingsSprite01",
+        _spriteFrame: 3,
+        _iconSpritesheetId: "cityBuildingsSprite01",
+        _iconSpriteFrame: 10
     });
     gameData.objectTypes.add(constructionSite);
 
     var dome = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "dome",
-        initWidth: 80,
-        initHeight: 80,
-        allowOnMapTypeId: "moonMapType01",
-        name: "dome",
-        spritesheetId: moonSprite._id,
-        spriteFrame: 1,
-        spriteFrameIcon: 2
+        _initWidth: 80,
+        _initHeight: 80,
+        _allowOnMapTypeId: "moonMapType01",
+        _name: "dome",
+        _spritesheetId: moonSprite._id,
+        _spriteFrame: 1,
+        _iconSpritesheetId: moonSprite._id,
+        _iconSpriteFrame: 2
     }));
 
     var carbon = new RessourceType(gameData,{
         //_type: "RessourceType",
         _id: "12345",
-        _name : "carbon",
+        _name: "carbon",
         //rendering
-        _spritesheetId : "ressourceSprite01",
-        _spriteFrameIcon : 4,
-        _buildMenuTooltip :"carbon is great"
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 4,
+        _buildMenuTooltip:"carbon is great"
 
     });
     gameData.ressourceTypes.add(carbon);
 
+    gameData.technologyTypes.add(new TechnologyType(gameData,{
+        _id: "wormholeTech",
+        _name: "Wormhole Technology",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 4
 
+    }));
+
+    gameData.unitTypes.add(new UnitType(gameData,{
+        _id: "hackerUnit",
+        _name: "Hacker",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame : 4
+
+    }));
+
+    gameData.itemTypes.add(new ItemType(gameData,{
+        _id: "railgun",
+        _name: "Railgun",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 4
+
+    }));
+
+    gameData.upgradeTypes.add(new UpgradeType(gameData,{
+        _id: "towerItem",
+        _name: "Tower",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 4
+
+    }));
 
 
 // save build categories:
-    gameData.mapTypes.get("cityMapType01").buildCategories = [
+    gameData.mapTypes.get("cityMapType01")._buildCategories = [
         {name: 'Resources', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "factory"]},
         {name: 'Production', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "bank", "factory"]},
         {name: 'Military', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "bank", "factory"]}
     ];
 
     // save build categories:
-    gameData.mapTypes.get("moonMapType01").buildCategories = [
+    gameData.mapTypes.get("moonMapType01")._buildCategories = [
         {name: 'Habitat', objectTypeIds: ["dome"]}
     ];
 
@@ -275,8 +315,8 @@ if (node) {
         moonMap.mapObjects.add(new MapObject(gameData,{
             _id: "crater01inst" + i,
             mapId: moonMap._id,
-            x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01.initWidth / 2)),
-            y: Math.floor((Math.random() - 0.5) * (moonMap.height - crater01.initHeight / 2)),
+            x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01._initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (moonMap.height - crater01._initHeight / 2)),
             objTypeId: crater01._id,
             userId: 0
         }));
@@ -287,8 +327,8 @@ if (node) {
         cityMap.mapObjects.add(new MapObject(gameData,{
             _id: "rock01inst" + i,
             mapId: cityMap._id,
-            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock01.initWidth / 2)),
-            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock01.initHeight / 2)),
+            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock01._initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock01._initHeight / 2)),
             objTypeId: rock01._id,
             userId: 0
         }));
@@ -297,8 +337,8 @@ if (node) {
         cityMap.mapObjects.add(new MapObject(gameData,{
             _id: "rock02inst" + i,
             mapId: cityMap._id,
-            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock02.initWidth / 2)),
-            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock02.initHeight / 2)),
+            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock02._initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock02._initHeight / 2)),
             objTypeId: rock02._id,
             userId: 0
         }));
