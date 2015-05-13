@@ -7,10 +7,16 @@ var MongoStore = require('connect-mongo')(express)
 
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
-var MapObject = require('../game/MapObject').MapObject;
+var MapObject = require('../game/mapObjects/MapObject').MapObject;
 var MapType = require('../game/MapType').MapType;
-var ObjectType = require('../game/objectType').ObjectType;
-var RessourceType = require('../game/RessourceType').RessourceType;
+
+var ObjectType = require('../game/types/ObjectType').ObjectType;
+var RessourceType = require('../game/types/RessourceType').RessourceType;
+var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
+var ItemType = require('../game/types/ItemType').ItemType;
+var UnitType = require('../game/types/UnitType').UnitType;
+var UpgradeType = require('../game/types/UpgradeType').UpgradeType;
+
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/MapData').MapData;
 var User = require('../game/User').User;
@@ -168,8 +174,14 @@ app.io.route('ready', function (req) {
     initGameData = {
         spritesheets: gameData.spritesheets.save(),
         mapTypes: gameData.mapTypes.save(),
+
         objectTypes: gameData.objectTypes.save(),
-        RessourceTypes: gameData.RessourceTypes.save(),
+        ressourceTypes: gameData.ressourceTypes.save(),
+        technologyTypes: gameData.technologyTypes.save(),
+        unitTypes: gameData.unitTypes.save(),
+        itemTypes: gameData.itemTypes.save(),
+        upgradeTypes: gameData.upgradeTypes.save(),
+
         initMap: gameData.maps.get(gameVars.rootMapId).save(),
         initMapObjects: gameData.maps.get(gameVars.rootMapId).mapObjects.save()
     };

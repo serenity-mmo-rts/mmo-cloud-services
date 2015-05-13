@@ -1,10 +1,16 @@
 var dbConn = require('./dbConnection');
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
-var MapObject = require('../game/MapObject').MapObject;
+var MapObject = require('../game/mapObjects/MapObject').MapObject;
 var MapType = require('../game/MapType').MapType;
-var ObjectType = require('../game/objectType').ObjectType;
-var RessourceType = require('../game/RessourceType').RessourceType;
+
+var ObjectType = require('../game/types/ObjectType').ObjectType;
+var RessourceType = require('../game/types/RessourceType').RessourceType;
+var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
+var ItemType = require('../game/types/ItemType').ItemType;
+var UnitType = require('../game/types/UnitType').UnitType;
+var UpgradeType = require('../game/types/UpgradeType').UpgradeType;
+
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/MapData').MapData;
 
@@ -54,7 +60,39 @@ function fillGameData(gameData, gameVars) {
         if (err) throw err;
         collObjectType.find().toArray(function (err, docs) {
             if (err) throw err;
-            gameData.RessourceTypes= new GameList(gameData, RessourceType, docs);
+            gameData.ressourceTypes= new GameList(gameData, RessourceType, docs);
+        });
+    });
+
+    dbConn.get('techTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.technologyTypes= new GameList(gameData, TechnologyType, docs);
+        });
+    });
+
+    dbConn.get('unitTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.unitTypes= new GameList(gameData, UnitType, docs);
+        });
+    });
+
+    dbConn.get('itemTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.itemTypes= new GameList(gameData, ItemType, docs);
+        });
+    });
+
+    dbConn.get('upgradeTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.upgradeTypes= new GameList(gameData, UpgradeType, docs);
         });
     });
 
