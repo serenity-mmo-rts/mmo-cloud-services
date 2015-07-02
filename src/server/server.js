@@ -8,6 +8,7 @@ var MongoStore = require('connect-mongo')(express)
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/mapObjects/MapObject').MapObject;
+var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
 var MapType = require('../game/MapType').MapType;
 
 var ObjectType = require('../game/types/ObjectType').ObjectType;

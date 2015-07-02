@@ -2,6 +2,7 @@ var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
     var MapObject = require('../game/mapObjects/MapObject').MapObject;
+    var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
     var MapType = require('../game/MapType').MapType;
     var ObjectType = require('../game/types/ObjectType').ObjectType;
     var RessourceType = require('../game/types/RessourceType').RessourceType;
@@ -146,11 +147,11 @@ if (node) {
     gameData.objectTypes.add(rock02);
 
     var bakehouse = new ObjectType(gameData,{
-        _id: "bakehouse",
+        _id: "Factory",
         _initWidth: 36,
         _initHeight: 36,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "bakehouse",
+        _name: "Factory",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 0,
         _iconSpritesheetId: "cityBuildingsSprite01",
@@ -159,11 +160,12 @@ if (node) {
     gameData.objectTypes.add(bakehouse);
 
     var burgerhouse = new ObjectType(gameData,{
-        _id: "burgerhouse",
+        _id: "Hub",
+        _className: "Hub",
         _initWidth: 36,
         _initHeight: 36,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "burgerhouse",
+        _name: "Hub",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 1,
         _iconSpritesheetId: "cityBuildingsSprite01",
@@ -172,11 +174,12 @@ if (node) {
     gameData.objectTypes.add(burgerhouse);
 
     var butcher = new ObjectType(gameData,{
-        _id: "butcher",
+        _id: "ScienceCenter",
+        _className: "ScienceCenter",
         _initWidth: 36,
         _initHeight: 36,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "butcher",
+        _name: "ScienceCenter",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 2,
         _iconSpritesheetId: "cityBuildingsSprite01",
@@ -185,11 +188,12 @@ if (node) {
     gameData.objectTypes.add(butcher);
 
     var bank = new ObjectType(gameData,{
-        _id: "bank",
+        _id: "Sublayer",
+        _className: "Sublayer",
         _initWidth: 48,
         _initHeight: 48,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "bank",
+        _name: "Sublayer",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 4,
         _iconSpritesheetId: "cityBuildingsSprite01",
@@ -198,11 +202,12 @@ if (node) {
     gameData.objectTypes.add(bank);
 
     var factory = new ObjectType(gameData,{
-        _id: "factory",
+        _id: "UnitFactory",
+        _className: "UnitFactory",
         _initWidth: 48,
         _initHeight: 48,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "factory",
+        _name: "UnitFactory",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 5,
         _iconSpritesheetId: "cityBuildingsSprite01",
@@ -212,6 +217,7 @@ if (node) {
 
     var constructionSite = new ObjectType(gameData,{
         _id: "constructionSite",
+        _className: "constructionSite",
         _initWidth: 48,
         _initHeight: 48,
         _allowOnMapTypeId: "cityMapType01",
@@ -225,6 +231,7 @@ if (node) {
 
     var dome = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "dome",
+        _className: "dome",
         _initWidth: 80,
         _initHeight: 80,
         _allowOnMapTypeId: "moonMapType01",
@@ -282,9 +289,9 @@ if (node) {
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "factory"]},
-        {name: 'Production', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "bank", "factory"]},
-        {name: 'Military', objectTypeIds: ["bakehouse", "burgerhouse", "butcher", "bank", "factory"]}
+        {name: 'Resources', objectTypeIds: ["Factory", "Hub", "ScienceCenter", "Sublayer","UnitFactory"]},
+        {name: 'Production', objectTypeIds: ["Factory", "Hub", "ScienceCenter", "Sublayer","UnitFactory"]},
+        {name: 'Military', objectTypeIds: ["Factory", "Hub", "ScienceCenter", "Sublayer","UnitFactory"]}
     ];
 
     // save build categories:
