@@ -25,6 +25,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     var collMaps = db.collection('maps');
     var collMapObjects = db.collection('mapObjects');
+    var collMapEvents = db.collection('mapEvents');
     var collGameVars = db.collection('gameVars');
     var collUsers = db.collection('users');
     var collSessions = db.collection('sessions');
@@ -40,10 +41,12 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                                 collUpgradeType.remove({},function(err, removed){
                                     collMaps.remove({},function(err, removed){
                                         collMapObjects.remove({},function(err, removed){
-                                            collGameVars.remove({},function(err, removed){
-                                                collUsers.remove({},function(err, removed){
-                                                    collSessions.remove({},function(err, removed){
-                                                        addSpritesheets();
+                                            collMapEvents.remove({},function(err, removed){
+                                                collGameVars.remove({},function(err, removed){
+                                                    collUsers.remove({},function(err, removed){
+                                                        collSessions.remove({},function(err, removed){
+                                                            addSpritesheets();
+                                                        });
                                                     });
                                                 });
                                             });

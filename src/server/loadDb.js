@@ -3,6 +3,7 @@ var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/mapObjects/MapObject').MapObject;
 var MapType = require('../game/MapType').MapType;
+var EventFactory = require('../game/events/EventFactory').EventFactory;
 
 var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/RessourceType').RessourceType;
@@ -26,8 +27,19 @@ function getMapObjects(gameData, currentMapData) {
             }
         });
     });
+}
 
-
+function getMapEvents(gameData, currentMapData) {
+    dbConn.get('mapEvents', function (err, collMapEvents) {
+        if (err) throw err;
+        collMapEvents.find({_mapId: currentMapData._id}).each(function (err, doc) {
+            if (err) throw err;
+            if (doc != null) {
+                var mapEvent = EventFactory(gameData, doc);
+                currentMapData.eventScheduler.addEvent(mapEvent);
+            }
+        });
+    });
 }
 
 function fillGameData(gameData, gameVars) {
@@ -103,6 +115,7 @@ function fillGameData(gameData, gameVars) {
             if (doc != null) {
                 var currentMapData = gameData.maps.add(new MapData(gameData, doc));
                 getMapObjects(gameData, currentMapData);
+                getMapEvents(gameData, currentMapData);
             }
         });
     });
