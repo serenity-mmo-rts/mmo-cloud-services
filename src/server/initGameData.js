@@ -115,8 +115,8 @@ if (node) {
         _spritesheetId: moonSprite._id,
         _spriteFrame: 0,
         _iconSpritesheetId: moonSprite._id,
-        _iconSpriteFrame: 0
-
+        _iconSpriteFrame: 0,
+        _buildTime: 2000
     })
     gameData.objectTypes.add(crater01);
 
@@ -129,7 +129,8 @@ if (node) {
         _spritesheetId: "forestSprite01",
         _spriteFrame: 0,
         _iconSpritesheetId: "forestSprite01",
-        _iconSpriteFrame: 0
+        _iconSpriteFrame: 0,
+        _buildTime: 2000
     })
     gameData.objectTypes.add(rock01);
 
@@ -142,7 +143,8 @@ if (node) {
         _spritesheetId: "forestSprite01",
         _spriteFrame: 1,
         _iconSpritesheetId: "forestSprite01",
-        _iconSpriteFrame: 0
+        _iconSpriteFrame: 0,
+        _buildTime: 2000
     });
     gameData.objectTypes.add(rock02);
 
@@ -155,7 +157,8 @@ if (node) {
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 0,
         _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 6
+        _iconSpriteFrame: 6,
+        _buildTime: 20000
     })
     gameData.objectTypes.add(bakehouse);
 
@@ -169,7 +172,8 @@ if (node) {
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 1,
         _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 7
+        _iconSpriteFrame: 7,
+        _buildTime: 120000
     });
     gameData.objectTypes.add(burgerhouse);
 
@@ -183,7 +187,8 @@ if (node) {
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 2,
         _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 8
+        _iconSpriteFrame: 8,
+        _buildTime: 10000
     });
     gameData.objectTypes.add(butcher);
 
@@ -197,7 +202,8 @@ if (node) {
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 4,
         _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 9
+        _iconSpriteFrame: 9,
+        _buildTime: 1000
     });
     gameData.objectTypes.add(bank);
 
@@ -211,7 +217,8 @@ if (node) {
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 5,
         _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 10
+        _iconSpriteFrame: 10,
+        _buildTime: 2000
     });
     gameData.objectTypes.add(factory);
 
@@ -225,7 +232,8 @@ if (node) {
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 3,
         _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 10
+        _iconSpriteFrame: 10,
+        _buildTime: 0
     });
     gameData.objectTypes.add(constructionSite);
 
@@ -239,7 +247,8 @@ if (node) {
         _spritesheetId: moonSprite._id,
         _spriteFrame: 1,
         _iconSpritesheetId: moonSprite._id,
-        _iconSpriteFrame: 2
+        _iconSpriteFrame: 2,
+        _buildTime: 2000
     }));
 
     var carbon = new RessourceType(gameData,{
@@ -249,8 +258,8 @@ if (node) {
         //rendering
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 4,
-        _buildMenuTooltip:"carbon is great"
-
+        _buildMenuTooltip:"carbon is great",
+        _buildTime: 2000
     });
     gameData.ressourceTypes.add(carbon);
 
@@ -258,32 +267,32 @@ if (node) {
         _id: "wormholeTech",
         _name: "Wormhole Technology",
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4
-
+        _iconSpriteFrame: 4,
+        _buildTime: 2000
     }));
 
     gameData.unitTypes.add(new UnitType(gameData,{
         _id: "hackerUnit",
         _name: "Hacker",
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame : 4
-
+        _iconSpriteFrame : 4,
+        _buildTime: 2000
     }));
 
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "railgun",
         _name: "Railgun",
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4
-
+        _iconSpriteFrame: 4,
+        _buildTime: 2000
     }));
 
     gameData.upgradeTypes.add(new UpgradeType(gameData,{
         _id: "towerItem",
         _name: "Tower",
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4
-
+        _iconSpriteFrame: 4,
+        _buildTime: 2000
     }));
 
 

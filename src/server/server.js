@@ -21,8 +21,8 @@ var UpgradeType = require('../game/types/UpgradeType').UpgradeType;
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/MapData').MapData;
 var User = require('../game/User').User;
-var BuildObjectEvent = require('../game/events/BuildObjectEvent').BuildObjectEvent;
-var AbstractEvent = require('../game/events/AbstractEvent');
+var AbstractEvent = require('../game/events/AbstractEvent').AbstractEvent;
+var EventFactory = require('../game/events/EventFactory').EventFactory;
 
 
 
@@ -75,7 +75,7 @@ app.io.route('login', function (req) {
             }
             else {
                 bcrypt.compare(password, doc.pw, function (err, res) {
-                    if (res) {
+                        if (res) {
                         if (doc.sid != sid) {
                             collUsers.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
                                 if (err) throw err;
@@ -183,39 +183,78 @@ app.io.route('ready', function (req) {
         itemTypes: gameData.itemTypes.save(),
         upgradeTypes: gameData.upgradeTypes.save(),
 
-        initMap: gameData.maps.get(gameVars.rootMapId).save(),
-        initMapObjects: gameData.maps.get(gameVars.rootMapId).mapObjects.save()
+        initMapId: gameVars.rootMapId
+
     };
     req.io.emit('initGameData', initGameData);
 })
 
 app.io.route('getMap', function (req) {
-    req.io.emit('map', gameData.maps.get(req.data.mapId).save());
+
+    var mapId = req.data.mapId;
+
+    // update world:
+    gameData.maps.get(mapId).eventScheduler.finishAllTillTime(Date.now());
+
+    var mapData = gameData.maps.get(mapId);
+    req.io.respond({
+        initMap: mapData.save(),
+        initMapObjects: mapData.mapObjects.save(),
+        initMapEvents: mapData.eventScheduler.events.save()
+    });
+
 })
 
 app.io.route('newGameEvent', function (req) {
+
+
+
     // check if correct login:
     if (req.session.loggedIn) {
         console.log("new event from user " + req.session.username);
         var mapId = req.data[0];
-        var gameEvent = AbstractEvent.createGameEvent(gameData,req.data[1]);
+
+        // update world:
+        gameData.maps.get(mapId).eventScheduler.finishAllTillTime(Date.now());
+
+        var gameEvent = EventFactory(gameData,req.data[1]);
+
+        // check if event is valid:
         if (gameEvent.isValid()) {
             gameEvent._id = new mongodb.ObjectID();
-            gameEvent.execute(function() {
+
+            // execute event locally on server:
+            gameEvent.executeOnServer(function(err) {
+                if (err) {
+                    console.log("error: event was valid but could not be executed!!");
+                    req.io.respond({success: false});
+                }
+
+                // add event to scheduler:
+                gameData.maps.get(gameEvent._mapId).eventScheduler.addEvent(gameEvent);
+
+                // add event to db:
+                dbConn.get('mapEvents', function (err, collMapEvents) {
+                    collMapEvents.insert(gameEvent.save(), function(err,docs) {
+                        if (err) throw err;
+                    });
+                });
+
+                console.log("event was successfully executed and added to eventScheduler and added to mongodb. Now broadcast to clients...");
+
                 // the following broadcast goes to the client who created the event:
                 req.io.respond({
                     success: true,
                     updatedEvent: gameEvent.save()
                 });
+
                 // the following broadcast goes to all clients, but not the one who created the event:
                 req.io.broadcast('newGameEvent',[mapId, gameEvent.save()]);
             });
         }
         else {
             console.log("event is not valid!!");
-            req.io.respond({
-                success: false
-            })
+            req.io.respond({success: false});
         }
     }
     else {
