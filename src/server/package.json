@@ -8,6 +8,7 @@
     "mongodb": "*",
     "bcrypt": "*",
     "connect-mongo": "*",
-    "socket-ntp": "*"
+    "socket-ntp": "*",
+    "http-proxy": "*"
   }
 }

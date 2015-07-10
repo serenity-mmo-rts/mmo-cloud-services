@@ -32,6 +32,9 @@ var fs = require('fs');
 window = {};
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
+
+
+
 app = express().http().io()
 
 var gameData = new GameData();
@@ -267,3 +270,4 @@ app.io.route('newGameEvent', function (req) {
 
 
 app.listen(8080)
+
