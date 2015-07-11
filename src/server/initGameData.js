@@ -8,8 +8,7 @@ if (node) {
     var RessourceType = require('../game/types/RessourceType').RessourceType;
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
     var ItemType = require('../game/types/ItemType').ItemType;
-    var UnitType = require('../game/types/UnitType').UnitType;
-    var UpgradeType = require('../game/types/UpgradeType').UpgradeType;
+
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
@@ -130,7 +129,11 @@ if (node) {
         _spriteFrame: 0,
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
-        _buildTime: 2000
+        _buildTime: 2000,
+        _objectProperties:{
+
+        }
+
     })
     gameData.objectTypes.add(rock01);
 
@@ -148,79 +151,80 @@ if (node) {
     });
     gameData.objectTypes.add(rock02);
 
-    var bakehouse = new ObjectType(gameData,{
-        _id: "Factory",
+    var factory = new ObjectType(gameData,{
+        _id: "Factory1",
+        _className: "Factory",
         _initWidth: 36,
         _initHeight: 36,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "Factory",
+        _name: "Mining Factory",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 0,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 6,
         _buildTime: 20000
     })
-    gameData.objectTypes.add(bakehouse);
+    gameData.objectTypes.add(factory);
 
-    var burgerhouse = new ObjectType(gameData,{
+    var hub = new ObjectType(gameData,{
         _id: "Hub",
         _className: "Hub",
         _initWidth: 36,
         _initHeight: 36,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "Hub",
+        _name: "Small Hub",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 1,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 7,
         _buildTime: 120000
     });
-    gameData.objectTypes.add(burgerhouse);
+    gameData.objectTypes.add(hub);
 
-    var butcher = new ObjectType(gameData,{
+    var sciencecenter = new ObjectType(gameData,{
         _id: "ScienceCenter",
         _className: "ScienceCenter",
         _initWidth: 36,
         _initHeight: 36,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "ScienceCenter",
+        _name: "Military Research Facility",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 2,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 8,
         _buildTime: 10000
     });
-    gameData.objectTypes.add(butcher);
+    gameData.objectTypes.add(sciencecenter);
 
-    var bank = new ObjectType(gameData,{
-        _id: "Sublayer",
-        _className: "Sublayer",
+    var factory2 = new ObjectType(gameData,{
+        _id: "Factory2",
+        _className: "Factory",
         _initWidth: 48,
         _initHeight: 48,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "Sublayer",
+        _name: "Furniture Factory",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 4,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 9,
         _buildTime: 1000
     });
-    gameData.objectTypes.add(bank);
+    gameData.objectTypes.add(factory2);
 
-    var factory = new ObjectType(gameData,{
+    var unitfactory = new ObjectType(gameData,{
         _id: "UnitFactory",
         _className: "UnitFactory",
         _initWidth: 48,
         _initHeight: 48,
         _allowOnMapTypeId: "cityMapType01",
-        _name: "UnitFactory",
+        _name: "Unit Factory",
         _spritesheetId: "cityBuildingsSprite01",
         _spriteFrame: 5,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 10,
         _buildTime: 2000
     });
-    gameData.objectTypes.add(factory);
+    gameData.objectTypes.add(unitfactory);
 
     var constructionSite = new ObjectType(gameData,{
         _id: "constructionSite",
@@ -239,11 +243,11 @@ if (node) {
 
     var dome = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "dome",
-        _className: "dome",
+        _className: "Sublayer",
         _initWidth: 80,
         _initHeight: 80,
         _allowOnMapTypeId: "moonMapType01",
-        _name: "dome",
+        _name: "City Dome",
         _spritesheetId: moonSprite._id,
         _spriteFrame: 1,
         _iconSpritesheetId: moonSprite._id,
@@ -271,36 +275,44 @@ if (node) {
         _buildTime: 2000
     }));
 
-    gameData.unitTypes.add(new UnitType(gameData,{
-        _id: "hackerUnit",
-        _name: "Hacker",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame : 4,
-        _buildTime: 2000
-    }));
+
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "railgun",
-        _name: "Railgun",
+        _id: "LaserTrooper",
+        _name: "LaserTrooper",
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 4,
-        _buildTime: 2000
+        _buildMenuTooltip: "this is awesome",
+        _buildTime: 2000,
+        _allowOnMapTypeId: null,
+        _allowOnObjTypeId: "UnitFactory",
+        _runningSpeed: 5,
+        _range: 10,
+        _requiredItemIds: [[],[],[],[],[]],
+        _requiredTechnologies: [[],[],[],[],[]],
+        _requiredRessources: [[],[],[],[],[]],
+        _requiredMapObjLvls: [[1],[1],[1],[1],[1]],
+        _maxHealthPoints: [[10],[20],[40],[70],[100]],
+        _maxArmor: [[5],[8],[15],[25],[40]],
+        _attackPoints: [[2],[5],[9],[14],[20]],
+        _defensePoints: [[4],[7],[15],[25],[40]],
+        _attackSpeed: [[10],[15],[20],[25],[30]],
+        _points: [[1],[2],[5],[8],[12]],
+        _objectFeatures: [[{key: "productionSpeed",operator: 1,value:0.05}],
+                         [{key: "productionSpeed",operator: 1,value:0.1}],
+                         [{key: "productionSpeed",operator: 1,value:0.1},{key: "productionSpeed",operator: 2,value:1.5}],
+                         [{key: "productionSpeed",operator: 1,value:0.25},{key: "productionSpeed",operator: 2,value:2}],
+                         [{key: "productionSpeed",operator: 1,value:0.5},{key: "productionSpeed",operator: 2,value:3}]]
     }));
 
-    gameData.upgradeTypes.add(new UpgradeType(gameData,{
-        _id: "towerItem",
-        _name: "Tower",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4,
-        _buildTime: 2000
-    }));
+
 
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["Factory", "Hub", "ScienceCenter", "Sublayer","UnitFactory"]},
-        {name: 'Production', objectTypeIds: ["Factory", "Hub", "ScienceCenter", "Sublayer","UnitFactory"]},
-        {name: 'Military', objectTypeIds: ["Factory", "Hub", "ScienceCenter", "Sublayer","UnitFactory"]}
+        {name: 'Resources', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]},
+        {name: 'Production', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]},
+        {name: 'Military', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]}
     ];
 
     // save build categories:

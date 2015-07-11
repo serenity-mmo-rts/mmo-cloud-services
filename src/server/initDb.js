@@ -98,34 +98,19 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         console.log("add technology types")
         collTechnologyType.insert(initGameData.gameData.technologyTypes.save(), function(err,docs) {
             if (err) throw err;
-            addUnitTypes();
-        });
-    }
-
-
-    function addUnitTypes() {
-        console.log("add unit types")
-        collUnitType.insert(initGameData.gameData.unitTypes.save(), function(err,docs) {
-            if (err) throw err;
             addItemTypes();
         });
     }
+
 
     function addItemTypes() {
         console.log("add item types")
         collItemType.insert(initGameData.gameData.itemTypes.save(), function(err,docs) {
             if (err) throw err;
-            addUpgradeTypes();
-        });
-    }
-
-    function addUpgradeTypes() {
-        console.log("add upgrade types")
-        collUpgradeType.insert(initGameData.gameData.upgradeTypes.save(), function(err,docs) {
-            if (err) throw err;
             addMaps();
         });
     }
+
 
     function addMaps() {
         console.log("add maps")

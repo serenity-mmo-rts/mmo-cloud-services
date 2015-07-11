@@ -15,8 +15,7 @@ var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/RessourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
-var UnitType = require('../game/types/UnitType').UnitType;
-var UpgradeType = require('../game/types/UpgradeType').UpgradeType;
+
 
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/MapData').MapData;
@@ -179,10 +178,7 @@ app.io.route('ready', function (req) {
         objectTypes: gameData.objectTypes.save(),
         ressourceTypes: gameData.ressourceTypes.save(),
         technologyTypes: gameData.technologyTypes.save(),
-        unitTypes: gameData.unitTypes.save(),
         itemTypes: gameData.itemTypes.save(),
-        upgradeTypes: gameData.upgradeTypes.save(),
-
         initMapId: gameVars.rootMapId
 
     };
