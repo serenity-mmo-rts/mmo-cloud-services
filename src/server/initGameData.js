@@ -115,7 +115,9 @@ if (node) {
         _spriteFrame: 0,
         _iconSpritesheetId: moonSprite._id,
         _iconSpriteFrame: 0,
-        _buildTime: 2000
+        _buildTime: 2000,
+        _points: 0,
+        _maxHealthPoints: 100
     })
     gameData.objectTypes.add(crater01);
 
@@ -130,9 +132,8 @@ if (node) {
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
         _buildTime: 2000,
-        _objectProperties:{
-
-        }
+        _points: 0,
+        _maxHealthPoints: 0
 
     })
     gameData.objectTypes.add(rock01);
@@ -147,7 +148,9 @@ if (node) {
         _spriteFrame: 1,
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
-        _buildTime: 2000
+        _buildTime: 2000,
+        _points: 0,
+        _maxHealthPoints: 100
     });
     gameData.objectTypes.add(rock02);
 
@@ -162,7 +165,9 @@ if (node) {
         _spriteFrame: 0,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 6,
-        _buildTime: 20000
+        _buildTime: 20000,
+        _points: 30,
+        _maxHealthPoints: 100
     })
     gameData.objectTypes.add(factory);
 
@@ -177,7 +182,9 @@ if (node) {
         _spriteFrame: 1,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 7,
-        _buildTime: 120000
+        _buildTime: 120000,
+        _points: 60,
+        _maxHealthPoints: 100
     });
     gameData.objectTypes.add(hub);
 
@@ -192,7 +199,9 @@ if (node) {
         _spriteFrame: 2,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 8,
-        _buildTime: 10000
+        _buildTime: 10000,
+        _points: 70,
+        _maxHealthPoints: 100
     });
     gameData.objectTypes.add(sciencecenter);
 
@@ -207,7 +216,9 @@ if (node) {
         _spriteFrame: 4,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 9,
-        _buildTime: 1000
+        _buildTime: 1000,
+        _points: 50,
+        _maxHealthPoints: 100
     });
     gameData.objectTypes.add(factory2);
 
@@ -222,7 +233,9 @@ if (node) {
         _spriteFrame: 5,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 10,
-        _buildTime: 2000
+        _buildTime: 2000,
+        _points: 30,
+        _maxHealthPoints: 100
     });
     gameData.objectTypes.add(unitfactory);
 
@@ -237,7 +250,9 @@ if (node) {
         _spriteFrame: 3,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 10,
-        _buildTime: 0
+        _buildTime: 0,
+        _points: 0,
+        _maxHealthPoints: 100
     });
     gameData.objectTypes.add(constructionSite);
 
@@ -252,7 +267,9 @@ if (node) {
         _spriteFrame: 1,
         _iconSpritesheetId: moonSprite._id,
         _iconSpriteFrame: 2,
-        _buildTime: 2000
+        _buildTime: 2000,
+        _points: 5,
+        _maxHealthPoints: 100
     }));
 
     var carbon = new RessourceType(gameData,{
@@ -283,26 +300,44 @@ if (node) {
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 4,
         _buildMenuTooltip: "this is awesome",
-        _buildTime: 2000,
+        _buildTime: [[1000],[5000],[20000],[80000],[200000]],
+
+        _className: "FootUnit",
         _allowOnMapTypeId: null,
         _allowOnObjTypeId: "UnitFactory",
-        _runningSpeed: 5,
-        _range: 10,
         _requiredItemIds: [[],[],[],[],[]],
         _requiredTechnologies: [[],[],[],[],[]],
         _requiredRessources: [[],[],[],[],[]],
-        _requiredMapObjLvls: [[1],[1],[1],[1],[1]],
-        _maxHealthPoints: [[10],[20],[40],[70],[100]],
-        _maxArmor: [[5],[8],[15],[25],[40]],
-        _attackPoints: [[2],[5],[9],[14],[20]],
-        _defensePoints: [[4],[7],[15],[25],[40]],
-        _attackSpeed: [[10],[15],[20],[25],[30]],
+        _requiredMapObjLvls: [[1],[1],[1],[1],[2]],
         _points: [[1],[2],[5],[8],[12]],
+        _actionRadius: [[0],[0],[0],[0],[0]], // 0 = effect only in current map object
+        _objectSelectionRadius: [[0],[0],[0],[0],[0]], // 0 = cannot "jump" between objects
+        _activationTime: [[0],[0],[0],[0],[0]], // 0 = infinite (activated directly)
+        _canMove: true,
+        _canFight: true,
+        _canSelectObject: false,
+        _canSelectItem: false,
+        _canBeActivated: false,
+        _unitFeatures: {_maxHealthPoints: [10,20,40,70,100],
+                        _maxArmor: [5,8,15,25,40],
+                        _attackPoints: [2,5,9,14,20],
+                        _defensePoints: [4,7,15,25,40],
+                        _attackSpeed: [10,15,20,25,30],
+                        _runningSpeed: [5,5,5,5,5],
+                        _range: [10,10,10,10,10]
+                       },
         _objectFeatures: [[{key: "productionSpeed",operator: 1,value:0.05}],
-                         [{key: "productionSpeed",operator: 1,value:0.1}],
-                         [{key: "productionSpeed",operator: 1,value:0.1},{key: "productionSpeed",operator: 2,value:1.5}],
-                         [{key: "productionSpeed",operator: 1,value:0.25},{key: "productionSpeed",operator: 2,value:2}],
-                         [{key: "productionSpeed",operator: 1,value:0.5},{key: "productionSpeed",operator: 2,value:3}]]
+                          [{key: "productionSpeed",operator: 1,value:0.1}],
+                          [{key: "productionSpeed",operator: 1,value:0.1},{key: "productionSpeed",operator: 2,value:1.5}],
+                          [{key: "productionSpeed",operator: 1,value:0.25},{key: "productionSpeed",operator: 2,value:2}],
+                          [{key: "productionSpeed",operator: 1,value:0.5},{key: "productionSpeed",operator: 2,value:3}]
+                         ],
+        _itemFeatures: [[{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:0.2}],
+                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:0.5}],
+                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:1},{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_attackPoints",operator: 2,value:1.2}],
+                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:2},{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_attackPoints",operator: 2,value:1.2}],
+                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:5},{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_attackPoints",operator: 2,value:2}]
+                       ]
     }));
 
 
