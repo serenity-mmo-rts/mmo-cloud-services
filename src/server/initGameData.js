@@ -8,7 +8,7 @@ if (node) {
     var RessourceType = require('../game/types/RessourceType').RessourceType;
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
     var ItemType = require('../game/types/ItemType').ItemType;
-
+    var ModelSublayer = require('../game/mapObjects/ModelSublayer').ModelSublayer;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
@@ -107,6 +107,7 @@ if (node) {
 
     var crater01 = new ObjectType(gameData,{
         _id: "crater01",
+        _className: "MapObject",
         _initWidth: 10,
         _initHeight: 10,
         _allowOnMapTypeId: "moonMapType01",
@@ -123,6 +124,7 @@ if (node) {
 
     var rock01 = new ObjectType(gameData,{
         _id: "rock01",
+        _className: "MapObject",
         _initWidth: 12,
         _initHeight: 12,
         _allowOnMapTypeId: "cityMapType01",
@@ -140,6 +142,7 @@ if (node) {
 
     var rock02 = new ObjectType(gameData,{
         _id: "rock02",
+        _className: "MapObject",
         _initWidth: 12,
         _initHeight: 12,
         _allowOnMapTypeId: "cityMapType01",
@@ -385,6 +388,16 @@ if (node) {
         }));
     }
 
+    moonMap.mapObjects.add(new ModelSublayer(gameData,{
+        _id: "firstCity",
+        mapId: moonMap._id,
+        x: 0,
+        y: 0,
+        objTypeId: "dome",
+        userId: 0,
+        sublayerMapId: "cityMap01"
+    }));
+
 // Now start adding example objects to our example cityMap01
     for (var i = 1; i < 500; i++) {
         cityMap.mapObjects.add(new MapObject(gameData,{
@@ -417,7 +430,7 @@ if (node) {
     }));
 
     var gameVars = {
-        rootMapId: cityMap._id
+        rootMapId: moonMap._id
     }
 
     exports.gameData = gameData;

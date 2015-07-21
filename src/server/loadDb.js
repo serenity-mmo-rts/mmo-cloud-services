@@ -4,7 +4,7 @@ var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/mapObjects/MapObject').MapObject;
 var MapType = require('../game/MapType').MapType;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
-
+var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
 var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/RessourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
@@ -20,7 +20,7 @@ function getMapObjects(gameData, currentMapData) {
         collMapObjects.find({mapId: currentMapData._id}).each(function (err, doc) {
             if (err) throw err;
             if (doc != null) {
-                var mapObj = new MapObject(gameData, doc);
+                var mapObj = createMapObject(gameData, doc);
                 currentMapData.addObject(mapObj);
             }
         });
