@@ -9,6 +9,7 @@ if (node) {
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
     var ItemType = require('../game/types/ItemType').ItemType;
     var ModelSublayer = require('../game/mapObjects/ModelSublayer').ModelSublayer;
+    var ModelFactory = require('../game/mapObjects/ModelFactory').ModelFactory;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
@@ -372,6 +373,7 @@ if (node) {
         width: 10000,
         height: 10000,
         mapTypeId: "cityMapType01",
+        parentMapId: "moonMap01",
         gameData: gameData
     });
     gameData.maps.add(cityMap);
@@ -420,8 +422,8 @@ if (node) {
         }));
     }
     // Add Start Building
-    cityMap.mapObjects.add(new MapObject(gameData,{
-        _id: "factory01" + i,
+    cityMap.mapObjects.add(new ModelFactory(gameData,{
+        _id: "factory01",
         mapId: cityMap._id,
         x: 0,
         y: 0,
