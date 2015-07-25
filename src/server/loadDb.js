@@ -9,6 +9,8 @@ var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/RessourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
+var FeatureType = require('../game/types/FeatureType').FeatureType;
+
 
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/MapData').MapData;
@@ -79,6 +81,14 @@ function fillGameData(gameData, gameVars) {
         collObjectType.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.technologyTypes= new GameList(gameData, TechnologyType, docs);
+        });
+    });
+
+    dbConn.get('featTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.featureTypes= new GameList(gameData, FeatureType, docs);
         });
     });
 

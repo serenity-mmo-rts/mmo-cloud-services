@@ -8,11 +8,14 @@ if (node) {
     var RessourceType = require('../game/types/RessourceType').RessourceType;
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
     var ItemType = require('../game/types/ItemType').ItemType;
+    var FeatureType = require('../game/types/FeatureType').FeatureType;
     var ModelSublayer = require('../game/mapObjects/ModelSublayer').ModelSublayer;
     var ModelFactory = require('../game/mapObjects/ModelFactory').ModelFactory;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
+    var AdditiveFeature = require('../game/features/AdditiveFeature').AdditiveFeature;
+    var MultiplierFeature = require('../game/features/MultiplierFeature').MultiplierFeature;
 }
 
 (function (exports) {
@@ -118,8 +121,10 @@ if (node) {
         _iconSpritesheetId: moonSprite._id,
         _iconSpriteFrame: 0,
         _buildTime: 2000,
-        _points: 0,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     })
     gameData.objectTypes.add(crater01);
 
@@ -135,8 +140,10 @@ if (node) {
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
         _buildTime: 2000,
-        _points: 0,
-        _maxHealthPoints: 0
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
 
     })
     gameData.objectTypes.add(rock01);
@@ -153,8 +160,10 @@ if (node) {
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
         _buildTime: 2000,
-        _points: 0,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     });
     gameData.objectTypes.add(rock02);
 
@@ -170,8 +179,10 @@ if (node) {
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 6,
         _buildTime: 20000,
-        _points: 30,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     })
     gameData.objectTypes.add(factory);
 
@@ -187,8 +198,10 @@ if (node) {
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 7,
         _buildTime: 120000,
-        _points: 60,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     });
     gameData.objectTypes.add(hub);
 
@@ -204,8 +217,10 @@ if (node) {
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 8,
         _buildTime: 10000,
-        _points: 70,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     });
     gameData.objectTypes.add(sciencecenter);
 
@@ -221,8 +236,10 @@ if (node) {
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 9,
         _buildTime: 1000,
-        _points: 50,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     });
     gameData.objectTypes.add(factory2);
 
@@ -238,8 +255,10 @@ if (node) {
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 10,
         _buildTime: 2000,
-        _points: 30,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     });
     gameData.objectTypes.add(unitfactory);
 
@@ -255,8 +274,10 @@ if (node) {
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 10,
         _buildTime: 0,
-        _points: 0,
-        _maxHealthPoints: 100
+        _initProperties: {
+            _point:  5,
+            _maxHealthPoints: 100
+        }
     });
     gameData.objectTypes.add(constructionSite);
 
@@ -272,8 +293,12 @@ if (node) {
         _iconSpritesheetId: moonSprite._id,
         _iconSpriteFrame: 2,
         _buildTime: 2000,
-        _points: 5,
-        _maxHealthPoints: 100
+        _initProperties: {
+          _point:  5,
+          _maxHealthPoints: 100
+        }
+
+
     }));
 
     var carbon = new RessourceType(gameData,{
@@ -301,51 +326,66 @@ if (node) {
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "LaserTrooper",
         _name: "LaserTrooper",
+        _className: "FootUnit",
+        _allowOnMapTypeId: null,
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 4,
         _buildMenuTooltip: "this is awesome",
-        _buildTime: [[1000],[5000],[20000],[80000],[200000]],
-
-        _className: "FootUnit",
-        _allowOnMapTypeId: null,
-        _allowOnObjTypeId: "UnitFactory",
-        _requiredItemIds: [[],[],[],[],[]],
-        _requiredTechnologies: [[],[],[],[],[]],
-        _requiredRessources: [[],[],[],[],[]],
-        _requiredMapObjLvls: [[1],[1],[1],[1],[2]],
-        _points: [[1],[2],[5],[8],[12]],
-        _actionRadius: [[0],[0],[0],[0],[0]], // 0 = effect only in current map object
-        _objectSelectionRadius: [[0],[0],[0],[0],[0]], // 0 = cannot "jump" between objects
-        _activationTime: [[0],[0],[0],[0],[0]], // 0 = infinite (activated directly)
         _canMove: true,
         _canFight: true,
-        _canSelectObject: false,
-        _canSelectItem: false,
-        _canBeActivated: false,
-        _unitFeatures: {_maxHealthPoints: [10,20,40,70,100],
-                        _maxArmor: [5,8,15,25,40],
-                        _attackPoints: [2,5,9,14,20],
-                        _defensePoints: [4,7,15,25,40],
-                        _attackSpeed: [10,15,20,25,30],
-                        _runningSpeed: [5,5,5,5,5],
-                        _range: [10,10,10,10,10]
-                       },
-        _objectFeatures: [[{key: "productionSpeed",operator: 1,value:0.05}],
-                          [{key: "productionSpeed",operator: 1,value:0.1}],
-                          [{key: "productionSpeed",operator: 1,value:0.1},{key: "productionSpeed",operator: 2,value:1.5}],
-                          [{key: "productionSpeed",operator: 1,value:0.25},{key: "productionSpeed",operator: 2,value:2}],
-                          [{key: "productionSpeed",operator: 1,value:0.5},{key: "productionSpeed",operator: 2,value:3}]
-                         ],
-        _itemFeatures: [[{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:0.2}],
-                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:0.5}],
-                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:1},{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_attackPoints",operator: 2,value:1.2}],
-                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:2},{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_attackPoints",operator: 2,value:1.2}],
-                        [{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_maxHealthPoints",operator: 1,value:5},{classTarget: "FootUnit",idTarget: "LaserTrooper",key: "_attackPoints",operator: 2,value:2}]
-                       ]
+        _maxLevel: 5,
+        _initProperties : {
+                            _requiredItemIds: [null,null,null,null,null],
+                            _requiredTechnologies: [null,null,null,null,null],
+                            _requiredRessources: [null,null,null,null,null],
+                            _requiredMapObjLvls: [1,1,1,1,2],
+                            _points: [1,2,5,8,12],
+                            _buildTime: [1000,5000,20000,80000,200000],
+                            _maxHealthPoints: [10,20,40,70,100],
+                            _maxArmor: [5,8,15,25,40],
+                            _attackPoints: [2,5,9,14,20],
+                            _defensePoints: [4,7,15,25,40],
+                            _attackSpeed: [10,15,20,25,30],
+                            _runningSpeed: [5,5,5,5,5],
+                            _range: [10,10,10,10,10]
+        },
+        _featureTypeIds: [["FeatureId","FeatureId2"],["FeatureId","FeatureId2"],["FeatureId","FeatureId2"],["FeatureId","FeatureId2"],["FeatureId","FeatureId2"]]
+
     }));
 
 
+    gameData.featureTypes.add(new FeatureType(gameData,{
+        _id: "FeatureId",
+        _name: "Dummy Add Feature ",
+        _appliedOnObject: true,
+        _infinite: true,
+        _canBeActivated: false,
+        _canBeDepleted: false,
+        _canSelect: false,
+        _canRecharge: false,
+        _numberOfTargets : 1,
+        _range: 0, // 0 = effect only in current map object or on current current map
+        _objectSelectionRadius: 0, // 0 = cannot select objects between objects
+        _activationTime: 0, // 0 = infinite (activated directly)
+        _effects: [new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1}),new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1})]
+    }));
 
+    gameData.featureTypes.add(new FeatureType(gameData,{
+        _id: "FeatureId2",
+        _name: "Dummy Multi Feature ",
+        _appliedOnObject: true,
+        _infinite: true,
+        _canBeActivated: false,
+        _canBeDepleted: false,
+        _canSelect: false,
+        _canRecharge: false,
+        _numberOfTargets : 1,
+        _range: 0, // 0 = effect only in current map object or on current current map
+        _objectSelectionRadius: 0, // 0 = cannot select objects between objects
+        _activationTime: 0, // 0 = infinite (activated directly)
+        _effects: [new MultiplierFeature(gameData,{_key: "_productionSpeed",_value: 1.5,_modus: 1}),new MultiplierFeature(gameData,{_key: "_productionSpeed",_value: 1.5,_modus: 1})]
+
+    }));
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01")._buildCategories = [
