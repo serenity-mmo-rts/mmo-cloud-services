@@ -201,7 +201,8 @@ app.io.route('getMap', function (req) {
     req.io.respond({
         initMap: mapData.save(),
         initMapObjects: mapData.mapObjects.save(),
-        initMapEvents: mapData.eventScheduler.events.save()
+        initMapEvents: mapData.eventScheduler.events.save(),
+        initItems: mapData.mapObjects.items.save()
     });
 
 })

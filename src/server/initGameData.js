@@ -357,13 +357,13 @@ if (node) {
     gameData.featureTypes.add(new FeatureType(gameData,{
         _id: "FeatureId",
         _name: "Dummy Add Feature ",
-        _appliedOnObject: true,
+        _appliedOn: "Object",
         _infinite: true,
         _canBeActivated: false,
         _canBeDepleted: false,
         _canSelect: false,
         _canRecharge: false,
-        _numberOfTargets : 1,
+        _NumberOfSelections : 1,
         _range: 0, // 0 = effect only in current map object or on current current map
         _objectSelectionRadius: 0, // 0 = cannot select objects between objects
         _activationTime: 0, // 0 = infinite (activated directly)
@@ -373,13 +373,13 @@ if (node) {
     gameData.featureTypes.add(new FeatureType(gameData,{
         _id: "FeatureId2",
         _name: "Dummy Multi Feature ",
-        _appliedOnObject: true,
+        _appliedOn: "Object", // Object, Item, Coordinate, User
         _infinite: true,
         _canBeActivated: false,
         _canBeDepleted: false,
         _canSelect: false,
         _canRecharge: false,
-        _numberOfTargets : 1,
+        __NumberOfSelections : 1,
         _range: 0, // 0 = effect only in current map object or on current current map
         _objectSelectionRadius: 0, // 0 = cannot select objects between objects
         _activationTime: 0, // 0 = infinite (activated directly)

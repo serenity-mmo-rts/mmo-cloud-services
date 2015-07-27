@@ -19,12 +19,12 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     var collObjectType = db.collection('objTypes');
     var collRessourceType = db.collection('resTypes');
     var collTechnologyType = db.collection('techTypes');
-    var collUnitType = db.collection('unitTypes');
     var collItemType = db.collection('itemTypes');
-    var collUpgradeType = db.collection('upgradeTypes');
+
 
     var collMaps = db.collection('maps');
     var collMapObjects = db.collection('mapObjects');
+    var collItems = db.collection('items');
     var collMapEvents = db.collection('mapEvents');
     var collGameVars = db.collection('gameVars');
     var collUsers = db.collection('users');
@@ -36,17 +36,15 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             collObjectType.remove({},function(err, removed){
                 collRessourceType.remove({},function(err, removed){
                     collTechnologyType.remove({},function(err, removed){
-                        collUnitType.remove({},function(err, removed){
-                            collItemType.remove({},function(err, removed){
-                                collUpgradeType.remove({},function(err, removed){
-                                    collMaps.remove({},function(err, removed){
-                                        collMapObjects.remove({},function(err, removed){
-                                            collMapEvents.remove({},function(err, removed){
-                                                collGameVars.remove({},function(err, removed){
-                                                    collUsers.remove({},function(err, removed){
-                                                        collSessions.remove({},function(err, removed){
-                                                            addSpritesheets();
-                                                        });
+                        collItemType.remove({},function(err, removed){
+                            collItems.remove({},function(err, removed){
+                                collMaps.remove({},function(err, removed){
+                                    collMapObjects.remove({},function(err, removed){
+                                        collMapEvents.remove({},function(err, removed){
+                                            collGameVars.remove({},function(err, removed){
+                                                collUsers.remove({},function(err, removed){
+                                                    collSessions.remove({},function(err, removed){
+                                                        addSpritesheets();
                                                     });
                                                 });
                                             });
@@ -128,12 +126,25 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                 if (err) throw err;
                 numMapsToAdd--;
                 if(numMapsToAdd <= 0) {
-                    addGameVariables();
+                    addItems();
                 }
             });
         });
     }
 
+    function addItems() {
+        console.log("add items")
+        var numObjToAdd = initGameData.gameData.maps.mapObjects.length();
+        initGameData.gameData.maps.mapObjects.each(function(obj) {
+            collItems.insert(obj.items.save(), function(err,docs) {
+                if (err) throw err;
+                numObjToAdd--;
+                if(numObjToAdd <= 0) {
+                    addGameVariables();
+                }
+            });
+        });
+    }
     function addGameVariables() {
         console.log("add game variables")
         collGameVars.insert(initGameData.gameVars, function(err,docs) {

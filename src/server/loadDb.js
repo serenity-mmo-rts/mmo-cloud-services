@@ -2,6 +2,7 @@ var dbConn = require('./dbConnection');
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/mapObjects/MapObject').MapObject;
+var ItemModel = require('../game/ItemModel').ItemModel;
 var MapType = require('../game/MapType').MapType;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
 var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
@@ -24,6 +25,20 @@ function getMapObjects(gameData, currentMapData) {
             if (doc != null) {
                 var mapObj = createMapObject(gameData, doc);
                 currentMapData.addObject(mapObj);
+            }
+        });
+    });
+}
+
+function getItems(gameData, currentMapData) {
+
+    dbConn.get('items', function (err, collItems) {
+        if (err) throw err;
+        collItems.find({mapId: currentMapData._id}).each(function (err, doc) {
+            if (err) throw err;
+            if (doc != null) {
+                var item = new ItemModel(gameData, doc);
+                currentMapData.mapObjects.addItem(item);
             }
         });
     });
@@ -108,6 +123,7 @@ function fillGameData(gameData, gameVars) {
                 var currentMapData = gameData.maps.add(new MapData(gameData, doc));
                 getMapObjects(gameData, currentMapData);
                 getMapEvents(gameData, currentMapData);
+                getItems(gameData, currentMapData);
             }
         });
     });
