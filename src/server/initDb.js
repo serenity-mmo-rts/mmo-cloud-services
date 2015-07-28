@@ -123,7 +123,9 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         var numMapsToAdd = initGameData.gameData.maps.length();
         initGameData.gameData.maps.each(function(map) {
             collMapObjects.insert(map.mapObjects.save(), function(err,docs) {
+                console.log("all good")
                 if (err) throw err;
+
                 numMapsToAdd--;
                 if(numMapsToAdd <= 0) {
                     addItems();
@@ -133,18 +135,27 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     }
 
     function addItems() {
-        console.log("add items")
-        var numObjToAdd = initGameData.gameData.maps.mapObjects.length();
-        initGameData.gameData.maps.mapObjects.each(function(obj) {
-            collItems.insert(obj.items.save(), function(err,docs) {
-                if (err) throw err;
-                numObjToAdd--;
-                if(numObjToAdd <= 0) {
-                    addGameVariables();
-                }
+       console.log("add items")
+       var numMapsToAdd = initGameData.gameData.maps.length();
+       initGameData.gameData.maps.each(function(layer){
+           console.log("in map")
+            layer.mapObjects.each(function(obj){
+                console.log(obj._id)
+                collItems.insert(obj.items.save(), function(err,docs) {
+                    console.log("in obj")
+                    if (err) console.log("damn an error")  // here comes an error
+                       // throw err;
+
+                });
+
             });
-        });
+           numMapsToAdd--;
+           if(numMapsToAdd <= 0) {
+               addGameVariables();
+           }
+       });
     }
+
     function addGameVariables() {
         console.log("add game variables")
         collGameVars.insert(initGameData.gameVars, function(err,docs) {
