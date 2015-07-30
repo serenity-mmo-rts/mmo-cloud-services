@@ -202,7 +202,7 @@ app.io.route('getMap', function (req) {
         initMap: mapData.save(),
         initMapObjects: mapData.mapObjects.save(),
         initMapEvents: mapData.eventScheduler.events.save(),
-        initItems: mapData.mapObjects.items.save()
+        initItems: mapData.items.save()
     });
 
 })

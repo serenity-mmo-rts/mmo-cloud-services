@@ -120,10 +120,11 @@ if (node) {
         _spriteFrame: 0,
         _iconSpritesheetId: moonSprite._id,
         _iconSpriteFrame: 0,
-        _buildTime: 2000,
+        _buildTime: 0,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  0,
+            _maxHealthPoints: 0,
+            _itemIds: []
         }
     })
     gameData.objectTypes.add(crater01);
@@ -139,10 +140,11 @@ if (node) {
         _spriteFrame: 0,
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
-        _buildTime: 2000,
+        _buildTime: 0,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  0,
+            _maxHealthPoints: 0,
+            _itemIds: []
         }
 
     })
@@ -159,10 +161,11 @@ if (node) {
         _spriteFrame: 1,
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
-        _buildTime: 2000,
+        _buildTime: 0,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  0,
+            _maxHealthPoints: 0,
+            _itemIds: []
         }
     });
     gameData.objectTypes.add(rock02);
@@ -180,8 +183,9 @@ if (node) {
         _iconSpriteFrame: 6,
         _buildTime: 20000,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  5,
+            _maxHealthPoints: 100,
+            _itemIds: ["LaserTrooper"]
         }
     })
     gameData.objectTypes.add(factory);
@@ -199,8 +203,9 @@ if (node) {
         _iconSpriteFrame: 7,
         _buildTime: 120000,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  5,
+            _maxHealthPoints: 100,
+            _itemIds: ["LaserTrooper"]
         }
     });
     gameData.objectTypes.add(hub);
@@ -218,8 +223,9 @@ if (node) {
         _iconSpriteFrame: 8,
         _buildTime: 10000,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  5,
+            _maxHealthPoints: 100,
+            _itemIds: ["LaserTrooper"]
         }
     });
     gameData.objectTypes.add(sciencecenter);
@@ -237,8 +243,9 @@ if (node) {
         _iconSpriteFrame: 9,
         _buildTime: 1000,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  5,
+            _maxHealthPoints: 100,
+            _itemIds: ["LaserTrooper"]
         }
     });
     gameData.objectTypes.add(factory2);
@@ -256,8 +263,9 @@ if (node) {
         _iconSpriteFrame: 10,
         _buildTime: 2000,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  5,
+            _maxHealthPoints: 100,
+            _itemIds: ["LaserTrooper"]
         }
     });
     gameData.objectTypes.add(unitfactory);
@@ -275,8 +283,9 @@ if (node) {
         _iconSpriteFrame: 10,
         _buildTime: 0,
         _initProperties: {
-            _point:  5,
-            _maxHealthPoints: 100
+            _points:  5,
+            _maxHealthPoints: 100,
+            _itemIds: ["LaserTrooper"]
         }
     });
     gameData.objectTypes.add(constructionSite);
@@ -293,9 +302,11 @@ if (node) {
         _iconSpritesheetId: moonSprite._id,
         _iconSpriteFrame: 2,
         _buildTime: 2000,
+
         _initProperties: {
-          _point:  5,
-          _maxHealthPoints: 100
+          _points:  5,
+          _maxHealthPoints: 100,
+          _itemIds: ["LaserTrooper"]
         }
 
 
@@ -327,20 +338,20 @@ if (node) {
         _id: "LaserTrooper",
         _name: "LaserTrooper",
         _className: "FootUnit",
-        _allowOnMapTypeId: null,
+        _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 4,
         _buildMenuTooltip: "this is awesome",
         _canMove: true,
         _canFight: true,
         _maxLevel: 5,
-        _initProperties : {
-                            _requiredItemIds: [null,null,null,null,null],
+        _initProperties: {
+                            _requiredItemIds: [null,null,null,null,null], // most specific requirements go here
                             _requiredTechnologies: [null,null,null,null,null],
                             _requiredRessources: [null,null,null,null,null],
-                            _requiredMapObjLvls: [1,1,1,1,2],
+                            _requiredMapObjectLvl: [1,1,2,2,2], // might not be so important
                             _points: [1,2,5,8,12],
-                            _buildTime: [1000,5000,20000,80000,200000],
+                            _buildTime: [20000,5000,20000,80000,200000],
                             _maxHealthPoints: [10,20,40,70,100],
                             _maxArmor: [5,8,15,25,40],
                             _attackPoints: [2,5,9,14,20],

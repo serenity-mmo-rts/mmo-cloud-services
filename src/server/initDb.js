@@ -123,7 +123,6 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         var numMapsToAdd = initGameData.gameData.maps.length();
         initGameData.gameData.maps.each(function(map) {
             collMapObjects.insert(map.mapObjects.save(), function(err,docs) {
-                console.log("all good")
                 if (err) throw err;
 
                 numMapsToAdd--;
@@ -134,7 +133,25 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         });
     }
 
+
     function addItems() {
+        console.log("add items")
+        var numMapsToAdd = initGameData.gameData.maps.length();
+        initGameData.gameData.maps.each(function(map) {
+            if (map.items.length()>0){
+                collItems.insert(map.items.save(), function(err,docs) {
+                    if (err) throw err;
+                });
+            }
+            numMapsToAdd--;
+            if(numMapsToAdd <= 0) {
+                addGameVariables();
+            }
+        });
+    }
+
+
+/*    function addItems() {
        console.log("add items")
        var numMapsToAdd = initGameData.gameData.maps.length();
        initGameData.gameData.maps.each(function(layer){
@@ -154,7 +171,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                addGameVariables();
            }
        });
-    }
+    }*/
 
     function addGameVariables() {
         console.log("add game variables")

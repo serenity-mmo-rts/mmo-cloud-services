@@ -38,7 +38,7 @@ function getItems(gameData, currentMapData) {
             if (err) throw err;
             if (doc != null) {
                 var item = new ItemModel(gameData, doc);
-                currentMapData.mapObjects.addItem(item);
+                currentMapData.addItem(item);
             }
         });
     });
