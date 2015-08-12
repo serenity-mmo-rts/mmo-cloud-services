@@ -5,6 +5,7 @@ var MapObject = require('../game/mapObjects/MapObject').MapObject;
 var ItemModel = require('../game/ItemModel').ItemModel;
 var MapType = require('../game/MapType').MapType;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
+var eventStates = require('../game/events/AbstractEvent').eventStates;
 var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
 var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/RessourceType').RessourceType;
@@ -42,6 +43,7 @@ function fillGameData(gameData, gameVars) {
     });
 
 }
+
 
 function getSpritesheets(gameData) {
     dbConn.get('spritesheets', function (err, collSpritesheets) {

@@ -220,39 +220,27 @@ app.io.route('newGameEvent', function (req) {
         gameData.maps.get(mapId).eventScheduler.finishAllTillTime(Date.now());
 
         var gameEvent = EventFactory(gameData,req.data[1]);
+        gameEvent.setInitialized();
 
         // check if event is valid:
         if (gameEvent.isValid()) {
+            gameEvent.setValid();
+
             gameEvent._id = new mongodb.ObjectID();
 
             // execute event locally on server:
-            gameEvent.executeOnServer(function(err) {
-                if (err) {
-                    console.log("error: event was valid but could not be executed!!");
-                    req.io.respond({success: false});
-                }
+            gameEvent.executeOnServer();
 
-                // add event to scheduler:
-                gameData.maps.get(gameEvent._mapId).eventScheduler.addEvent(gameEvent);
+            console.log("event was successfully executed and added to eventScheduler. Now broadcast to clients...");
 
-                // add event to db:
-                dbConn.get('mapEvents', function (err, collMapEvents) {
-                    collMapEvents.insert(gameEvent.save(), function(err,docs) {
-                        if (err) throw err;
-                    });
-                });
-
-                console.log("event was successfully executed and added to eventScheduler and added to mongodb. Now broadcast to clients...");
-
-                // the following broadcast goes to the client who created the event:
-                req.io.respond({
-                    success: true,
-                    updatedEvent: gameEvent.save()
-                });
-
-                // the following broadcast goes to all clients, but not the one who created the event:
-                req.io.broadcast('newGameEvent',[mapId, gameEvent.save()]);
+            // the following broadcast goes to the client who created the event:
+            req.io.respond({
+                success: true,
+                updatedEvent: gameEvent.save()
             });
+
+            // the following broadcast goes to all clients, but not the one who created the event:
+            req.io.broadcast('newGameEvent', [mapId, gameEvent.save()]);
         }
         else {
             console.log("event is not valid!!");
