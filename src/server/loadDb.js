@@ -128,6 +128,7 @@ dbConn.get('itemTypes', function (err, collObjectType) {
 
 
 function getMaps(gameData) {
+    console.log("load maps from db")
     dbConn.get('maps', function (err, collMaps) {
         if (err) throw err;
         collMaps.find().each(function (err, doc) {
@@ -179,6 +180,7 @@ function getItems(gameData, currentMapData) {
 }
 
 function getMapEvents(gameData, currentMapData) {
+    console.log("load events of map "+currentMapData._id+" from db");
     dbConn.get('mapEvents', function (err, collMapEvents) {
         if (err) throw err;
 
