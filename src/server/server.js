@@ -192,18 +192,19 @@ app.io.route('ready', function (req) {
 
 app.io.route('getMap', function (req) {
 
-    var mapId = req.data.mapId;
+    var mapData = gameData.maps.get(req.data.mapId);
 
-    // update world:
-    gameData.maps.get(mapId).eventScheduler.finishAllTillTime(Date.now());
+    if (mapData) {
+        // update world:
+        mapData.eventScheduler.finishAllTillTime(Date.now());
 
-    var mapData = gameData.maps.get(mapId);
-    req.io.respond({
-        initMap: mapData.save(),
-        initMapObjects: mapData.mapObjects.save(),
-        initMapEvents: mapData.eventScheduler.events.save(),
-        initItems: mapData.items.save()
-    });
+        req.io.respond({
+            initMap: mapData.save(),
+            initMapObjects: mapData.mapObjects.save(),
+            initMapEvents: mapData.eventScheduler.events.save(),
+            initItems: mapData.items.save()
+        });
+    }
 
 })
 
@@ -226,7 +227,7 @@ app.io.route('newGameEvent', function (req) {
         if (gameEvent.isValid()) {
             gameEvent.setValid();
 
-            gameEvent._id = new mongodb.ObjectID();
+            gameEvent._id = (new mongodb.ObjectID()).toHexString();
 
             // execute event locally on server:
             gameEvent.executeOnServer();

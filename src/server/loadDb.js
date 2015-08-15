@@ -194,6 +194,8 @@ function getMapEvents(gameData, currentMapData) {
             }
 
             setPointers(gameData, currentMapData);
+
+            currentMapData.eventScheduler.finishAllTillTime(Date.now());
         });
     });
 }
