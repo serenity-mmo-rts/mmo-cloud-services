@@ -337,7 +337,8 @@ if (node) {
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "LaserTrooper",
         _name: "LaserTrooper",
-        _className: "FootUnit",
+        _type: "Unit",
+        _class: "FootUnit",
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 4,
@@ -348,8 +349,8 @@ if (node) {
         _initProperties: {
                             _requiredItemIds: [null,null,null,null,null], // most specific requirements go here
                             _requiredTechnologies: [null,null,null,null,null],
+                            _requiredMapObjectLvl: [1,1,2,2,2],
                             _requiredRessources: [null,null,null,null,null],
-                            _requiredMapObjectLvl: [1,1,2,2,2], // might not be so important
                             _points: [1,2,5,8,12],
                             _buildTime: [20000,5000,20000,80000,200000],
                             _maxHealthPoints: [10,20,40,70,100],
