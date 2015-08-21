@@ -205,7 +205,7 @@ if (node) {
         _initProperties: {
             _points:  5,
             _maxHealthPoints: 100,
-            _itemIds: ["LaserTrooper"]
+            _itemIds: []
         }
     });
     gameData.objectTypes.add(hub);
@@ -225,7 +225,7 @@ if (node) {
         _initProperties: {
             _points:  5,
             _maxHealthPoints: 100,
-            _itemIds: ["LaserTrooper"]
+            _itemIds: []
         }
     });
     gameData.objectTypes.add(sciencecenter);
@@ -245,7 +245,7 @@ if (node) {
         _initProperties: {
             _points:  5,
             _maxHealthPoints: 100,
-            _itemIds: ["LaserTrooper"]
+            _itemIds: []
         }
     });
     gameData.objectTypes.add(factory2);
@@ -265,7 +265,7 @@ if (node) {
         _initProperties: {
             _points:  5,
             _maxHealthPoints: 100,
-            _itemIds: ["LaserTrooper"]
+            _itemIds: ["LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper"]
         }
     });
     gameData.objectTypes.add(unitfactory);
@@ -285,7 +285,7 @@ if (node) {
         _initProperties: {
             _points:  5,
             _maxHealthPoints: 100,
-            _itemIds: ["LaserTrooper"]
+            _itemIds: []
         }
     });
     gameData.objectTypes.add(constructionSite);
@@ -306,7 +306,7 @@ if (node) {
         _initProperties: {
           _points:  5,
           _maxHealthPoints: 100,
-          _itemIds: ["LaserTrooper"]
+          _itemIds: []
         }
 
 
@@ -338,10 +338,9 @@ if (node) {
         _id: "LaserTrooper",
         _name: "LaserTrooper",
         _type: "Unit",
-        _class: "FootUnit",
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4,
+        _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
         _canMove: true,
         _canFight: true,
