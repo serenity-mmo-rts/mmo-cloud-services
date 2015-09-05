@@ -360,42 +360,32 @@ if (node) {
                             _runningSpeed: [5,5,5,5,5],
                             _range: [10,10,10,10,10]
         },
-        _featureTypeIds: [["FeatureId","FeatureId2"],["FeatureId","FeatureId2"],["FeatureId","FeatureId2"],["FeatureId","FeatureId2"],["FeatureId","FeatureId2"]]
+        _features: [
+            [['getParentObj'],['AddToProp',"_maxHealthPoints",0.1,1,1],['AddToProp',"_points",5,2,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]]
+        ]
 
     }));
 
-
-    gameData.featureTypes.add(new FeatureType(gameData,{
-        _id: "FeatureId",
-        _name: "Dummy Add Feature ",
-        _appliedOn: "Object",
-        _infinite: true,
-        _canBeActivated: false,
-        _canBeDepleted: false,
-        _canSelect: false,
-        _canRecharge: false,
-        _NumberOfSelections : 1,
-        _range: 0, // 0 = effect only in current map object or on current current map
-        _objectSelectionRadius: 0, // 0 = cannot select objects between objects
-        _activationTime: 0, // 0 = infinite (activated directly)
-        _effects: [new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1}),new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1})]
-    }));
 
     gameData.featureTypes.add(new FeatureType(gameData,{
         _id: "FeatureId2",
-        _name: "Dummy Multi Feature ",
-        _appliedOn: "Object", // Object, Item, Coordinate, User
-        _infinite: true,
-        _canBeActivated: false,
-        _canBeDepleted: false,
-        _canSelect: false,
-        _canRecharge: false,
-        __NumberOfSelections : 1,
-        _range: 0, // 0 = effect only in current map object or on current current map
-        _objectSelectionRadius: 0, // 0 = cannot select objects between objects
-        _activationTime: 0, // 0 = infinite (activated directly)
-        _effects: [new MultiplierFeature(gameData,{_key: "_productionSpeed",_value: 1.5,_modus: 1}),new MultiplierFeature(gameData,{_key: "_productionSpeed",_value: 1.5,_modus: 1})]
+        _name: "Dummy Add Feature ",
+        _effect: [['selectParentObj'],['selectObjInRange',2],['AddToProp',"_productionSpeed",0.1,1]]
+     }));
 
+    gameData.featureTypes.add(new FeatureType(gameData,{
+        _id: "FeatureId3",
+        _name: "Dummy Add Feature ",
+        _effect: [['AND',
+                [['selectParentObject'],['AddToProp',"_productionSpeed",0.1,1]],
+                [['activate'],['selectParentObject'],['selectObjInRange',2],['AddToProp',"_productionSpeed",0.1,1]],
+                [['activate'],['selectObject'],['selectObjInRange',2],['AddToProp',"_productionSpeed",0.1,1],['waitInterval',40],['selectItem']]
+         ]]
+        // _effects: [new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1}),new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1})]
     }));
 
 // save build categories:
