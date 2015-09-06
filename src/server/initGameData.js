@@ -265,7 +265,7 @@ if (node) {
         _initProperties: {
             _points:  5,
             _maxHealthPoints: 100,
-            _itemIds: ["LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper","LaserTrooper"]
+            _itemIds: ["LaserTrooper","TestRadius"]
         }
     });
     gameData.objectTypes.add(unitfactory);
@@ -369,6 +369,43 @@ if (node) {
         ]
 
     }));
+
+    gameData.itemTypes.add(new ItemType(gameData,{
+        _id: "TestRadius",
+        _name: "TestRadius",
+        _type: "Unit",
+        _allowOnMapTypeId: "moonMap01",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 1,
+        _buildMenuTooltip: "this is awesome",
+        _canMove: true,
+        _canFight: true,
+        _maxLevel: 5,
+        _initProperties: {
+            _requiredItemIds: [null,null,null,null,null], // most specific requirements go here
+            _requiredTechnologies: [null,null,null,null,null],
+            _requiredMapObjectLvl: [1,1,2,2,2],
+            _requiredRessources: [null,null,null,null,null],
+            _points: [1,2,5,8,12],
+            _buildTime: [20000,5000,20000,80000,200000],
+            _maxHealthPoints: [10,20,40,70,100],
+            _maxArmor: [5,8,15,25,40],
+            _attackPoints: [2,5,9,14,20],
+            _defensePoints: [4,7,15,25,40],
+            _attackSpeed: [10,15,20,25,30],
+            _runningSpeed: [5,5,5,5,5],
+            _range: [10,10,10,10,10]
+        },
+        _features: [
+            [['getObjInRange',100],['AddToProp',"_maxHealthPoints",0.1,1,1],['AddToProp',"_points",5,2,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
+            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]]
+        ]
+
+    }));
+
 
 
     gameData.featureTypes.add(new FeatureType(gameData,{
