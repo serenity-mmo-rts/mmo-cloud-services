@@ -15,7 +15,7 @@ var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/RessourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
-var FeatureType = require('../game/types/FeatureType').FeatureType;
+//var FeatureType = require('../game/types/FeatureType').FeatureType;
 
 
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
@@ -183,7 +183,7 @@ app.io.route('ready', function (req) {
         ressourceTypes: gameData.ressourceTypes.save(),
         technologyTypes: gameData.technologyTypes.save(),
         itemTypes: gameData.itemTypes.save(),
-        featureTypes: gameData. featureTypes.save(),
+        //featureTypes: gameData. featureTypes.save(),
         initMapId: gameVars.rootMapId
 
     };

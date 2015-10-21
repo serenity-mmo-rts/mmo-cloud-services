@@ -8,14 +8,14 @@ if (node) {
     var RessourceType = require('../game/types/RessourceType').RessourceType;
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
     var ItemType = require('../game/types/ItemType').ItemType;
-    var FeatureType = require('../game/types/FeatureType').FeatureType;
+   // var FeatureType = require('../game/types/FeatureType').FeatureType;
     var ModelSublayer = require('../game/mapObjects/ModelSublayer').ModelSublayer;
     var ModelFactory = require('../game/mapObjects/ModelFactory').ModelFactory;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var MapData = require('../game/MapData').MapData;
     var User = require('../game/User').User;
-    var AdditiveFeature = require('../game/features/AdditiveFeature').AdditiveFeature;
-    var MultiplierFeature = require('../game/features/MultiplierFeature').MultiplierFeature;
+   // var AdditiveFeature = require('../game/features/AdditiveFeature').AdditiveFeature;
+   // var MultiplierFeature = require('../game/features/MultiplierFeature').MultiplierFeature;
 }
 
 (function (exports) {
@@ -407,7 +407,7 @@ if (node) {
     }));
 
 
-
+/**
     gameData.featureTypes.add(new FeatureType(gameData,{
         _id: "FeatureId2",
         _name: "Dummy Add Feature ",
@@ -424,6 +424,8 @@ if (node) {
          ]]
         // _effects: [new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1}),new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1})]
     }));
+
+ **/
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01")._buildCategories = [
