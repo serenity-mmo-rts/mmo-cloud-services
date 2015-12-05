@@ -145,6 +145,23 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             }
             numMapsToAdd--;
             if(numMapsToAdd <= 0) {
+                addUsers();
+            }
+        });
+    }
+
+    function addUsers() {
+        console.log("add users")
+        var numUsersToAdd = initGameData.gameData.users.length();
+        if(numUsersToAdd <= 0) {
+            addGameVariables();
+        }
+        initGameData.gameData.users.each(function(user) {
+            collUsers.insert(user.save(), function(err,docs) {
+                if (err) throw err;
+            });
+            numUsersToAdd--;
+            if(numUsersToAdd <= 0) {
                 addGameVariables();
             }
         });

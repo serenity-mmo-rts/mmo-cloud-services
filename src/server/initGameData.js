@@ -511,6 +511,13 @@ if (node) {
         userId: 0
     }));
 
+
+    /*gameData.users.add(new User(gameData, {
+        _id: "testuser01",
+        name: "testuser"
+    }));*/
+
+
     var gameVars = {
         rootMapId: moonMap._id
     }
