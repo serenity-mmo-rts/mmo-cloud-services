@@ -299,14 +299,6 @@ if (node) {
     var factory2 = new ObjectType(gameData,{
         _id: "Factory2",
         _buildingBlocks: {
-            ResourcePuller: {
-                _typeId:  [],
-                _perSec:  []
-            },
-            ResourcePusher: {
-                _typeId:  [],
-                _perSec:  []
-            },
             ResourceProduction: {
                 _typeId: [],
                 _perSec: []
@@ -415,97 +407,47 @@ if (node) {
 
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "LaserTrooper",
-        _name: "LaserTrooper",
-        _type: "Unit",
+        _id: "healthUpgrade",
+        _name: "healthUpgrade",
+        _className: "ProductivityUpgrade",
+        _buildingBlocks: {
+            Feature: {
+                command: [["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"]]
+            }
+        },
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
-        _canMove: true,
-        _canFight: true,
-        _maxLevel: 5,
-        _initProperties: {
-                            _requiredItemIds: [null,null,null,null,null], // most specific requirements go here
-                            _requiredTechnologies: [null,null,null,null,null],
-                            _requiredMapObjectLvl: [1,1,2,2,2],
-                            _requiredRessources: [null,null,null,null,null],
-                            _points: [1,2,5,8,12],
-                            _buildTime: [20000,5000,20000,80000,200000],
-                            _maxHealthPoints: [10,20,40,70,100],
-                            _maxArmor: [5,8,15,25,40],
-                            _attackPoints: [2,5,9,14,20],
-                            _defensePoints: [4,7,15,25,40],
-                            _attackSpeed: [10,15,20,25,30],
-                            _runningSpeed: [5,5,5,5,5],
-                            _range: [10,10,10,10,10]
-        },
-        _features: [
-            [['getParentObj'],['AddToProp',"_maxHealthPoints",0.1,1,1],['AddToProp',"_points",5,2,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]]
-        ]
+        _maxLevel: 5
 
     }));
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "TestRadius",
-        _name: "TestRadius",
-        _type: "Unit",
+        _id: "healthUpgrade",
+        _name: "healthUpgrade",
+        _className: "ProductivityUpgrade",
+        _buildingBlocks: {
+            Feature: {
+                command: [["getObjInRange {100}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,3}}"],
+                    ["getObjInRange {150}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.2},{UserObject,plus,5}}"],
+                    ["getObjInRange {200}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.4},{UserObject,plus,10}}"],
+                    ["getObjInRange {300}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,1},{UserObject,plus,20}}"],
+                    ["getObjInRange {500}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,2},{UserObject,plus,50}}"]]
+            }
+        },
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 1,
+        _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
-        _canMove: true,
-        _canFight: true,
-        _maxLevel: 5,
-        _initProperties: {
-            _requiredItemIds: [null,null,null,null,null], // most specific requirements go here
-            _requiredTechnologies: [null,null,null,null,null],
-            _requiredMapObjectLvl: [1,1,2,2,2],
-            _requiredRessources: [null,null,null,null,null],
-            _points: [1,2,5,8,12],
-            _buildTime: [20000,5000,20000,80000,200000],
-            _maxHealthPoints: [10,20,40,70,100],
-            _maxArmor: [5,8,15,25,40],
-            _attackPoints: [2,5,9,14,20],
-            _defensePoints: [4,7,15,25,40],
-            _attackSpeed: [10,15,20,25,30],
-            _runningSpeed: [5,5,5,5,5],
-            _range: [10,10,10,10,10]
-        },
-        _features: [
-            [['getObjInRange',100],['AddToProp',"_maxHealthPoints",0.1,1,1],['AddToProp',"_points",5,2,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]],
-            [['getParentObj'],['getObjInRange',2],['AddToProp',"_maxHealthPoints",0.1,1,1]]
-        ]
+        _maxLevel: 5
 
     }));
 
-
-/**
-    gameData.featureTypes.add(new FeatureType(gameData,{
-        _id: "FeatureId2",
-        _name: "Dummy Add Feature ",
-        _effect: [['selectParentObj'],['selectObjInRange',2],['AddToProp',"_productionSpeed",0.1,1]]
-     }));
-
-    gameData.featureTypes.add(new FeatureType(gameData,{
-        _id: "FeatureId3",
-        _name: "Dummy Add Feature ",
-        _effect: [['AND',
-                [['selectParentObject'],['AddToProp',"_productionSpeed",0.1,1]],
-                [['activate'],['selectParentObject'],['selectObjInRange',2],['AddToProp',"_productionSpeed",0.1,1]],
-                [['activate'],['selectObject'],['selectObjInRange',2],['AddToProp',"_productionSpeed",0.1,1],['waitInterval',40],['selectItem']]
-         ]]
-        // _effects: [new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1}),new AdditiveFeature(gameData,{_key: "_productionSpeed",_value: 0.1,_modus: 1})]
-    }));
-
- **/
 
 // save build categories:
     gameData.mapTypes.get("cityMapType01")._buildCategories = [
