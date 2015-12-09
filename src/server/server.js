@@ -7,19 +7,19 @@ var MongoStore = require('connect-mongo')(express)
 
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
-var MapObject = require('../game/mapObjects/MapObject').MapObject;
-var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
-var MapType = require('../game/MapType').MapType;
+var MapObject = require('../game/Building').MapObject;
+var createMapObject = require('./createMapObject').createMapObject;
+var MapType = require('../game/types/LayerType').MapType;
 
-var ObjectType = require('../game/types/ObjectType').ObjectType;
-var RessourceType = require('../game/types/RessourceType').RessourceType;
+var ObjectType = require('../game/types/BuildingType').ObjectType;
+var RessourceType = require('../game/types/ResourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
 //var FeatureType = require('../game/types/FeatureType').FeatureType;
 
 
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
-var MapData = require('../game/MapData').MapData;
+var MapData = require('../game/Layer').MapData;
 var User = require('../game/User').User;
 var AbstractEvent = require('../game/events/AbstractEvent').AbstractEvent;
 var EventFactory = require('../game/events/EventFactory').EventFactory;

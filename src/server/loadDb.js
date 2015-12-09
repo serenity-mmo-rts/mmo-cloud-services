@@ -1,21 +1,21 @@
 var dbConn = require('./dbConnection');
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
-var MapObject = require('../game/mapObjects/MapObject').MapObject;
-var ItemModel = require('../game/items/Item').ItemModel;
-var MapType = require('../game/MapType').MapType;
+var MapObject = require('../game/Building').MapObject;
+var ItemModel = require('../game/Item').ItemModel;
+var MapType = require('../game/types/LayerType').MapType;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
 var eventStates = require('../game/events/AbstractEvent').eventStates;
-var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
-var ObjectType = require('../game/types/ObjectType').ObjectType;
-var RessourceType = require('../game/types/RessourceType').RessourceType;
+var createMapObject = require('./createMapObject').createMapObject;
+var ObjectType = require('../game/types/BuildingType').ObjectType;
+var RessourceType = require('../game/types/ResourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
 //var FeatureType = require('../game/types/FeatureType').FeatureType;
 
 
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
-var MapData = require('../game/MapData').MapData;
+var MapData = require('../game/Layer').MapData;
 
 
 

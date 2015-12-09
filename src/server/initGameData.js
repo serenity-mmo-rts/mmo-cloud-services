@@ -1,16 +1,16 @@
 var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
-    var MapObject = require('../game/mapObjects/MapObject').MapObject;
-    var createMapObject = require('../game/mapObjects/createMapObject').createMapObject;
-    var MapType = require('../game/MapType').MapType;
-    var ObjectType = require('../game/types/ObjectType').ObjectType;
-    var RessourceType = require('../game/types/RessourceType').RessourceType;
+    var MapObject = require('../game/Building').MapObject;
+    var createMapObject = require('./createMapObject').createMapObject;
+    var MapType = require('../game/types/LayerType').MapType;
+    var ObjectType = require('../game/types/BuildingType').ObjectType;
+    var RessourceType = require('../game/types/ResourceType').RessourceType;
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
     var ItemType = require('../game/types/ItemType').ItemType;
 
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
-    var MapData = require('../game/MapData').MapData;
+    var MapData = require('../game/Layer').MapData;
     var User = require('../game/User').User;
 
 }
@@ -47,7 +47,7 @@ if (node) {
         frames: [
             // x, y, width, height, imageIndex, regX, regY
 
-            //mapObjects
+            //buildings
             [0, 0, 128, 128, 0, 64, 90],
             [128, 0, 128, 128, 0, 60, 90],
             [256, 0, 128, 128, 0, 64, 83],
@@ -395,6 +395,17 @@ if (node) {
         _buildTime: 2000
     });
     gameData.ressourceTypes.add(carbon);
+    var iron = new RessourceType(gameData,{
+        //_type: "RessourceType",
+        _id: "324234",
+        _name: "iron",
+        //rendering
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 4,
+        _buildMenuTooltip:"iron is great",
+        _buildTime: 2000
+    });
+    gameData.ressourceTypes.add(iron);
 
     gameData.technologyTypes.add(new TechnologyType(gameData,{
         _id: "wormholeTech",
