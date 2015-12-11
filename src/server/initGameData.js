@@ -1,7 +1,7 @@
 var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
-    var MapObject = require('../game/Building').MapObject;
+    var MapObject = require('../game/MapObject').MapObject;
     var createMapObject = require('./createMapObject').createMapObject;
     var MapType = require('../game/types/LayerType').MapType;
     var ObjectType = require('../game/types/BuildingType').ObjectType;
@@ -47,7 +47,7 @@ if (node) {
         frames: [
             // x, y, width, height, imageIndex, regX, regY
 
-            //buildings
+            //mapObjects
             [0, 0, 128, 128, 0, 64, 90],
             [128, 0, 128, 128, 0, 60, 90],
             [256, 0, 128, 128, 0, 64, 83],

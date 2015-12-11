@@ -173,7 +173,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
        var numMapsToAdd = initGameData.gameData.maps.length();
        initGameData.gameData.maps.each(function(layer){
            console.log("in map")
-            layer.buildings.each(function(obj){
+            layer.mapObjects.each(function(obj){
                 console.log(obj._id)
                 collItems.insert(obj.items.save(), function(err,docs) {
                     console.log("in obj")
