@@ -11,7 +11,7 @@ var MapObject = require('../game/MapObject').MapObject;
 var createMapObject = require('./createMapObject').createMapObject;
 var MapType = require('../game/types/LayerType').MapType;
 
-var ObjectType = require('../game/types/BuildingType').ObjectType;
+var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/ResourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
