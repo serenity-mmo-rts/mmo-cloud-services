@@ -2,7 +2,6 @@ var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
     var MapObject = require('../game/MapObject').MapObject;
-    var createMapObject = require('./createMapObject').createMapObject;
     var MapType = require('../game/types/LayerType').MapType;
     var ObjectType = require('../game/types/BuildingType').ObjectType;
     var RessourceType = require('../game/types/ResourceType').RessourceType;
@@ -10,7 +9,7 @@ if (node) {
     var ItemType = require('../game/types/ItemType').ItemType;
 
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
-    var MapData = require('../game/Layer').MapData;
+    var Layer = require('../game/Layer').Layer;
     var User = require('../game/User').User;
 
 }
@@ -472,16 +471,16 @@ if (node) {
         {name: 'Habitat', objectTypeIds: ["dome"]}
     ];
 
-    var moonMap = new MapData(gameData,{
+    var moonMap = new Layer(gameData,{
         _id: "moonMap01",
         width: 20000,              // pixelsize / 4
         height: 20000,             // pixelsize / 2
         mapTypeId: "moonMapType01",
         gameData: gameData
     });
-    gameData.maps.add(moonMap);
+    gameData.layers.add(moonMap);
 
-    var cityMap = new MapData(gameData,{
+    var cityMap = new Layer(gameData,{
         _id: "cityMap01",
         width: 10000,
         height: 10000,
@@ -489,10 +488,10 @@ if (node) {
         parentMapId: "moonMap01",
         gameData: gameData
     });
-    gameData.maps.add(cityMap);
+    gameData.layers.add(cityMap);
 
 // Map Objects
-    moonMap.mapObjects.add(new MapObject(gameData,{
+    moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "firstCity",
         mapId: moonMap._id,
         x: 0,
@@ -504,7 +503,7 @@ if (node) {
 
 
     for (var i = 1; i < 2000; i++) {
-        moonMap.mapObjects.add(new MapObject(gameData,{
+        moonMap.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "crater01inst" + i,
             mapId: moonMap._id,
             x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01._initWidth / 2)),
@@ -519,7 +518,7 @@ if (node) {
 
 // Now start adding example objects to our example cityMap01
     for (var i = 1; i < 500; i++) {
-        cityMap.mapObjects.add(new MapObject(gameData,{
+        cityMap.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "rock01inst" + i,
             mapId: cityMap._id,
             x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock01._initWidth / 2)),
@@ -529,7 +528,7 @@ if (node) {
         }));
     }
     for (var i = 1; i < 500; i++) {
-        cityMap.mapObjects.add(new MapObject(gameData,{
+        cityMap.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "rock02inst" + i,
             mapId: cityMap._id,
             x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock02._initWidth / 2)),
@@ -540,7 +539,7 @@ if (node) {
     }
 
     // Add Start Building
-    cityMap.mapObjects.add(new MapObject(gameData,{
+    cityMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "factory01",
         mapId: cityMap._id,
         x: 0,

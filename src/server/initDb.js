@@ -22,7 +22,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     var collItemType = db.collection('itemTypes');
 
 
-    var collMaps = db.collection('maps');
+    var collMaps = db.collection('layers');
     var collMapObjects = db.collection('mapObjects');
     var collItems = db.collection('items');
     var collMapEvents = db.collection('mapEvents');
@@ -111,8 +111,8 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
 
     function addMaps() {
-        console.log("add maps")
-        collMaps.insert(initGameData.gameData.maps.save(), function(err,docs) {
+        console.log("add layers")
+        collMaps.insert(initGameData.gameData.layers.save(), function(err,docs) {
             if (err) throw err;
             addMapObjects();
         });
@@ -120,9 +120,9 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addMapObjects() {
         console.log("add map objects")
-        var numMapsToAdd = initGameData.gameData.maps.length();
-        initGameData.gameData.maps.each(function(map) {
-            collMapObjects.insert(map.mapObjects.save(), function(err,docs) {
+        var numMapsToAdd = initGameData.gameData.layers.length();
+        initGameData.gameData.layers.each(function(map) {
+            collMapObjects.insert(map.mapData.mapObjects.save(), function(err,docs) {
                 if (err) throw err;
 
                 numMapsToAdd--;
@@ -136,10 +136,10 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addItems() {
         console.log("add items")
-        var numMapsToAdd = initGameData.gameData.maps.length();
-        initGameData.gameData.maps.each(function(map) {
-            if (map.items.length()>0){
-                collItems.insert(map.items.save(), function(err,docs) {
+        var numMapsToAdd = initGameData.gameData.layers.length();
+        initGameData.gameData.layers.each(function(map) {
+            if (map.mapData.items.length()>0){
+                collItems.insert(map.mapData.items.save(), function(err,docs) {
                     if (err) throw err;
                 });
             }
@@ -170,8 +170,8 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
 /*    function addItems() {
        console.log("add items")
-       var numMapsToAdd = initGameData.gameData.maps.length();
-       initGameData.gameData.maps.each(function(layer){
+       var numMapsToAdd = initGameData.gameData.layers.length();
+       initGameData.gameData.layers.each(function(layer){
            console.log("in map")
             layer.mapObjects.each(function(obj){
                 console.log(obj._id)
