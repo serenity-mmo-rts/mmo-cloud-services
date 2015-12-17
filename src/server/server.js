@@ -8,7 +8,6 @@ var MongoStore = require('connect-mongo')(express)
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
-var createMapObject = require('./createMapObject').createMapObject;
 var MapType = require('../game/types/LayerType').MapType;
 
 var ObjectType = require('../game/types/ObjectType').ObjectType;
@@ -192,7 +191,7 @@ app.io.route('ready', function (req) {
 
 app.io.route('getMap', function (req) {
 
-    var mapData = gameData.maps.get(req.data.mapId);
+    var mapData = gameData.layers.get(req.data.mapId);
 
     if (mapData) {
         // update world:
@@ -200,7 +199,7 @@ app.io.route('getMap', function (req) {
 
         req.io.respond({
             initMap: mapData.save(),
-            initMapObjects: mapData.mapObjects.save(),
+            initMapObjects: mapData.mapData.mapObjects.save(),
             initMapEvents: mapData.eventScheduler.events.save(),
             initItems: mapData.items.save()
         });
@@ -218,7 +217,7 @@ app.io.route('newGameEvent', function (req) {
         var mapId = req.data[0];
 
         // update world:
-        gameData.maps.get(mapId).eventScheduler.finishAllTillTime(Date.now());
+        gameData.layers.get(mapId).eventScheduler.finishAllTillTime(Date.now());
 
         var gameEvent = EventFactory(gameData,req.data[1]);
         gameEvent.setInitialized();

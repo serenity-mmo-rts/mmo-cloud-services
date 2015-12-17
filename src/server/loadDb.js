@@ -4,10 +4,10 @@ var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
 var ItemModel = require('../game/Item').ItemModel;
 var MapType = require('../game/types/LayerType').MapType;
+var Layer = require('../game/Layer').Layer;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
 var eventStates = require('../game/events/AbstractEvent').eventStates;
-var createMapObject = require('./createMapObject').createMapObject;
-var ObjectType = require('../game/types/ObjectType').ObjectType;
+var ObjectType = require('../game/types/BuildingType').ObjectType;
 var RessourceType = require('../game/types/ResourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
@@ -129,13 +129,13 @@ dbConn.get('itemTypes', function (err, collObjectType) {
 
 
 function getMaps(gameData) {
-    console.log("load maps from db")
-    dbConn.get('maps', function (err, collMaps) {
+    console.log("load layers from db")
+    dbConn.get('layers', function (err, collMaps) {
         if (err) throw err;
         collMaps.find().each(function (err, doc) {
             if (err) throw err;
             if (doc != null) {
-                var currentMapData = gameData.maps.add(new MapData(gameData, doc));
+                var currentMapData = gameData.layers.add(new Layer(gameData, doc));
                 getMapObjects(gameData, currentMapData);
             }
         });
@@ -151,8 +151,8 @@ function getMapObjects(gameData, currentMapData) {
             if (err) throw err;
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {
-                    var mapObj = createMapObject(gameData, documents[i]);
-                    currentMapData.addObject(mapObj);
+                    var mapObj = new MapObject(gameData, documents[i]);
+                    currentMapData.mapData.addObject(mapObj);
                 }
             }
 
@@ -202,7 +202,7 @@ function getMapEvents(gameData, currentMapData) {
 }
 
 function setPointers(gameData, currentMapData) {
-    currentMapData.mapObjects.each(function(mapObject){
+    currentMapData.mapData.mapObjects.each(function(mapObject){
         mapObject.setPointers();
     });
 }
