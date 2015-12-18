@@ -3,11 +3,11 @@ var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
 var ItemModel = require('../game/Item').ItemModel;
-var MapType = require('../game/types/LayerType').MapType;
+var LayerType = require('../game/types/LayerType').LayerType;
 var Layer = require('../game/Layer').Layer;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
 var eventStates = require('../game/events/AbstractEvent').eventStates;
-var ObjectType = require('../game/types/BuildingType').ObjectType;
+var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/ResourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
@@ -70,11 +70,11 @@ function getResTypes(gameData) {
 }
 
 function getMapTypes(gameData) {
-    dbConn.get('mapTypes', function (err, collMapTypes) {
+    dbConn.get('layerTypes', function (err, collMapTypes) {
         if (err) throw err;
         collMapTypes.find().toArray(function (err, docs) {
             if (err) throw err;
-            gameData.mapTypes = new GameList(gameData, MapType, docs);
+            gameData.layerTypes = new GameList(gameData, LayerType, docs);
             getObjTypes(gameData);
         });
     });

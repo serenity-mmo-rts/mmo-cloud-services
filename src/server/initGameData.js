@@ -92,7 +92,7 @@ if (node) {
         _groundImage: "resources/ground.png",
         _groundImageScaling: 1
     })
-    gameData.mapTypes.add(cityMapType);
+    gameData.layerTypes.add(cityMapType);
 
     var moonMapType = new MapType(gameData,{
         _id: "moonMapType01",
@@ -103,7 +103,7 @@ if (node) {
         _groundImage: "resources/moonGround.png",
         _groundImageScaling: 1
     })
-    gameData.mapTypes.add(moonMapType);
+    gameData.layerTypes.add(moonMapType);
 
     var crater01 = new ObjectType(gameData, {
         _id: "crater01",
@@ -460,14 +460,14 @@ if (node) {
 
 
 // save build categories:
-    gameData.mapTypes.get("cityMapType01")._buildCategories = [
+    gameData.layerTypes.get("cityMapType01")._buildCategories = [
         {name: 'Resources', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]},
         {name: 'Production', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]},
         {name: 'Military', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]}
     ];
 
     // save build categories:
-    gameData.mapTypes.get("moonMapType01")._buildCategories = [
+    gameData.layerTypes.get("moonMapType01")._buildCategories = [
         {name: 'Habitat', objectTypeIds: ["dome"]}
     ];
 

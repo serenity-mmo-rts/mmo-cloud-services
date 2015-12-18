@@ -14,7 +14,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     if (err) throw err;
 
     var collSpritesheets = db.collection('spritesheets');
-    var collMapTypes = db.collection('mapTypes');
+    var collMapTypes = db.collection('layerTypes');
 
     var collObjectType = db.collection('objTypes');
     var collRessourceType = db.collection('resTypes');
@@ -70,7 +70,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addMapTypes() {
         console.log("add map types")
-        collMapTypes.insert(initGameData.gameData.mapTypes.save(), function(err,docs) {
+        collMapTypes.insert(initGameData.gameData.layerTypes.save(), function(err,docs) {
             if (err) throw err;
             addObjectTypes();
         });

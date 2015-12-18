@@ -176,7 +176,7 @@ app.io.route('ready', function (req) {
     // send map data anyway:
     initGameData = {
         spritesheets: gameData.spritesheets.save(),
-        mapTypes: gameData.mapTypes.save(),
+        layerTypes: gameData.layerTypes.save(),
 
         objectTypes: gameData.objectTypes.save(),
         ressourceTypes: gameData.ressourceTypes.save(),
@@ -201,7 +201,7 @@ app.io.route('getMap', function (req) {
             initMap: mapData.save(),
             initMapObjects: mapData.mapData.mapObjects.save(),
             initMapEvents: mapData.eventScheduler.events.save(),
-            initItems: mapData.items.save()
+            initItems: mapData.mapData.items.save()
         });
     }
 
