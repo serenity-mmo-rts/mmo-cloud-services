@@ -2,7 +2,7 @@ var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
     var MapObject = require('../game/MapObject').MapObject;
-    var MapType = require('../game/types/LayerType').MapType;
+    var LayerType = require('../game/types/LayerType').LayerType;
     var ObjectType = require('../game/types/ObjectType').ObjectType;
     var RessourceType = require('../game/types/ResourceType').RessourceType;
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
@@ -83,7 +83,7 @@ if (node) {
 
 
 
-    var cityMapType = new MapType(gameData,{
+    var cityMapType = new LayerType(gameData,{
         _id: "cityMapType01",
         _name: "City",
         _scale: 1,
@@ -94,7 +94,7 @@ if (node) {
     })
     gameData.layerTypes.add(cityMapType);
 
-    var moonMapType = new MapType(gameData,{
+    var moonMapType = new LayerType(gameData,{
         _id: "moonMapType01",
         _name: "Moon",
         _scale: 1,
