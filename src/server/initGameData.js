@@ -422,24 +422,25 @@ if (node) {
         _className: "ProductivityUpgrade",
         _buildingBlocks: {
             Feature: {
-                command: [["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,5}}"]]
+                command: [["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,1}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.2},{UserObject,plus,2}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.3},{UserObject,plus,3}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,1},{UserObject,plus,5}}"],
+                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,2},{UserObject,plus,10}}"]]
             }
         },
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
-        _maxLevel: 5
+        _maxLevel: 5,
+        _buildTime: [1000,2000,3000,4000,5000]
 
     }));
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "healthUpgrade",
-        _name: "healthUpgrade",
+        _id: "healthRangeUpgrade",
+        _name: "healthRangeUpgrade",
         _className: "ProductivityUpgrade",
         _buildingBlocks: {
             Feature: {
@@ -453,8 +454,9 @@ if (node) {
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 0,
-        _buildMenuTooltip: "this is awesome",
-        _maxLevel: 5
+        _buildMenuTooltip: "this is even better",
+        _maxLevel: 5,
+        _buildTime: [1000,2000,3000,4000,5000]
 
     }));
 
