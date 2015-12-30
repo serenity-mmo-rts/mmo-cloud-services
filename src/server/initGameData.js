@@ -490,6 +490,16 @@ if (node) {
     });
     gameData.layers.add(cityMap);
 
+    var cityMap2 = new Layer(gameData,{
+        _id: "cityMap02",
+        width: 10000,
+        height: 10000,
+        mapTypeId: "cityMapType01",
+        parentMapId: "moonMap01",
+        gameData: gameData
+    });
+    gameData.layers.add(cityMap);
+
 // Map Objects
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "firstCity",
@@ -499,6 +509,15 @@ if (node) {
         objTypeId: "dome",
         userId: 0,
         sublayerMapId: "cityMap01"
+    }));
+    moonMap.mapData.mapObjects.add(new MapObject(gameData,{
+        _id: "secondCity",
+        mapId: moonMap._id,
+        x: 300,
+        y: 0,
+        objTypeId: "dome",
+        userId: 0,
+        sublayerMapId: "cityMap02"
     }));
 
 
