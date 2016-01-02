@@ -201,6 +201,8 @@ if (node) {
 
             }
         },
+
+
         _className: "factory",
         _initWidth: 36,
         _initHeight: 36,
@@ -378,8 +380,7 @@ if (node) {
         _spriteFrame: 1,
         _iconSpritesheetId: moonSprite._id,
         _iconSpriteFrame: 2,
-        _buildTime: 2000,
-        _initProperties: {}
+        _buildTime: 2000
     }));
 
 
@@ -463,9 +464,9 @@ if (node) {
 
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]},
-        {name: 'Production', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]},
-        {name: 'Military', objectTypeIds: ["UnitFactory", "Hub", "ScienceCenter", "Factory1","Factory2"]}
+        {name: 'Resources', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter"]},
+        {name: 'Production', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter"]},
+        {name: 'Military', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter"]}
     ];
 
     // save build categories:
@@ -510,7 +511,7 @@ if (node) {
         y: 0,
         objTypeId: "dome",
         userId: 0,
-        sublayerMapId: "cityMap01"
+        _subLayerMapId: "cityMap01"
     }));
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "secondCity",
@@ -519,7 +520,7 @@ if (node) {
         y: 0,
         objTypeId: "dome",
         userId: 0,
-        sublayerMapId: "cityMap02"
+        _subLayerMapId: "cityMap02"
     }));
 
 
