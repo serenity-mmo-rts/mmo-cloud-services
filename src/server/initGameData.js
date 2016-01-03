@@ -346,6 +346,10 @@ if (node) {
             },
             UserObject: {
 
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 0,
+                _itemIds: []
             }
         },
         _className: "constructionSite",
@@ -369,6 +373,10 @@ if (node) {
             },
             UserObject: {
 
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 0,
+                _itemIds: []
             }
         },
         _className: "sublayer",
