@@ -107,7 +107,7 @@ if (node) {
 
     var crater01 = new ObjectType(gameData, {
         _id: "crater01",
-        _buildingBlocks: {
+        _blocks: {
             Environment: {
 
             }
@@ -128,7 +128,7 @@ if (node) {
 
     var rock01 = new ObjectType(gameData,{
         _id: "rock01",
-        _buildingBlocks: {
+        _blocks: {
             Environment: {
 
             }
@@ -148,7 +148,7 @@ if (node) {
 
     var rock02 = new ObjectType(gameData,{
         _id: "rock02",
-        _buildingBlocks: {
+        _blocks: {
             Environment: {
 
             }
@@ -168,14 +168,9 @@ if (node) {
 
     var factory = new ObjectType(gameData,{
         _id: "Factory1",
-        _buildingBlocks: {
-            ResourcePuller: {
-                _typeId:  [],
-                _perSec:  []
-            },
-            ResourcePusher: {
-                _typeId:  [],
-                _perSec:  []
+        _blocks: {
+            HubConnectivity: {
+                _numPorts:  1
             },
             ResourceProduction: {
                 _typeId: [],
@@ -218,11 +213,14 @@ if (node) {
 
     var hub = new ObjectType(gameData,{
         _id: "Hub",
-        _buildingBlocks: {
+        _blocks: {
 
             HubNode: {
-                _freeConnections:  0,
-                _connectedObjectIds: null
+                _maxRange: 1000,
+                _connBuildTimePerDist: 1
+            },
+            HubConnectivity: {
+                _numPorts:  5
             },
             EnergyManager: {
                 _requiredPerSec:  0,
@@ -253,15 +251,18 @@ if (node) {
         _spriteFrame: 1,
         _iconSpritesheetId: "cityBuildingsSprite01",
         _iconSpriteFrame: 7,
-        _buildTime: 120000
+        _buildTime: 12000
     });
     gameData.objectTypes.add(hub);
 
     var sciencecenter = new ObjectType(gameData,{
         _id: "ScienceCenter",
-        _buildingBlocks: {
+        _blocks: {
             TechProduction: {
                 _techInResearchId: null
+            },
+            HubConnectivity: {
+                _numPorts:  1
             },
             EnergyManager: {
                 _requiredPerSec: 0,
@@ -299,10 +300,13 @@ if (node) {
 
     var factory2 = new ObjectType(gameData,{
         _id: "Factory2",
-        _buildingBlocks: {
+        _blocks: {
             ResourceProduction: {
                 _typeId: [],
                 _perSec: []
+            },
+            HubConnectivity: {
+                _numPorts:  1
             },
             EnergyManager: {
                 _requiredPerSec:  0,
@@ -340,9 +344,12 @@ if (node) {
 
     var constructionSite = new ObjectType(gameData,{
         _id: "constructionSite",
-        _buildingBlocks: {
+        _blocks: {
             ConstructionSite: {
 
+            },
+            HubConnectivity: {
+                _numPorts:  1
             },
             UserObject: {
 
@@ -367,9 +374,16 @@ if (node) {
 
     var dome = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "dome",
-        _buildingBlocks: {
+        _blocks: {
             Sublayer: {
 
+            },
+            HubNode: {
+                _maxRange: 1000,
+                _connBuildTimePerDist: 1
+            },
+            HubConnectivity: {
+                _numPorts:  5
             },
             UserObject: {
 
@@ -423,13 +437,28 @@ if (node) {
         _buildTime: 2000
     }));
 
+    gameData.itemTypes.add(new ItemType(gameData,{
+        _id: "warehouseSpace",
+        _name: "warehouseSpace",
+        _className: "ProductivityUpgrade",
+        _blocks: {
+
+        },
+        _allowOnMapTypeId: "cityMap01",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 0,
+        _buildMenuTooltip: "this is awesome",
+        _maxLevel: 5,
+        _buildTime: [1000,2000,3000,4000,5000]
+
+    }));
 
 
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "healthUpgrade",
         _name: "healthUpgrade",
         _className: "ProductivityUpgrade",
-        _buildingBlocks: {
+        _blocks: {
             Feature: {
                 command: [["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,1}}"],
                          ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.2},{UserObject,plus,2}}"],
@@ -451,7 +480,7 @@ if (node) {
         _id: "healthRangeUpgrade",
         _name: "healthRangeUpgrade",
         _className: "ProductivityUpgrade",
-        _buildingBlocks: {
+        _blocks: {
             Feature: {
                 command: [["getObjInRange {100}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,3}}"],
                     ["getObjInRange {150}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.2},{UserObject,plus,5}}"],
@@ -519,7 +548,11 @@ if (node) {
         y: 0,
         objTypeId: "dome",
         userId: 0,
-        _subLayerMapId: "cityMap01"
+        _blocks: {
+            Sublayer: {
+                _subLayerMapId: "cityMap01"
+            }
+        }
     }));
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "secondCity",
@@ -528,7 +561,11 @@ if (node) {
         y: 0,
         objTypeId: "dome",
         userId: 0,
-        _subLayerMapId: "cityMap02"
+        _blocks: {
+            Sublayer: {
+                _subLayerMapId: "cityMap02"
+            }
+        }
     }));
 
 
