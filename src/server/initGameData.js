@@ -437,26 +437,10 @@ if (node) {
         _buildTime: 2000
     }));
 
-    gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "warehouseSpace",
-        _name: "warehouseSpace",
-        _className: "ProductivityUpgrade",
-        _blocks: {
-
-        },
-        _allowOnMapTypeId: "cityMap01",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 0,
-        _buildMenuTooltip: "this is awesome",
-        _maxLevel: 5,
-        _buildTime: [1000,2000,3000,4000,5000]
-
-    }));
-
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "healthUpgrade",
-        _name: "healthUpgrade",
+        _id: "engineerDept",
+        _name: "Engineering DEpartment",
         _className: "ProductivityUpgrade",
         _blocks: {
             Feature: {
@@ -472,13 +456,13 @@ if (node) {
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
         _maxLevel: 5,
-        _buildTime: [1000,2000,3000,4000,5000]
+        _buildTime: [10000,20000,30000,40000,50000]
 
     }));
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "healthRangeUpgrade",
-        _name: "healthRangeUpgrade",
+        _id: "solarPanel",
+        _name: "Solar Panels",
         _className: "ProductivityUpgrade",
         _blocks: {
             Feature: {
@@ -494,7 +478,7 @@ if (node) {
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is even better",
         _maxLevel: 5,
-        _buildTime: [1000,2000,3000,4000,5000]
+        _buildTime: [10000,20000,30000,40000,50000]
 
     }));
 
