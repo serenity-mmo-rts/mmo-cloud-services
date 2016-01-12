@@ -184,6 +184,9 @@ if (node) {
                 _freeSlotsAvailable: 10,
                 _itemIds: ["engineerDept","solarPanel"]
             },
+            FeatureManager: {
+
+            },
             WorkingPlace: {
                 _requiredSkills:  null,
                 _availableSkills: null,
@@ -228,7 +231,10 @@ if (node) {
             },
             UpgradeProduction: {
                 _freeSlotsAvailable: 10,
-                _itemIds: ["warehouseSpace"]
+                _itemIds: []
+            },
+            FeatureManager: {
+
             },
             WorkingPlace: {
                 _requiredSkills:  null,
@@ -270,7 +276,10 @@ if (node) {
             },
             UpgradeProduction: {
                 _freeSlotsAvailable: 10,
-                _itemIds: ["telescope"]
+                _itemIds: []
+            },
+            FeatureManager: {
+
             },
             WorkingPlace: {
                 _requiredSkills: null,
@@ -315,6 +324,9 @@ if (node) {
             UpgradeProduction: {
                 _freeSlotsAvailable: 10,
                 _itemIds: ["engineerDept","solarPanel"]
+            },
+            FeatureManager: {
+
             },
             WorkingPlace: {
                 _requiredSkills:  null,
@@ -443,13 +455,48 @@ if (node) {
         _name: "Engineering DEpartment",
         _className: "ProductivityUpgrade",
         _blocks: {
-            Feature: {
-                command: [["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,1}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.2},{UserObject,plus,2}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.3},{UserObject,plus,3}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,1},{UserObject,plus,5}}"],
-                         ["getParentObj, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,2},{UserObject,plus,10}}"]]
-            }
+            Feature: [
+                [{getParentObj: {}},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.1", "1"]
+                    }
+                    }],
+                [{getParentObj: {}},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.2", "3"]
+                    }
+                    }],
+                [{getParentObj: {}},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.2", "3"]
+                    }
+                    }],
+                [{getParentObj: {}},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.2", "3"]
+                    }
+                    }],
+                [{getParentObj: {}},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.2", "3"]
+                    }
+                    }]
+            ]
         },
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
@@ -465,13 +512,48 @@ if (node) {
         _name: "Solar Panels",
         _className: "ProductivityUpgrade",
         _blocks: {
-            Feature: {
-                command: [["getObjInRange {100}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.1},{UserObject,plus,3}}"],
-                    ["getObjInRange {150}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.2},{UserObject,plus,5}}"],
-                    ["getObjInRange {200}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,0.4},{UserObject,plus,10}}"],
-                    ["getObjInRange {300}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,1},{UserObject,plus,20}}"],
-                    ["getObjInRange {500}, AddToProp, {_maxHealthPoints,_points} {{UserObject,plus,2},{UserObject,plus,50}}"]]
-            }
+            Feature: [
+                [{getObjInRange: 100},
+                {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.1", "1"]
+                    }
+                }],
+                [{getObjInRange: 200},
+                {AddToProp: {
+                    vars: ["_maxHealthPoints", "_points"],
+                    blocks: ["UserObject", "UserObject"],
+                    operator: ["plus", "plus"],
+                    values: ["0.2", "3"]
+                }
+                }],
+                [{getObjInRange: 200},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.2", "3"]
+                    }
+                    }],
+                [{getObjInRange: 200},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.2", "3"]
+                    }
+                    }],
+                [{getObjInRange: 200},
+                    {AddToProp: {
+                        vars: ["_maxHealthPoints", "_points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "plus"],
+                        values: ["0.2", "3"]
+                    }
+                    }]
+            ]
         },
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
@@ -481,6 +563,7 @@ if (node) {
         _buildTime: [10000,20000,30000,40000,50000]
 
     }));
+
 
 
 // save build categories:
