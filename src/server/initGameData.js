@@ -64,6 +64,17 @@ if (node) {
     });
     gameData.spritesheets.add(citySprite);
 
+    var storageSprite = new Spritesheet(gameData,{
+        _id: 'storageSprite',
+        images: ["resources/objects/mineralStorage.png", "resources/objects/mineralStorageIcon.png"],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            [0, 0, 192, 173, 0, 96, 61],
+            [0, 0, 32, 32, 1, 0, 0]
+        ]
+    })
+    gameData.spritesheets.add(storageSprite);
+
 
     var ressourceSprite = new Spritesheet(gameData,{
         _id: 'ressourceSprite01',
@@ -354,6 +365,64 @@ if (node) {
     });
     gameData.objectTypes.add(factory2);
 
+    var mineralStorage = new ObjectType(gameData,{
+        _id: "mineralStorage",
+        _blocks: {
+            ResourceStorage: {
+
+            },
+            HubConnectivity: {
+                _numPorts:  1
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 10,
+                _itemIds: ["engineerDept","solarPanel"]
+            },
+            WorkingPlace: {
+                _requiredSkills:  null,
+                _availableSkills: null,
+                _hiredHumans: null
+            },
+            ProductivityCalculator: {
+
+            },
+            UserObject: {
+
+            }
+
+        },
+        _className: "factory",
+        _initWidth: 48,
+        _initHeight: 48,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Mineral Storage",
+        _spritesheetId: "storageSprite",
+        _spriteFrame: 0,
+        _iconSpritesheetId: "storageSprite",
+        _iconSpriteFrame: 1,
+        _buildTime: 1000
+    });
+    gameData.objectTypes.add(mineralStorage);
+
+    var connection = gameData.objectTypes.add(new ObjectType(gameData,{
+        _id: "connection",
+        _blocks: {
+            Connection: {
+
+            }
+        },
+        _className: "connection",
+        _initWidth: 80,
+        _initHeight: 80,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Connection",
+        _spritesheetId: "forestSprite01",
+        _spriteFrame: 1,
+        _iconSpritesheetId: "forestSprite01",
+        _iconSpriteFrame: 0,
+        _buildTime: 0
+    }));
+
     var constructionSite = new ObjectType(gameData,{
         _id: "constructionSite",
         _blocks: {
@@ -416,6 +485,8 @@ if (node) {
         _iconSpriteFrame: 2,
         _buildTime: 2000
     }));
+
+
 
 
     var carbon = new RessourceType(gameData,{
@@ -568,8 +639,8 @@ if (node) {
 
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter"]},
-        {name: 'Production', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter"]},
+        {name: 'Resources', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter", "mineralStorage"]},
+        {name: 'Production', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter", "mineralStorage"]},
         {name: 'Military', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter"]}
     ];
 
