@@ -1,6 +1,7 @@
 var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
+    var mapObjectStates = require('../game/MapObject').mapObjectStates;
     var MapObject = require('../game/MapObject').MapObject;
     var LayerType = require('../game/types/LayerType').LayerType;
     var ObjectType = require('../game/types/ObjectType').ObjectType;
@@ -70,10 +71,27 @@ if (node) {
         frames: [
             // x, y, width, height, imageIndex, regX, regY
             [0, 0, 192, 173, 0, 96, 61],
-            [0, 0, 32, 32, 1, 0, 0]
+            [0, 0, 48, 48, 1, 0, 0]
         ]
     })
     gameData.spritesheets.add(storageSprite);
+
+    var objectsSprite = new Spritesheet(gameData,{
+        _id: 'objectsSprite',
+        images: ["resources/objects/defenseTower.png", "resources/objects/defenseTowerIcon.png","resources/objects/furnitureFactory.png", "resources/objects/furnitureFactoryIcon.png","resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png"],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            [0, 0, 250, 215, 0, 125, 80],
+            [0, 0, 48, 48, 1, 0, 0],
+
+            [0, 0, 192, 160, 2, 125, 80],
+            [0, 0, 48, 48, 3, 0, 0],
+
+            [0, 0, 200, 146, 4, 100, 70],
+            [0, 0, 48, 48, 5, 0, 0]
+        ]
+    })
+    gameData.spritesheets.add(objectsSprite);
 
 
     var ressourceSprite = new Spritesheet(gameData,{
@@ -318,8 +336,8 @@ if (node) {
     });
     gameData.objectTypes.add(sciencecenter);
 
-    var factory2 = new ObjectType(gameData,{
-        _id: "Factory2",
+    var furnitureFactory = new ObjectType(gameData,{
+        _id: "furnitureFactory",
         _blocks: {
             ResourceProduction: {
                 _typeId: [],
@@ -357,13 +375,13 @@ if (node) {
         _initHeight: 48,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Furniture Factory",
-        _spritesheetId: "cityBuildingsSprite01",
-        _spriteFrame: 4,
-        _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 9,
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 2,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 3,
         _buildTime: 1000
     });
-    gameData.objectTypes.add(factory2);
+    gameData.objectTypes.add(furnitureFactory);
 
     var mineralStorage = new ObjectType(gameData,{
         _id: "mineralStorage",
@@ -391,9 +409,9 @@ if (node) {
             }
 
         },
-        _className: "factory",
-        _initWidth: 48,
-        _initHeight: 48,
+        _className: "storage",
+        _initWidth: 100,
+        _initHeight: 100,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Mineral Storage",
         _spritesheetId: "storageSprite",
@@ -403,6 +421,71 @@ if (node) {
         _buildTime: 1000
     });
     gameData.objectTypes.add(mineralStorage);
+
+    var defenseTower = new ObjectType(gameData,{
+        _id: "defenseTower",
+        _blocks: {
+            Tower: {
+
+            },
+            HubConnectivity: {
+                _numPorts:  1
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 10,
+                _itemIds: ["solarPanel"]
+            },
+            UserObject: {
+
+            }
+
+        },
+        _className: "tower",
+        _initWidth: 48,
+        _initHeight: 48,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Defense Tower",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 0,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 1,
+        _buildTime: 5000
+    });
+    gameData.objectTypes.add(defenseTower);
+
+
+
+    var spacecraftUnitObject = new ObjectType(gameData,{
+        _id: "spacecraftUnitObject01",
+        _blocks: {
+
+            Unit: {
+
+            },
+            HubConnectivity: {
+                _numPorts:  1
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 10,
+                _itemIds: ["solarPanel"]
+            },
+            UserObject: {
+
+            }
+
+        },
+        _className: "spacecraft",
+        _initWidth: 48,
+        _initHeight: 48,
+        _allowOnMapTypeId: "moonMapType01",
+        _name: "spacecraft",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 4,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 5,
+        _buildTime: 5000
+    });
+    gameData.objectTypes.add(spacecraftUnitObject);
 
     var connection = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "connection",
@@ -639,14 +722,14 @@ if (node) {
 
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter", "mineralStorage"]},
-        {name: 'Production', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter", "mineralStorage"]},
-        {name: 'Military', objectTypeIds: ["Factory1", "Factory2", "Hub", "ScienceCenter"]}
+        {name: 'Resources', objectTypeIds: ["Hub", "mineralStorage"]},
+        {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory"]},
+        {name: 'Military', objectTypeIds: ["ScienceCenter", "defenseTower"]}
     ];
 
     // save build categories:
     gameData.layerTypes.get("moonMapType01")._buildCategories = [
-        {name: 'Habitat', objectTypeIds: ["dome"]}
+        {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01"]}
     ];
 
     var moonMap = new Layer(gameData,{
@@ -676,7 +759,7 @@ if (node) {
         parentMapId: "moonMap01",
         gameData: gameData
     });
-    gameData.layers.add(cityMap);
+    gameData.layers.add(cityMap2);
 
 // Map Objects
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
@@ -745,12 +828,25 @@ if (node) {
 
     // Add Start Building
     cityMap.mapData.mapObjects.add(new MapObject(gameData,{
-        _id: "factory01",
+        _id: "furnitureFactory01",
         mapId: cityMap._id,
         x: 0,
         y: 0,
-        objTypeId: "Factory2",
-        userId: 0
+        objTypeId: "furnitureFactory",
+        userId: 0,
+        state: mapObjectStates.FINISHED
+    }));
+
+
+    // Add Start Building
+    cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
+        _id: "furnitureFactory02",
+        mapId: cityMap2._id,
+        x: 0,
+        y: 0,
+        objTypeId: "furnitureFactory",
+        userId: 0,
+        state: mapObjectStates.FINISHED
     }));
 
 
