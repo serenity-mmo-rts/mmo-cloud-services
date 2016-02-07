@@ -650,7 +650,10 @@ if (node) {
                         values: ["0.2", "3"]
                     }
                     }]
-            ]
+            ],
+            FeatureManager: {
+
+            }
         },
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
@@ -707,7 +710,10 @@ if (node) {
                         values: ["0.2", "3"]
                     }
                     }]
-            ]
+            ],
+            FeatureManager: {
+
+            }
         },
         _allowOnMapTypeId: "moonMap01",
         _iconSpritesheetId: "ressourceSprite01",
