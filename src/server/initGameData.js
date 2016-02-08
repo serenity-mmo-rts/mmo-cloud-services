@@ -78,7 +78,7 @@ if (node) {
 
     var objectsSprite = new Spritesheet(gameData,{
         _id: 'objectsSprite',
-        images: ["resources/objects/defenseTower.png", "resources/objects/defenseTowerIcon.png","resources/objects/furnitureFactory.png", "resources/objects/furnitureFactoryIcon.png","resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png"],
+        images: ["resources/objects/defenseTower.png", "resources/objects/defenseTowerIcon.png","resources/objects/furnitureFactory.png", "resources/objects/furnitureFactoryIcon.png","resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png","resources/objects/hub2.png", "resources/objects/hub2Icon.png"],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
             [0, 0, 250, 215, 0, 125, 80],
@@ -88,7 +88,10 @@ if (node) {
             [0, 0, 48, 48, 3, 0, 0],
 
             [0, 0, 200, 146, 4, 100, 70],
-            [0, 0, 48, 48, 5, 0, 0]
+            [0, 0, 48, 48, 5, 0, 0],
+
+            [0, 0, 192, 112, 6, 96, 56],
+            [0, 0, 48, 48, 7, 0, 0]
         ]
     })
     gameData.spritesheets.add(objectsSprite);
@@ -278,13 +281,13 @@ if (node) {
             }
         },
         _className: "hub",
-        _initWidth: 36,
-        _initHeight: 36,
+        _initWidth: 60,
+        _initHeight: 60,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Small Hub",
-        _spritesheetId: "cityBuildingsSprite01",
-        _spriteFrame: 1,
-        _iconSpritesheetId: "cityBuildingsSprite01",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 6,
+        _iconSpritesheetId: "objectsSprite",
         _iconSpriteFrame: 7,
         _buildTime: 12000
     });
