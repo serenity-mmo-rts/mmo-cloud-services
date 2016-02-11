@@ -225,7 +225,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
         },
 
@@ -274,7 +275,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
         },
         _className: "hub",
@@ -319,7 +321,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -366,7 +369,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -405,7 +409,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -436,7 +441,8 @@ if (node) {
                 _itemIds: ["solarPanel"]
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -470,7 +476,8 @@ if (node) {
                 _itemIds: ["solarPanel"]
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -516,7 +523,8 @@ if (node) {
                 _numPorts:  1
             },
             UserObject: {
-
+                maxHealthPoints:0,
+                points: 0
             },
             UpgradeProduction: {
                 _freeSlotsAvailable: 0,
@@ -550,7 +558,8 @@ if (node) {
                 _numPorts:  5
             },
             UserObject: {
-
+                maxHealthPoints:100,
+                points: 50
             },
             UpgradeProduction: {
                 _freeSlotsAvailable: 0,
@@ -612,7 +621,7 @@ if (node) {
             Feature: [
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.1", "1"]
@@ -620,7 +629,7 @@ if (node) {
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.2", "3"]
@@ -628,7 +637,7 @@ if (node) {
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.2", "3"]
@@ -636,7 +645,7 @@ if (node) {
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.2", "3"]
@@ -644,7 +653,7 @@ if (node) {
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.2", "3"]
@@ -672,7 +681,7 @@ if (node) {
             Feature: [
                 [{getObjInRange: 100},
                 {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.1", "1"]
@@ -680,7 +689,7 @@ if (node) {
                 }],
                 [{getObjInRange: 200},
                 {AddToProp: {
-                    vars: ["_maxHealthPoints", "_points"],
+                    vars: ["maxHealthPoints", "points"],
                     blocks: ["UserObject", "UserObject"],
                     operator: ["plus", "plus"],
                     values: ["0.2", "3"]
@@ -688,7 +697,7 @@ if (node) {
                 }],
                 [{getObjInRange: 200},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.2", "3"]
@@ -696,7 +705,7 @@ if (node) {
                     }],
                 [{getObjInRange: 200},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.2", "3"]
@@ -704,7 +713,7 @@ if (node) {
                     }],
                 [{getObjInRange: 200},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "plus"],
                         values: ["0.2", "3"]
