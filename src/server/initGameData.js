@@ -615,7 +615,7 @@ if (node) {
 
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "engineerDept",
-        _name: "Engineering DEpartment",
+        _name: "Engineering Department",
         _className: "ProductivityUpgrade",
         _blocks: {
             Feature: [
@@ -623,40 +623,40 @@ if (node) {
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.1", "1"]
+                        operator: ["plus", "times"],
+                        values: ["10", "2"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["5", "3"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["5", "3"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["5", "3"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["5", "3"]
                     }
                     }]
             ],
@@ -679,44 +679,44 @@ if (node) {
         _className: "ProductivityUpgrade",
         _blocks: {
             Feature: [
-                [{getObjInRange: 100},
+                [{getObjInRange: 500},
                 {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.1", "1"]
+                        operator: ["plus", "times"],
+                        values: ["5", "1.5"]
                     }
                 }],
                 [{getObjInRange: 200},
                 {AddToProp: {
                     vars: ["maxHealthPoints", "points"],
                     blocks: ["UserObject", "UserObject"],
-                    operator: ["plus", "plus"],
-                    values: ["0.2", "3"]
+                    operator: ["plus", "times"],
+                    values: ["5", "3"]
                 }
                 }],
                 [{getObjInRange: 200},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["5", "3"]
                     }
                     }],
                 [{getObjInRange: 200},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["5", "3"]
                     }
                     }],
                 [{getObjInRange: 200},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["5", "3"]
                     }
                     }]
             ],
