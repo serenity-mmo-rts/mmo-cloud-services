@@ -632,7 +632,7 @@ if (node) {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
-                        values: ["5", "3"]
+                        values: ["20", "3"]
                     }
                     }],
                 [{getParentObj: {}},
@@ -640,7 +640,7 @@ if (node) {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
-                        values: ["5", "3"]
+                        values: ["30", "3.5"]
                     }
                     }],
                 [{getParentObj: {}},
@@ -648,7 +648,7 @@ if (node) {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
-                        values: ["5", "3"]
+                        values: ["40", "5"]
                     }
                     }],
                 [{getParentObj: {}},
@@ -656,7 +656,7 @@ if (node) {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
-                        values: ["5", "3"]
+                        values: ["50", "8"]
                     }
                     }]
             ],
@@ -669,7 +669,7 @@ if (node) {
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
         _maxLevel: 5,
-        _buildTime: [10000,20000,30000,40000,50000]
+        _buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
@@ -692,7 +692,7 @@ if (node) {
                     vars: ["maxHealthPoints", "points"],
                     blocks: ["UserObject", "UserObject"],
                     operator: ["plus", "times"],
-                    values: ["5", "3"]
+                    values: ["10", "2"]
                 }
                 }],
                 [{getObjInRange: 200},
@@ -700,7 +700,7 @@ if (node) {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
-                        values: ["5", "3"]
+                        values: ["15", "2.5"]
                     }
                     }],
                 [{getObjInRange: 200},
@@ -708,7 +708,7 @@ if (node) {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
-                        values: ["5", "3"]
+                        values: ["20", "3"]
                     }
                     }],
                 [{getObjInRange: 200},
@@ -716,7 +716,7 @@ if (node) {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
-                        values: ["5", "3"]
+                        values: ["25", "3.5"]
                     }
                     }]
             ],
@@ -729,7 +729,7 @@ if (node) {
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is even better",
         _maxLevel: 5,
-        _buildTime: [10000,20000,30000,40000,50000]
+        _buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
