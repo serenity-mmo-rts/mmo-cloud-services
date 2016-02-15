@@ -228,7 +228,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
         },
 
@@ -277,7 +278,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
         },
         _className: "hub",
@@ -322,7 +324,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -369,7 +372,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -408,7 +412,8 @@ if (node) {
 
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -439,7 +444,8 @@ if (node) {
                 _itemIds: ["solarPanel"]
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -473,7 +479,8 @@ if (node) {
                 _itemIds: ["solarPanel"]
             },
             UserObject: {
-
+                maxHealthPoints:10,
+                points: 5
             }
 
         },
@@ -519,7 +526,8 @@ if (node) {
                 _numPorts:  1
             },
             UserObject: {
-
+                maxHealthPoints:0,
+                points: 0
             },
             UpgradeProduction: {
                 _freeSlotsAvailable: 0,
@@ -553,7 +561,8 @@ if (node) {
                 _numPorts:  5
             },
             UserObject: {
-
+                maxHealthPoints:100,
+                points: 50
             },
             UpgradeProduction: {
                 _freeSlotsAvailable: 0,
@@ -609,48 +618,48 @@ if (node) {
 
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "engineerDept",
-        _name: "Engineering DEpartment",
+        _name: "Engineering Department",
         _className: "ProductivityUpgrade",
         _blocks: {
             Feature: [
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.1", "1"]
+                        operator: ["plus", "times"],
+                        values: ["10", "2"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["20", "3"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["30", "3.5"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["40", "5"]
                     }
                     }],
                 [{getParentObj: {}},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["50", "8"]
                     }
                     }]
             ],
@@ -663,7 +672,7 @@ if (node) {
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
         _maxLevel: 5,
-        _buildTime: [10000,20000,30000,40000,50000]
+        _buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
@@ -673,44 +682,44 @@ if (node) {
         _className: "ProductivityUpgrade",
         _blocks: {
             Feature: [
-                [{getObjInRange: 100},
+                [{getObjInRange: 500},
                 {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.1", "1"]
+                        operator: ["plus", "times"],
+                        values: ["5", "1.5"]
                     }
                 }],
                 [{getObjInRange: 200},
                 {AddToProp: {
-                    vars: ["_maxHealthPoints", "_points"],
+                    vars: ["maxHealthPoints", "points"],
                     blocks: ["UserObject", "UserObject"],
-                    operator: ["plus", "plus"],
-                    values: ["0.2", "3"]
+                    operator: ["plus", "times"],
+                    values: ["10", "2"]
                 }
                 }],
                 [{getObjInRange: 200},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["15", "2.5"]
                     }
                     }],
                 [{getObjInRange: 200},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["20", "3"]
                     }
                     }],
                 [{getObjInRange: 200},
                     {AddToProp: {
-                        vars: ["_maxHealthPoints", "_points"],
+                        vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
-                        operator: ["plus", "plus"],
-                        values: ["0.2", "3"]
+                        operator: ["plus", "times"],
+                        values: ["25", "3.5"]
                     }
                     }]
             ],
@@ -723,7 +732,7 @@ if (node) {
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is even better",
         _maxLevel: 5,
-        _buildTime: [10000,20000,30000,40000,50000]
+        _buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
