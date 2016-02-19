@@ -65,20 +65,14 @@ if (node) {
     });
     gameData.spritesheets.add(citySprite);
 
-    var storageSprite = new Spritesheet(gameData,{
-        _id: 'storageSprite',
-        images: ["resources/objects/mineralStorage.png", "resources/objects/mineralStorageIcon.png"],
-        frames: [
-            // x, y, width, height, imageIndex, regX, regY
-            [0, 0, 192, 173, 0, 96, 61],
-            [0, 0, 48, 48, 1, 0, 0]
-        ]
-    })
-    gameData.spritesheets.add(storageSprite);
-
     var objectsSprite = new Spritesheet(gameData,{
         _id: 'objectsSprite',
-        images: ["resources/objects/defenseTower.png", "resources/objects/defenseTowerIcon.png","resources/objects/furnitureFactory.png", "resources/objects/furnitureFactoryIcon.png","resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png","resources/objects/hub2.png", "resources/objects/hub2Icon.png"],
+        images: ["resources/objects/defenseTower.png", "resources/objects/defenseTowerIcon.png",
+            "resources/objects/furnitureFactory.png", "resources/objects/furnitureFactoryIcon.png",
+            "resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png",
+            "resources/objects/hub3.png", "resources/objects/hub3Icon.png",
+            "resources/objects/storageYardLiquid.png", "resources/objects/storageYardLiquidIcon.png",
+            "resources/objects/mineralStorage2.png", "resources/objects/mineralStorage2Icon.png"],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
             [0, 0, 250, 215, 0, 125, 80],
@@ -90,8 +84,14 @@ if (node) {
             [0, 0, 200, 146, 4, 100, 70],
             [0, 0, 48, 48, 5, 0, 0],
 
-            [0, 0, 192, 112, 6, 96, 56],
-            [0, 0, 48, 48, 7, 0, 0]
+            [0, 0, 95, 60, 6, 47, 29],
+            [0, 0, 48, 48, 7, 0, 0],
+
+            [0, 0, 516, 387, 8, 258, 193],
+            [0, 0, 48, 48, 9, 0, 0],
+
+            [0, 0, 300, 271, 10, 150, 120],
+            [0, 0, 48, 48, 11, 0, 0]
         ]
     })
     gameData.spritesheets.add(objectsSprite);
@@ -283,8 +283,8 @@ if (node) {
             }
         },
         _className: "hub",
-        _initWidth: 60,
-        _initHeight: 60,
+        _initWidth: 35,
+        _initHeight: 35,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Small Hub",
         _spritesheetId: "objectsSprite",
@@ -418,17 +418,57 @@ if (node) {
 
         },
         _className: "storage",
-        _initWidth: 100,
-        _initHeight: 100,
+        _initWidth: 95,
+        _initHeight: 95,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Mineral Storage",
-        _spritesheetId: "storageSprite",
-        _spriteFrame: 0,
-        _iconSpritesheetId: "storageSprite",
-        _iconSpriteFrame: 1,
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 10,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 11,
         _buildTime: 1000
     });
     gameData.objectTypes.add(mineralStorage);
+
+    var liquidStorage = new ObjectType(gameData,{
+        _id: "liquidStorage",
+        _blocks: {
+            ResourceStorage: {
+
+            },
+            HubConnectivity: {
+                _numPorts:  1
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 10,
+                _itemIds: ["engineerDept","solarPanel"]
+            },
+            WorkingPlace: {
+                _requiredSkills:  null,
+                _availableSkills: null,
+                _hiredHumans: null
+            },
+            ProductivityCalculator: {
+
+            },
+            UserObject: {
+                maxHealthPoints:10,
+                points: 5
+            }
+
+        },
+        _className: "storage",
+        _initWidth: 150,
+        _initHeight: 150,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Liquid Storage",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 8,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 9,
+        _buildTime: 1000
+    });
+    gameData.objectTypes.add(liquidStorage);
 
     var defenseTower = new ObjectType(gameData,{
         _id: "defenseTower",
@@ -740,7 +780,7 @@ if (node) {
 
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["Hub", "mineralStorage"]},
+        {name: 'Resources', objectTypeIds: ["Hub", "mineralStorage", "liquidStorage"]},
         {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory"]},
         {name: 'Military', objectTypeIds: ["ScienceCenter", "defenseTower"]}
     ];
