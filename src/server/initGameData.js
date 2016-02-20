@@ -72,7 +72,10 @@ if (node) {
             "resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png",
             "resources/objects/hub3.png", "resources/objects/hub3Icon.png",
             "resources/objects/storageYardLiquid.png", "resources/objects/storageYardLiquidIcon.png",
-            "resources/objects/mineralStorage2.png", "resources/objects/mineralStorage2Icon.png"],
+            "resources/objects/mineralStorage2.png", "resources/objects/mineralStorage2Icon.png",
+            "resources/objects/plantation1.png", "resources/objects/plantation1Icon.png",
+            "resources/objects/plantation2.png", "resources/objects/plantation2Icon.png"
+        ],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
             [0, 0, 250, 215, 0, 125, 80],
@@ -91,7 +94,13 @@ if (node) {
             [0, 0, 48, 48, 9, 0, 0],
 
             [0, 0, 300, 271, 10, 150, 120],
-            [0, 0, 48, 48, 11, 0, 0]
+            [0, 0, 48, 48, 11, 0, 0],
+
+            [0, 0, 150, 124, 12, 75, 50],
+            [0, 0, 48, 48, 13, 0, 0],
+
+            [0, 0, 150, 124, 14, 75, 50],
+            [0, 0, 48, 48, 15, 0, 0]
         ]
     })
     gameData.spritesheets.add(objectsSprite);
@@ -470,6 +479,80 @@ if (node) {
     });
     gameData.objectTypes.add(liquidStorage);
 
+    var plantation1 = new ObjectType(gameData,{
+        _id: "plantation1",
+        _blocks: {
+            ResourceStorage: {
+
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 10,
+                _itemIds: ["engineerDept","solarPanel"]
+            },
+            WorkingPlace: {
+                _requiredSkills:  null,
+                _availableSkills: null,
+                _hiredHumans: null
+            },
+            ProductivityCalculator: {
+
+            },
+            UserObject: {
+                maxHealthPoints:10,
+                points: 5
+            }
+
+        },
+        _className: "plantation",
+        _initWidth: 40,
+        _initHeight: 40,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "tree plantation",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 12,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 13,
+        _buildTime: 1000
+    });
+    gameData.objectTypes.add(plantation1);
+
+    var plantation2 = new ObjectType(gameData,{
+        _id: "plantation2",
+        _blocks: {
+            ResourceStorage: {
+
+            },
+            UpgradeProduction: {
+                _freeSlotsAvailable: 10,
+                _itemIds: ["engineerDept","solarPanel"]
+            },
+            WorkingPlace: {
+                _requiredSkills:  null,
+                _availableSkills: null,
+                _hiredHumans: null
+            },
+            ProductivityCalculator: {
+
+            },
+            UserObject: {
+                maxHealthPoints:10,
+                points: 5
+            }
+
+        },
+        _className: "plantation",
+        _initWidth: 40,
+        _initHeight: 40,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "tree plantation 2",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 14,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 15,
+        _buildTime: 1000
+    });
+    gameData.objectTypes.add(plantation2);
+
     var defenseTower = new ObjectType(gameData,{
         _id: "defenseTower",
         _blocks: {
@@ -780,7 +863,7 @@ if (node) {
 
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["Hub", "mineralStorage", "liquidStorage"]},
+        {name: 'Resources', objectTypeIds: ["Hub", "mineralStorage", "liquidStorage", "plantation1", "plantation2"]},
         {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory"]},
         {name: 'Military', objectTypeIds: ["ScienceCenter", "defenseTower"]}
     ];
