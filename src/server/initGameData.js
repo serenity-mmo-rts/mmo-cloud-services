@@ -405,6 +405,9 @@ if (node) {
             ResourceStorage: {
 
             },
+            FeatureManager: {
+
+            },
             HubConnectivity: {
                 _numPorts:  1
             },
@@ -443,6 +446,9 @@ if (node) {
         _id: "liquidStorage",
         _blocks: {
             ResourceStorage: {
+
+            },
+            FeatureManager: {
 
             },
             HubConnectivity: {
@@ -485,6 +491,9 @@ if (node) {
             ResourceStorage: {
 
             },
+            FeatureManager: {
+
+            },
             UpgradeProduction: {
                 _freeSlotsAvailable: 10,
                 _itemIds: ["engineerDept","solarPanel"]
@@ -520,6 +529,9 @@ if (node) {
         _id: "plantation2",
         _blocks: {
             ResourceStorage: {
+
+            },
+            FeatureManager: {
 
             },
             UpgradeProduction: {
@@ -559,6 +571,9 @@ if (node) {
             Tower: {
 
             },
+            FeatureManager: {
+
+            },
             HubConnectivity: {
                 _numPorts:  1
             },
@@ -592,6 +607,9 @@ if (node) {
         _blocks: {
 
             Unit: {
+
+            },
+            FeatureManager: {
 
             },
             HubConnectivity: {
@@ -628,15 +646,15 @@ if (node) {
             }
         },
         _className: "connection",
-        _initWidth: 80,
-        _initHeight: 80,
+        _initWidth: 150,
+        _initHeight: 10,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Connection",
         _spritesheetId: "forestSprite01",
         _spriteFrame: 1,
         _iconSpritesheetId: "forestSprite01",
         _iconSpriteFrame: 0,
-        _buildTime: 0
+        _buildTime: 2000
     }));
 
     var constructionSite = new ObjectType(gameData,{
