@@ -174,7 +174,7 @@ app.io.route('ready', function (req) {
     });
 
     // send map data anyway:
-    initGameData = {
+    var initGameData = {
         spritesheets: gameData.spritesheets.save(),
         layerTypes: gameData.layerTypes.save(),
 
@@ -197,12 +197,14 @@ app.io.route('getMap', function (req) {
         // update world:
         mapData.eventScheduler.finishAllTillTime(Date.now());
 
-        req.io.respond({
+        var sendMap = {
             initMap: mapData.save(),
             initMapObjects: mapData.mapData.mapObjects.save(),
             initMapEvents: mapData.eventScheduler.events.save(),
             initItems: mapData.mapData.items.save()
-        });
+        }
+
+        req.io.respond(sendMap);
     }
 
 })

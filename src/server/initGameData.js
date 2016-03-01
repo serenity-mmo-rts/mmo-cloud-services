@@ -149,10 +149,7 @@ if (node) {
     var crater01 = new ObjectType(gameData, {
         _id: "crater01",
         _blocks: {
-            Environment: {
-
-            }
-
+            Environment: {}
         },
         _className: "environment",
         _initWidth: 10,
@@ -170,9 +167,7 @@ if (node) {
     var rock01 = new ObjectType(gameData,{
         _id: "rock01",
         _blocks: {
-            Environment: {
-
-            }
+            Environment: {}
         },
         _className: "environment",
         _initWidth: 12,
@@ -190,9 +185,7 @@ if (node) {
     var rock02 = new ObjectType(gameData,{
         _id: "rock02",
         _blocks: {
-            Environment: {
-
-            }
+            Environment: {}
         },
         _className: "environment",
         _initWidth: 12,
@@ -210,34 +203,18 @@ if (node) {
     var factory = new ObjectType(gameData,{
         _id: "Factory1",
         _blocks: {
-            HubConnectivity: {
-                _numPorts:  1
-            },
-            ResourceProduction: {
-                _typeId: [],
-                _perSec: []
-            },
-            EnergyManager: {
-                _requiredPerSec:  0,
-                _availablePerSec: 0
-            },
+            HubConnectivity: {},
+            ResourceProduction: {},
+            EnergyManager: {},
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["engineerDept","solarPanel"]
+                numSlots: 10,
+                itemTypeIds: ["engineerDept", "solarPanel"]
             },
-            FeatureManager: {
-
-            },
-            WorkingPlace: {
-                _requiredSkills:  null,
-                _availableSkills: null,
-                _hiredHumans: null
-            },
-            ProductivityCalculator: {
-
-            },
+            FeatureManager: {},
+            WorkingPlace: {},
+            ProductivityCalculator: {},
             UserObject: {
-                maxHealthPoints:10,
+                maxHealthPoints: 10,
                 points: 5
             }
         },
@@ -259,33 +236,22 @@ if (node) {
     var hub = new ObjectType(gameData,{
         _id: "Hub",
         _blocks: {
-
             HubNode: {
-                _maxRange: 1000,
-                _connBuildTimePerDist: 1
+                maxRange: 1000,
+                connBuildTimePerDist: 1
             },
             HubConnectivity: {
-                _numPorts:  5
+                numPorts:  5
             },
             EnergyManager: {
-                _requiredPerSec:  0,
-                _availablePerSec: 0
+                requiredPerSec:  0
             },
-            UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: []
-            },
-            FeatureManager: {
-
-            },
+            UpgradeProduction: {},
+            FeatureManager: {},
             WorkingPlace: {
-                _requiredSkills:  null,
-                _availableSkills: null,
-                _hiredHumans: null
+                requiredSkills: 0
             },
-            ProductivityCalculator: {
-
-            },
+            ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
@@ -307,31 +273,21 @@ if (node) {
     var sciencecenter = new ObjectType(gameData,{
         _id: "ScienceCenter",
         _blocks: {
-            TechProduction: {
-                _techInResearchId: null
-            },
-            HubConnectivity: {
-                _numPorts:  1
-            },
+            TechProduction: {},
+            HubConnectivity: {},
             EnergyManager: {
-                _requiredPerSec: 0,
-                _availablePerSec: 0
+                requiredPerSec: 0,
+                availablePerSec: 0
             },
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: []
+                numSlots: 10,
+                itemTypeIds: []
             },
-            FeatureManager: {
-
-            },
+            FeatureManager: {},
             WorkingPlace: {
-                _requiredSkills: null,
-                _availableSkills: null,
-                _hiredHumans: null
+                requiredSkills: null
             },
-            ProductivityCalculator: {
-
-            },
+            ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
@@ -354,32 +310,18 @@ if (node) {
     var furnitureFactory = new ObjectType(gameData,{
         _id: "furnitureFactory",
         _blocks: {
-            ResourceProduction: {
-                _typeId: [],
-                _perSec: []
-            },
-            HubConnectivity: {
-                _numPorts:  1
-            },
-            EnergyManager: {
-                _requiredPerSec:  0,
-                _availablePerSec: 0
-            },
+            ResourceProduction: {},
+            HubConnectivity: {},
+            EnergyManager: {},
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["engineerDept","solarPanel"]
+                numSlots: 10,
+                itemTypeIds: ["engineerDept","solarPanel"]
             },
-            FeatureManager: {
-
-            },
+            FeatureManager: {},
             WorkingPlace: {
-                _requiredSkills:  null,
-                _availableSkills: null,
-                _hiredHumans: null
+                requiredSkills: 0
             },
-            ProductivityCalculator: {
-
-            },
+            ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
@@ -402,27 +344,17 @@ if (node) {
     var mineralStorage = new ObjectType(gameData,{
         _id: "mineralStorage",
         _blocks: {
-            ResourceStorage: {
-
-            },
-            FeatureManager: {
-
-            },
-            HubConnectivity: {
-                _numPorts:  1
-            },
+            ResourceStorage: {},
+            FeatureManager: {},
+            HubConnectivity: {},
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["engineerDept","solarPanel"]
+                numSlots: 10,
+                itemTypeIds: ["engineerDept","solarPanel"]
             },
             WorkingPlace: {
-                _requiredSkills:  null,
-                _availableSkills: null,
-                _hiredHumans: null
+                requiredSkills: 0
             },
-            ProductivityCalculator: {
-
-            },
+            ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
@@ -445,27 +377,19 @@ if (node) {
     var liquidStorage = new ObjectType(gameData,{
         _id: "liquidStorage",
         _blocks: {
-            ResourceStorage: {
-
-            },
-            FeatureManager: {
-
-            },
+            ResourceStorage: {},
+            FeatureManager: {},
             HubConnectivity: {
-                _numPorts:  1
+                numPorts:  1
             },
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["engineerDept","solarPanel"]
+                numSlots: 10,
+                itemTypeIds: ["engineerDept","solarPanel"]
             },
             WorkingPlace: {
-                _requiredSkills:  null,
-                _availableSkills: null,
-                _hiredHumans: null
+                requiredSkills:  0
             },
-            ProductivityCalculator: {
-
-            },
+            ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
@@ -488,29 +412,20 @@ if (node) {
     var plantation1 = new ObjectType(gameData,{
         _id: "plantation1",
         _blocks: {
-            ResourceStorage: {
-
-            },
-            FeatureManager: {
-
-            },
+            ResourceStorage: {},
+            FeatureManager: {},
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["engineerDept","solarPanel"]
+                numSlots: 10,
+                itemTypeIds: ["engineerDept","solarPanel"]
             },
             WorkingPlace: {
-                _requiredSkills:  null,
-                _availableSkills: null,
-                _hiredHumans: null
+                requiredSkills:  0
             },
-            ProductivityCalculator: {
-
-            },
+            ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
             }
-
         },
         _className: "plantation",
         _initWidth: 40,
@@ -528,29 +443,16 @@ if (node) {
     var plantation2 = new ObjectType(gameData,{
         _id: "plantation2",
         _blocks: {
-            ResourceStorage: {
-
-            },
-            FeatureManager: {
-
-            },
-            UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["engineerDept","solarPanel"]
-            },
+            ResourceStorage: {},
+            FeatureManager: {},
             WorkingPlace: {
-                _requiredSkills:  null,
-                _availableSkills: null,
-                _hiredHumans: null
+                requiredSkills: 0
             },
-            ProductivityCalculator: {
-
-            },
+            ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
             }
-
         },
         _className: "plantation",
         _initWidth: 40,
@@ -568,24 +470,17 @@ if (node) {
     var defenseTower = new ObjectType(gameData,{
         _id: "defenseTower",
         _blocks: {
-            Tower: {
-
-            },
-            FeatureManager: {
-
-            },
-            HubConnectivity: {
-                _numPorts:  1
-            },
+            Tower: {},
+            FeatureManager: {},
+            HubConnectivity: {},
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["solarPanel"]
+                numSlots: 10,
+                itemTypeIds: ["solarPanel"]
             },
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
             }
-
         },
         _className: "tower",
         _initWidth: 48,
@@ -605,25 +500,19 @@ if (node) {
     var spacecraftUnitObject = new ObjectType(gameData,{
         _id: "spacecraftUnitObject01",
         _blocks: {
-
-            Unit: {
-
-            },
-            FeatureManager: {
-
-            },
+            Unit: {},
+            FeatureManager: {},
             HubConnectivity: {
-                _numPorts:  1
+                numPorts:  1
             },
             UpgradeProduction: {
-                _freeSlotsAvailable: 10,
-                _itemIds: ["solarPanel"]
+                numSlots: 10,
+                itemTypeIds: ["solarPanel"]
             },
             UserObject: {
                 maxHealthPoints:10,
                 points: 5
             }
-
         },
         _className: "spacecraft",
         _initWidth: 48,
@@ -641,9 +530,7 @@ if (node) {
     var connection = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "connection",
         _blocks: {
-            Connection: {
-
-            }
+            Connection: {}
         },
         _className: "connection",
         _initWidth: 150,
@@ -660,19 +547,15 @@ if (node) {
     var constructionSite = new ObjectType(gameData,{
         _id: "constructionSite",
         _blocks: {
-            ConstructionSite: {
-
-            },
-            HubConnectivity: {
-                _numPorts:  1
-            },
+            ConstructionSite: {},
+            HubConnectivity: {},
             UserObject: {
                 maxHealthPoints:0,
                 points: 0
             },
             UpgradeProduction: {
-                _freeSlotsAvailable: 0,
-                _itemIds: []
+                numSlots: 0,
+                itemTypeIds: []
             }
         },
         _className: "constructionSite",
@@ -691,23 +574,22 @@ if (node) {
     var dome = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "dome",
         _blocks: {
-            Sublayer: {
-
-            },
+            Sublayer: {},
             HubNode: {
-                _maxRange: 1000,
-                _connBuildTimePerDist: 1
+                minRange: 400,
+                maxRange: 3000,
+                connBuildTimePerDist: 1
             },
             HubConnectivity: {
-                _numPorts:  5
+                numPorts: 12
             },
             UserObject: {
-                maxHealthPoints:100,
+                maxHealthPoints: 100,
                 points: 50
             },
             UpgradeProduction: {
-                _freeSlotsAvailable: 0,
-                _itemIds: []
+                numSlots: 0,
+                itemTypeIds: []
             }
         },
         _className: "sublayer",
@@ -824,21 +706,21 @@ if (node) {
         _blocks: {
             Feature: [
                 [{getObjInRange: 500},
-                {AddToProp: {
+                    {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
                         blocks: ["UserObject", "UserObject"],
                         operator: ["plus", "times"],
                         values: ["5", "1.5"]
                     }
-                }],
+                    }],
                 [{getObjInRange: 200},
-                {AddToProp: {
-                    vars: ["maxHealthPoints", "points"],
-                    blocks: ["UserObject", "UserObject"],
-                    operator: ["plus", "times"],
-                    values: ["10", "2"]
-                }
-                }],
+                    {AddToProp: {
+                        vars: ["maxHealthPoints", "points"],
+                        blocks: ["UserObject", "UserObject"],
+                        operator: ["plus", "times"],
+                        values: ["10", "2"]
+                    }
+                    }],
                 [{getObjInRange: 200},
                     {AddToProp: {
                         vars: ["maxHealthPoints", "points"],
@@ -923,14 +805,19 @@ if (node) {
 // Map Objects
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "firstCity",
+        objTypeId: "dome",
         mapId: moonMap._id,
+        userId: 0,
+
         x: 0,
         y: 0,
-        objTypeId: "dome",
-        userId: 0,
+
         _blocks: {
             Sublayer: {
                 _subLayerMapId: "cityMap01"
+            },
+            UserObject: {
+
             }
         }
     }));
@@ -1013,9 +900,9 @@ if (node) {
 
 
     /*gameData.users.add(new User(gameData, {
-        _id: "testuser01",
-        name: "testuser"
-    }));*/
+     _id: "testuser01",
+     name: "testuser"
+     }));*/
 
 
     var gameVars = {
