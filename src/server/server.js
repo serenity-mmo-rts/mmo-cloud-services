@@ -24,7 +24,6 @@ var AbstractEvent = require('../game/events/AbstractEvent').AbstractEvent;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
 
 
-
 var ntp = require('socket-ntp');
 
 var fs = require('fs');
@@ -45,6 +44,8 @@ var mongodb = require('mongodb');
 
 var dbConn = require('./dbConnection');
 var loadDb = require('./loadDb');
+var dbUpdating = require('./dbUpdating');
+
 loadDb.getGameData(gameData,gameVars);
 
 // Setup sessions
@@ -211,8 +212,6 @@ app.io.route('getMap', function (req) {
 
 app.io.route('newGameEvent', function (req) {
 
-
-
     // check if correct login:
     if (req.session.loggedIn) {
         console.log("new event from user " + req.session.username);
@@ -220,6 +219,8 @@ app.io.route('newGameEvent', function (req) {
 
         // update world:
         gameData.layers.get(mapId).eventScheduler.finishAllTillTime(Date.now());
+        dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
+
 
         var gameEvent = EventFactory(gameData,req.data[1]);
         gameEvent.setInitialized();
@@ -232,6 +233,7 @@ app.io.route('newGameEvent', function (req) {
 
             // execute event locally on server:
             gameEvent.executeOnServer();
+            dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
 
             console.log("event was successfully executed and added to eventScheduler. Now broadcast to clients...");
 

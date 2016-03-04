@@ -156,6 +156,9 @@ function getMapObjects(gameData, currentMapData) {
                 }
             }
 
+            // reset the state changes, because we just added all objects from db:
+            currentMapData.mapData.mapObjects.getAndResetStateChanges();
+
             getItems(gameData,currentMapData);
         });
 
@@ -174,6 +177,9 @@ function getItems(gameData, currentMapData) {
                     currentMapData.addItem(item);
                 }
             }
+
+            // reset the state changes, because we just added all items from db:
+            currentMapData.mapData.items.getAndResetStateChanges();
 
             getMapEvents(gameData,currentMapData);
         });
