@@ -803,7 +803,7 @@ if (node) {
     gameData.layers.add(cityMap2);
 
 // Map Objects
-    moonMap.mapData.mapObjects.add(new MapObject(gameData,{
+    var city1 = new MapObject(gameData,{
         _id: "firstCity",
         objTypeId: "dome",
         mapId: moonMap._id,
@@ -820,7 +820,9 @@ if (node) {
 
             }
         }
-    }));
+    });
+    city1._blocks.Sublayer._subLayerMapId = "cityMap01";
+    moonMap.mapData.mapObjects.add(city1);
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "secondCity",
         mapId: moonMap._id,

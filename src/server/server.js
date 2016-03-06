@@ -218,8 +218,10 @@ app.io.route('newGameEvent', function (req) {
         var mapId = req.data[0];
 
         // update world:
-        gameData.layers.get(mapId).eventScheduler.finishAllTillTime(Date.now());
-        dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
+        var numEventsFinished = gameData.layers.get(mapId).eventScheduler.finishAllTillTime(Date.now());
+        if (numEventsFinished > 0) {
+            dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
+        }
 
 
         var gameEvent = EventFactory(gameData,req.data[1]);
@@ -237,14 +239,15 @@ app.io.route('newGameEvent', function (req) {
 
             console.log("event was successfully executed and added to eventScheduler. Now broadcast to clients...");
 
+            var serializedGameEvent = gameEvent.save();
             // the following broadcast goes to the client who created the event:
             req.io.respond({
                 success: true,
-                updatedEvent: gameEvent.save()
+                updatedEvent: serializedGameEvent
             });
 
             // the following broadcast goes to all clients, but not the one who created the event:
-            req.io.broadcast('newGameEvent', [mapId, gameEvent.save()]);
+            req.io.broadcast('newGameEvent', [mapId, serializedGameEvent]);
         }
         else {
             console.log("event is not valid!!");
