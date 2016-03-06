@@ -814,14 +814,11 @@ if (node) {
 
         _blocks: {
             Sublayer: {
-                _subLayerMapId: "cityMap01"
-            },
-            UserObject: {
-
+                subLayerMapId: "cityMap01"
             }
         }
     });
-    city1._blocks.Sublayer._subLayerMapId = "cityMap01";
+    //city1._blocks.Sublayer.subLayerMapId = "cityMap01";
     moonMap.mapData.mapObjects.add(city1);
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "secondCity",
@@ -832,7 +829,7 @@ if (node) {
         userId: 0,
         _blocks: {
             Sublayer: {
-                _subLayerMapId: "cityMap02"
+                subLayerMapId: "cityMap02"
             }
         }
     }));
