@@ -74,7 +74,8 @@ if (node) {
             "resources/objects/storageYardLiquid.png", "resources/objects/storageYardLiquidIcon.png",
             "resources/objects/mineralStorage2.png", "resources/objects/mineralStorage2Icon.png",
             "resources/objects/plantation1.png", "resources/objects/plantation1Icon.png",
-            "resources/objects/plantation2.png", "resources/objects/plantation2Icon.png"
+            "resources/objects/plantation2.png", "resources/objects/plantation2Icon.png",
+            "resources/objects/planetHub/Image0001.png"
         ],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
@@ -100,7 +101,9 @@ if (node) {
             [0, 0, 48, 48, 13, 0, 0],
 
             [0, 0, 150, 124, 14, 75, 50],
-            [0, 0, 48, 48, 15, 0, 0]
+            [0, 0, 48, 48, 15, 0, 0],
+
+            [0, 0, 100, 100, 16, 50, 40]
         ]
     })
     gameData.spritesheets.add(objectsSprite);
@@ -269,6 +272,43 @@ if (node) {
         _buildTime: 12000
     });
     gameData.objectTypes.add(hub);
+
+    var planethub = new ObjectType(gameData,{
+        _id: "PlanetHub",
+        _blocks: {
+            HubNode: {
+                maxRange: 1000,
+                connBuildTimePerDist: 1
+            },
+            HubConnectivity: {
+                numPorts:  5
+            },
+            EnergyManager: {
+                requiredPerSec:  0
+            },
+            UpgradeProduction: {},
+            FeatureManager: {},
+            WorkingPlace: {
+                requiredSkills: 0
+            },
+            ProductivityCalculator: {},
+            UserObject: {
+                maxHealthPoints:10,
+                points: 5
+            }
+        },
+        _className: "hub",
+        _initWidth: 35,
+        _initHeight: 35,
+        _allowOnMapTypeId: "moonMapType01",
+        _name: "Small Planet Hub",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 16,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 16,
+        _buildTime: 12000
+    });
+    gameData.objectTypes.add(planethub);
 
     var sciencecenter = new ObjectType(gameData,{
         _id: "ScienceCenter",
@@ -770,7 +810,7 @@ if (node) {
 
     // save build categories:
     gameData.layerTypes.get("moonMapType01")._buildCategories = [
-        {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01"]}
+        {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01", "PlanetHub"]}
     ];
 
     var moonMap = new Layer(gameData,{
