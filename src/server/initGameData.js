@@ -108,6 +108,30 @@ if (node) {
     })
     gameData.spritesheets.add(objectsSprite);
 
+    var planetConnectionSprite = new Spritesheet(gameData,{
+        _id: 'planetConnectionSprite',
+        images: [
+            "resources/objects/planetPipe.ori/Image0000.png",
+            "resources/objects/planetPipe.ori/Image0001.png",
+            "resources/objects/planetPipe.ori/Image0002.png",
+            "resources/objects/planetPipe.ori/Image0003.png",
+            "resources/objects/planetPipe.ori/Image0004.png",
+            "resources/objects/planetPipe.ori/Image0005.png",
+            "resources/objects/planetPipe.ori/Image0006.png"
+        ],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            [0, 0, 100, 50, 0, 50, 25],
+            [0, 0, 100, 50, 1, 50, 25],
+            [0, 0, 100, 50, 2, 50, 25],
+            [0, 0, 100, 50, 3, 50, 25],
+            [0, 0, 100, 50, 4, 50, 25],
+            [0, 0, 100, 50, 5, 50, 25],
+            [0, 0, 100, 50, 6, 50, 25]
+        ]
+    })
+    gameData.spritesheets.add(planetConnectionSprite);
+
 
     var ressourceSprite = new Spritesheet(gameData,{
         _id: 'ressourceSprite01',
@@ -240,6 +264,7 @@ if (node) {
         _id: "Hub",
         _blocks: {
             HubNode: {
+                canBuildConnectionTypeId: "connection",
                 maxRange: 1000,
                 connBuildTimePerDist: 1
             },
@@ -277,11 +302,12 @@ if (node) {
         _id: "PlanetHub",
         _blocks: {
             HubNode: {
+                canBuildConnectionTypeId: "planetConnection",
                 maxRange: 1000,
                 connBuildTimePerDist: 1
             },
             HubConnectivity: {
-                numPorts:  5
+                numPorts:  20
             },
             EnergyManager: {
                 requiredPerSec:  0
@@ -580,6 +606,23 @@ if (node) {
         _spritesheetId: "forestSprite01",
         _spriteFrame: 1,
         _iconSpritesheetId: "forestSprite01",
+        _iconSpriteFrame: 0,
+        _buildTime: 2000
+    }));
+
+    var planetConnection = gameData.objectTypes.add(new ObjectType(gameData,{
+        _id: "planetConnection",
+        _blocks: {
+            Connection: {}
+        },
+        _className: "connection",
+        _initWidth: 150,
+        _initHeight: 10,
+        _allowOnMapTypeId: "moonMapType01",
+        _name: "Planet Hub Connection",
+        _spritesheetId: "planetConnectionSprite",
+        _spriteFrame: [0, 1, 2, 3, 4, 5, 6],
+        _iconSpritesheetId: "planetConnectionSprite",
         _iconSpriteFrame: 0,
         _buildTime: 2000
     }));
