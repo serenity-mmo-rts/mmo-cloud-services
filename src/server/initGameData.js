@@ -132,6 +132,35 @@ if (node) {
     })
     gameData.spritesheets.add(planetConnectionSprite);
 
+    var robotFactorySprite = new Spritesheet(gameData,{
+        _id: 'robotFactorySprite',
+        images: [
+            "resources/objects/RobotFactory/Image0000.png",
+            "resources/objects/RobotFactory/Image0020.png",
+            "resources/objects/RobotFactory/Image0040.png",
+            "resources/objects/RobotFactory/Image0060.png",
+            "resources/objects/RobotFactory/Image0080.png",
+            "resources/objects/RobotFactory/Image0100.png",
+            "resources/objects/RobotFactory/Image0120.png",
+            "resources/objects/RobotFactory/Image0140.png"
+        ],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            [0, 0, 300, 200, 0, 150, 100],
+            [0, 0, 300, 200, 1, 150, 100],
+            [0, 0, 300, 200, 2, 150, 100],
+            [0, 0, 300, 200, 3, 150, 100],
+            [0, 0, 300, 200, 4, 150, 100],
+            [0, 0, 300, 200, 5, 150, 100],
+            [0, 0, 300, 200, 6, 150, 100],
+            [0, 0, 300, 200, 7, 150, 100]
+        ],
+        animations: {
+            working: [0, 7, "working", 0.05]
+        }
+    })
+    gameData.spritesheets.add(robotFactorySprite);
+
 
     var ressourceSprite = new Spritesheet(gameData,{
         _id: 'ressourceSprite01',
@@ -259,6 +288,40 @@ if (node) {
         _buildTime: 20000
     })
     gameData.objectTypes.add(factory);
+
+    var robotFactory = new ObjectType(gameData,{
+        _id: "robotFactory1",
+        _blocks: {
+            HubConnectivity: {},
+            ResourceProduction: {},
+            EnergyManager: {},
+            UpgradeProduction: {
+                numSlots: 10,
+                itemTypeIds: ["engineerDept", "solarPanel"]
+            },
+            FeatureManager: {},
+            WorkingPlace: {},
+            ProductivityCalculator: {},
+            UserObject: {
+                maxHealthPoints: 10,
+                points: 5
+            }
+        },
+
+
+        _className: "factory",
+        _initWidth: 36,
+        _initHeight: 36,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Robot Factory",
+        _spritesheetId: "robotFactorySprite",
+        _spriteFrame: 0,
+        _spriteAnimation: "working",
+        _iconSpritesheetId: "robotFactorySprite",
+        _iconSpriteFrame: 0,
+        _buildTime: 2000
+    })
+    gameData.objectTypes.add(robotFactory);
 
     var hub = new ObjectType(gameData,{
         _id: "Hub",
@@ -847,7 +910,7 @@ if (node) {
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
         {name: 'Resources', objectTypeIds: ["Hub", "mineralStorage", "liquidStorage", "plantation1", "plantation2"]},
-        {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory"]},
+        {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory", "robotFactory1"]},
         {name: 'Military', objectTypeIds: ["ScienceCenter", "defenseTower"]}
     ];
 
