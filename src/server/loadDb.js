@@ -208,7 +208,7 @@ function getMapEvents(gameData, currentMapData) {
 }
 
 function setPointers(gameData, currentMapData) {
-    currentMapData.mapData.mapObjects.each(function(mapObject){
-        mapObject.setPointers();
-    });
+    currentMapData.mapData.mapObjects.setPointers();
+    currentMapData.mapData.items.setPointers();
+    currentMapData.eventScheduler.events.setPointers();
 }

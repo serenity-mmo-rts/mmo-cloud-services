@@ -225,6 +225,7 @@ app.io.route('newGameEvent', function (req) {
 
 
         var gameEvent = EventFactory(gameData,req.data[1]);
+        gameEvent.setPointers();
         gameEvent.setInitialized();
 
         // check if event is valid:
