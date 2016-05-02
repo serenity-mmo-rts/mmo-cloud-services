@@ -444,7 +444,7 @@ if (node) {
             EnergyManager: {},
             UpgradeProduction: {
                 numSlots: 10,
-                itemTypeIds: ["engineerDept","solarPanel"]
+                itemTypeIds: ["engineerDept","solarPanel","activationItem"]
             },
             FeatureManager: {},
             WorkingPlace: {
@@ -878,6 +878,58 @@ if (node) {
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 1,
         _buildMenuTooltip: "this is even better",
+        _maxLevel: 5,
+        _buildTime: [10000,10000,10000,10000,10000]
+
+    }));
+
+
+    gameData.itemTypes.add(new ItemType(gameData,{
+        _id: "activationItem",
+        _name: "activationItem",
+        _className: "ProductivityUpgrade",
+        _blocks: {
+            Feature: [
+                {
+                    _stack: [
+                        {activatePerClick: {}},
+                        {getParentObj: {}},
+                        {AddToProp: {
+                                vars: ["maxHealthPoints"],
+                                blocks: ["UserObject"],
+                                operator: ["plus"],
+                                values: ["50"]
+                                }
+                        },
+                        {Wait: { waitingTime : 20000 }},
+                        {clear: { stackIdx: 2}},
+                        {wait: { waitingTime : 5000}},
+                        {goToExecutionIndex: {index : 0}}
+
+                    ]
+                },
+                {
+                    _stack: [
+                        {getParentObj: {}},
+                        {
+                            AddToProp: {
+                                vars: ["maxHealthPoints", "points"],
+                                blocks: ["UserObject", "UserObject"],
+                                operator: ["plus", "times"],
+                                values: ["20", "3"]
+                            }
+                        }
+                    ]
+                }
+            ],
+            FeatureManager: {
+
+            }
+        },
+        _allowOnMapTypeId: "moonMap01",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 0,
+        _buildMenuTooltip: "this is awesome",
         _maxLevel: 5,
         _buildTime: [10000,10000,10000,10000,10000]
 
