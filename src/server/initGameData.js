@@ -75,7 +75,8 @@ if (node) {
             "resources/objects/mineralStorage2.png", "resources/objects/mineralStorage2Icon.png",
             "resources/objects/plantation1.png", "resources/objects/plantation1Icon.png",
             "resources/objects/plantation2.png", "resources/objects/plantation2Icon.png",
-            "resources/objects/planetHub/Image0001.png"
+            "resources/objects/planetHub/Image0001.png",
+            "resources/objects/Reactor/Image0001.png"
         ],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
@@ -103,7 +104,9 @@ if (node) {
             [0, 0, 150, 124, 14, 75, 50],
             [0, 0, 48, 40, 15, 0, 0],
 
-            [0, 0, 100, 100, 16, 50, 40]
+            [0, 0, 100, 100, 16, 50, 40],
+
+            [0, 0, 129, 142, 17, 65, 70]
         ]
     })
     gameData.spritesheets.add(objectsSprite);
@@ -160,6 +163,33 @@ if (node) {
         }
     })
     gameData.spritesheets.add(robotFactorySprite);
+
+    var researchFacilitySprite = new Spritesheet(gameData,{
+        _id: 'researchFacilitySprite',
+        images: [
+            "resources/objects/ResearchFacility/Image0001.png",
+            "resources/objects/ResearchFacility/Image0002.png",
+            "resources/objects/ResearchFacility/Image0003.png",
+            "resources/objects/ResearchFacility/Image0004.png",
+            "resources/objects/ResearchFacility/Image0005.png"
+        ],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            [0, 0, 191, 128, 0, 95, 65],
+            [0, 0, 191, 128, 1, 95, 65],
+            [0, 0, 191, 128, 2, 95, 65],
+            [0, 0, 191, 128, 3, 95, 65],
+            [0, 0, 191, 128, 4, 95, 65]
+        ],
+        animations: {
+            working: {
+                frames: [0,1,2,3,4,4,4,3,2,1,0,0],
+                next: "working",
+                speed: 0.05
+            }
+        }
+    })
+    gameData.spritesheets.add(researchFacilitySprite);
 
 
     var ressourceSprite = new Spritesheet(gameData,{
@@ -310,8 +340,8 @@ if (node) {
 
 
         _className: "factory",
-        _initWidth: 36,
-        _initHeight: 36,
+        _initWidth: 85,
+        _initHeight: 85,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Robot Factory",
         _spritesheetId: "robotFactorySprite",
@@ -322,6 +352,40 @@ if (node) {
         _buildTime: 2000
     })
     gameData.objectTypes.add(robotFactory);
+
+    var researchFacility = new ObjectType(gameData,{
+        _id: "researchFacility1",
+        _blocks: {
+            HubConnectivity: {},
+            ResourceProduction: {},
+            EnergyManager: {},
+            UpgradeProduction: {
+                numSlots: 10,
+                itemTypeIds: ["engineerDept", "solarPanel"]
+            },
+            FeatureManager: {},
+            WorkingPlace: {},
+            ProductivityCalculator: {},
+            UserObject: {
+                maxHealthPoints: 10,
+                points: 5
+            }
+        },
+
+
+        _className: "factory",
+        _initWidth: 40,
+        _initHeight: 60,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Research Facility",
+        _spritesheetId: "researchFacilitySprite",
+        _spriteFrame: 0,
+        _spriteAnimation: "working",
+        _iconSpritesheetId: "researchFacilitySprite",
+        _iconSpriteFrame: 0,
+        _buildTime: 2000
+    })
+    gameData.objectTypes.add(researchFacility);
 
     var hub = new ObjectType(gameData,{
         _id: "Hub",
@@ -435,6 +499,43 @@ if (node) {
         _buildTime: 10000
     });
     gameData.objectTypes.add(sciencecenter);
+
+    var reactor = new ObjectType(gameData,{
+        _id: "reactor",
+        _blocks: {
+            TechProduction: {},
+            HubConnectivity: {},
+            EnergyManager: {
+                requiredPerSec: 0,
+                availablePerSec: 0
+            },
+            UpgradeProduction: {
+                numSlots: 10,
+                itemTypeIds: []
+            },
+            FeatureManager: {},
+            WorkingPlace: {
+                requiredSkills: null
+            },
+            ProductivityCalculator: {},
+            UserObject: {
+                maxHealthPoints:10,
+                points: 5
+            }
+
+        },
+        _className: "reactor",
+        _initWidth: 45,
+        _initHeight: 45,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Reactor",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 17,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 17,
+        _buildTime: 3000
+    });
+    gameData.objectTypes.add(reactor);
 
     var furnitureFactory = new ObjectType(gameData,{
         _id: "furnitureFactory",
@@ -939,9 +1040,9 @@ if (node) {
 
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
-        {name: 'Resources', objectTypeIds: ["Hub", "mineralStorage", "liquidStorage", "plantation1", "plantation2"]},
+        {name: 'Resources', objectTypeIds: ["Hub", "reactor", "mineralStorage", "liquidStorage", "plantation1", "plantation2"]},
         {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory", "robotFactory1"]},
-        {name: 'Military', objectTypeIds: ["ScienceCenter", "defenseTower"]}
+        {name: 'Military', objectTypeIds: ["ScienceCenter", "researchFacility1", "defenseTower"]}
     ];
 
     // save build categories:
