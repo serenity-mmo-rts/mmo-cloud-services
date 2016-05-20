@@ -927,7 +927,6 @@ if (node) {
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
-        _maxLevel: 5,
         _buildTime: [10000,10000,10000,10000,10000]
 
     }));
@@ -979,7 +978,6 @@ if (node) {
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 1,
         _buildMenuTooltip: "this is even better",
-        _maxLevel: 5,
         _buildTime: [10000,10000,10000,10000,10000]
 
     }));
@@ -1031,7 +1029,6 @@ if (node) {
         _iconSpritesheetId: "ressourceSprite01",
         _iconSpriteFrame: 0,
         _buildMenuTooltip: "this is awesome",
-        _maxLevel: 5,
         _buildTime: [10000,10000,10000,10000,10000]
 
     }));
