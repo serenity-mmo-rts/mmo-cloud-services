@@ -191,6 +191,43 @@ if (node) {
     })
     gameData.spritesheets.add(researchFacilitySprite);
 
+    var mineralStorageSprite = new Spritesheet(gameData,{
+        _id: 'mineralStorageSprite',
+        images: [
+            "resources/objects/mineralStorage/Image0001.png",
+            "resources/objects/mineralStorage/Image0002.png",
+            "resources/objects/mineralStorage/Image0003.png",
+            "resources/objects/mineralStorage/Image0004.png",
+            "resources/objects/mineralStorage/Image0005.png",
+            "resources/objects/mineralStorage/Image0006.png",
+            "resources/objects/mineralStorage/Image0007.png",
+            "resources/objects/mineralStorage/Image0008.png",
+            "resources/objects/mineralStorage/Image0009.png",
+            "resources/objects/mineralStorage/Image0010.png"
+        ],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250],
+            [0, 0, 500, 500, 0, 250, 250]
+        ],
+        animations: {
+            working: {
+                frames: [0,1,2,3,4,5,6,7,8,9,8,7,6,5,4,3,2,1,0],
+                next: "working",
+                speed: 0.05
+            }
+        }
+    })
+    gameData.spritesheets.add(mineralStorageSprite);
+
 
     var ressourceSprite = new Spritesheet(gameData,{
         _id: 'ressourceSprite01',
@@ -596,10 +633,11 @@ if (node) {
         _initHeight: 95,
         _allowOnMapTypeId: "cityMapType01",
         _name: "Mineral Storage",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 10,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 11,
+        _spritesheetId: "mineralStorageSprite",
+        _spriteFrame: 0,
+        _spriteAnimation: "working",
+        _iconSpritesheetId: "mineralStorageSprite",
+        _iconSpriteFrame: 0,
         _buildTime: 1000
     });
     gameData.objectTypes.add(mineralStorage);
