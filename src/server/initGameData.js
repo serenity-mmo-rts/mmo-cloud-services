@@ -934,7 +934,7 @@ if (node) {
                     _stack: [
                         {getParentObj: {}},
                         {
-                            AddToProp: {
+                            addToProp: {
                                 vars: ["maxHealthPoints", "points"],
                                 blocks: ["UserObject", "UserObject"],
                                 operator: ["plus", "times"],
@@ -947,7 +947,7 @@ if (node) {
                     _stack: [
                         {getParentObj: {}},
                         {
-                            AddToProp: {
+                            addToProp: {
                                 vars: ["maxHealthPoints", "points"],
                                 blocks: ["UserObject", "UserObject"],
                                 operator: ["plus", "times"],
@@ -982,7 +982,7 @@ if (node) {
                                 getObjInRange: 500
                             },
                             {
-                                AddToProp: {
+                                addToProp: {
                                     vars: ["maxHealthPoints", "points"],
                                     blocks: ["UserObject", "UserObject"],
                                     operator: ["plus", "times"],
@@ -998,7 +998,7 @@ if (node) {
                                 getObjInRange: 1000
                             },
                             {
-                                AddToProp: {
+                                addToProp: {
                                     vars: ["maxHealthPoints", "points"],
                                     blocks: ["UserObject", "UserObject"],
                                     operator: ["plus", "times"],
@@ -1031,16 +1031,16 @@ if (node) {
                     _stack: [
                         {activatePerClick: {}},
                         {getParentObj: {}},
-                        {AddToProp: {
+                        {addToProp: {
                                 vars: ["maxHealthPoints"],
                                 blocks: ["UserObject"],
                                 operator: ["plus"],
                                 values: ["50"]
                                 }
                         },
-                        {Wait: { waitingTime : 20000 }},
-                        {clear: { stackIdx: 2}},
-                        {wait: { waitingTime : 5000}},
+                        {wait: { waitingTime : 5000 }},
+                        {clear: { effectIdx: 0}},
+                        {wait: { waitingTime : 3000}},
                         {goToExecutionIndex: {index : 0}}
 
                     ]
@@ -1049,7 +1049,7 @@ if (node) {
                     _stack: [
                         {getParentObj: {}},
                         {
-                            AddToProp: {
+                            addToProp: {
                                 vars: ["maxHealthPoints", "points"],
                                 blocks: ["UserObject", "UserObject"],
                                 operator: ["plus", "times"],
