@@ -1040,6 +1040,7 @@ if (node) {
                         },
                         {wait: { waitingTime : 5000 }},
                         {clear: { effectIdx: 0}},
+                        {deactivate:{}},
                         {wait: { waitingTime : 3000}},
                         {goToExecutionIndex: {index : 0}}
 
