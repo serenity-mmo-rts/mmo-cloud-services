@@ -582,7 +582,7 @@ if (node) {
             EnergyManager: {},
             UpgradeProduction: {
                 numSlots: 10,
-                itemTypeIds: ["engineerDept","solarPanel","activationItem"]
+                itemTypeIds: ["engineerDept","solarPanel","activationItem","targetSelectionItem"]
             },
             FeatureManager: {},
             WorkingPlace: {
@@ -1021,6 +1021,7 @@ if (node) {
     }));
 
 
+
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "activationItem",
         _name: "activationItem",
@@ -1029,14 +1030,14 @@ if (node) {
             Feature: [
                 {
                     _stack: [
-                        {activatePerClick: {}},
+                        {activatePerClick: {targetType: "self", range: Infinity}},
                         {getParentObj: {}},
                         {addToProp: {
-                                vars: ["maxHealthPoints"],
-                                blocks: ["UserObject"],
-                                operator: ["plus"],
-                                values: ["50"]
-                                }
+                            vars: ["maxHealthPoints"],
+                            blocks: ["UserObject"],
+                            operator: ["plus"],
+                            values: ["50"]
+                        }
                         },
                         {wait: { waitingTime : 5000 }},
                         {clear: { effectIdx: 0}},
@@ -1073,6 +1074,36 @@ if (node) {
     }));
 
 
+    gameData.itemTypes.add(new ItemType(gameData,{
+        _id: "targetSelectionItem",
+        _name: "targetSelectionItem",
+        _className: "ProductivityUpgrade",
+        _blocks: {
+            Feature: [
+                {
+                    _stack: [
+                        {activatePerClick: {targetType: "object", range: 500}},
+                        {addToProp: {
+                            vars: ["maxHealthPoints"],
+                            blocks: ["UserObject"],
+                            operator: ["plus"],
+                            values: ["50"]
+                        }
+                        }
+                    ]
+                }
+            ],
+            FeatureManager: {
+
+            }
+        },
+        _allowOnMapTypeId: "moonMap01",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 1,
+        _buildMenuTooltip: "this is awesome",
+        _buildTime: [10000,10000,10000,10000,10000]
+
+    }));
 
 // save build categories:
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
