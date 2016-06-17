@@ -245,7 +245,27 @@ if (node) {
     });
     gameData.spritesheets.add(ressourceSprite);
 
+    var itemSprite = new Spritesheet(gameData,{
+        _id: 'itemSprite',
+        images: ["resources/own_icons/connectionSlot.png","resources/own_icons/engineerDepartment.png","resources/own_icons/excavator.png",
+            "resources/own_icons/itDepartment.png","resources/own_icons/officePlace.png","resources/own_icons/robotArm.png",
+            "resources/own_icons/slotMachine.png","resources/own_icons/telescope.png","resources/own_icons/warehouseStorage.png"],
+        frames: [
+            // x, y, width, height, imageIndex, regX, regY
+            //icons:
+            [0, 0, 48, 48, 0, 24,24],
+            [0, 0, 48, 48, 1, 24,24],
+            [0, 0, 48, 48, 2, 24,24],
+            [0, 0, 48, 48, 3, 24,24],
+            [0, 0, 48, 48, 4, 24,24],
+            [0, 0, 48, 48, 5, 24,24],
+            [0, 0, 48, 48, 6, 24,24],
+            [0, 0, 48, 48, 7, 24,24],
+            [0, 0, 48, 48, 8, 24,24]
 
+        ]
+    });
+    gameData.spritesheets.add(itemSprite);
 
     var cityMapType = new LayerType(gameData,{
         _id: "cityMapType01",
@@ -962,8 +982,8 @@ if (node) {
             }
         },
         _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 0,
+        _iconSpritesheetId: "itemSprite",
+        _iconSpriteFrame: 1,
         _buildMenuTooltip: "this is awesome",
         _buildTime: [10000,10000,10000,10000,10000]
 
@@ -1013,8 +1033,8 @@ if (node) {
             }
         },
         _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 1,
+        _iconSpritesheetId: "itemSprite",
+        _iconSpriteFrame: 7,
         _buildMenuTooltip: "this is even better",
         _buildTime: [10000,10000,10000,10000,10000]
 
@@ -1066,13 +1086,12 @@ if (node) {
             }
         },
         _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 0,
+        _iconSpritesheetId: "itemSprite",
+        _iconSpriteFrame: 4,
         _buildMenuTooltip: "this is awesome",
         _buildTime: [10000,10000,10000,10000,10000]
 
     }));
-
 
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "targetSelectionItem",
@@ -1098,8 +1117,8 @@ if (node) {
             }
         },
         _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 1,
+        _iconSpritesheetId: "itemSprite",
+        _iconSpriteFrame: 2,
         _buildMenuTooltip: "this is awesome",
         _buildTime: [10000,10000,10000,10000,10000]
 
