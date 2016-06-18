@@ -202,7 +202,7 @@ function getMapEvents(gameData, currentMapData) {
 
             setPointers(gameData, currentMapData);
 
-            currentMapData.eventScheduler.finishAllTillTime(Date.now());
+            currentMapData.timeScheduler.finishAllTillTime(Date.now());
         });
     });
 }

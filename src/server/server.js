@@ -196,7 +196,7 @@ app.io.route('getMap', function (req) {
 
     if (mapData) {
         // update world:
-        mapData.eventScheduler.finishAllTillTime(Date.now());
+        mapData.timeScheduler.finishAllTillTime(Date.now());
 
         var sendMap = {
             initMap: mapData.save(),
@@ -218,27 +218,25 @@ app.io.route('newGameEvent', function (req) {
         var mapId = req.data[0];
 
         // update world:
-        var numEventsFinished = gameData.layers.get(mapId).eventScheduler.finishAllTillTime(Date.now());
+        var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(Date.now());
         if (numEventsFinished > 0) {
             dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
         }
 
-
         var gameEvent = EventFactory(gameData,req.data[1]);
+        gameEvent._userId = req.session.username;
+        gameEvent._mapId = mapId;
         gameEvent.setPointers();
-        gameEvent.setInitialized();
 
         // check if event is valid:
         if (gameEvent.isValid()) {
-            gameEvent.setValid();
 
             gameEvent._id = (new mongodb.ObjectID()).toHexString();
 
             // execute event locally on server:
             gameEvent.executeOnServer();
             dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
-
-            console.log("event was successfully executed and added to eventScheduler. Now broadcast to clients...");
+            console.log("event was successfully executed. Now broadcast to clients...");
 
             var serializedGameEvent = gameEvent.save();
             // the following broadcast goes to the client who created the event:
@@ -249,6 +247,18 @@ app.io.route('newGameEvent', function (req) {
 
             // the following broadcast goes to all clients, but not the one who created the event:
             req.io.broadcast('newGameEvent', [mapId, serializedGameEvent]);
+
+            // save to  db
+            dbConn.get('mapEvents', function (err, collMapEvents) {
+                if (err) throw err;
+                collMapEvents.save(serializedGameEvent, {safe:true}, function(err,docs) {
+                    if (err) throw err;
+                    else {
+                        console.log("saved event "+serializedGameEvent._id+" to db");
+                    }
+                });
+            });
+
         }
         else {
             console.log("event is not valid!!");

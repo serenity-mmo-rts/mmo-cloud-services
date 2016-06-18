@@ -79,7 +79,7 @@ function reflectGameListToDb(collectionName,gameList,callback) {
         var recentlyChanged = gameList.getAndResetStateChanges();
         var serializedObjArr = gameList.saveIds(recentlyChanged);
 
-        numObjToSave =  serializedObjArr.length;
+        var numObjToSave =  serializedObjArr.length;
         if (numObjToSave > 0) {
 
             var numSaved = 0;
@@ -91,7 +91,7 @@ function reflectGameListToDb(collectionName,gameList,callback) {
                 }
             }
 
-            for (var i=1; i<numObjToSave; i++){
+            for (var i=0; i<numObjToSave; i++){
                 collItems.save(serializedObjArr[i], function (err, docs) {
                     if (err) {
                         // add the state changes again so that it will eventually be saved later...
@@ -112,10 +112,11 @@ function reflectGameListToDb(collectionName,gameList,callback) {
 function finishSaving(gameData, layer) {
 
     delete lockedLayers[layer._id];
-
+    console.log("zuerst");
     // if in the mean time a new change request came in, then we start the saving from the beginning.
     if (resaveLayers.hasOwnProperty(layer._id)) {
         delete resaveLayers[layer._id];
+        console.log("danach");
         startSaving(gameData, layer);
     }
 
