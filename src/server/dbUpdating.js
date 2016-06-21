@@ -43,22 +43,25 @@ function startSaving(gameData, layer) {
 function saveLayerToDb(gameData, layer) {
 
     var finished = 0;
-    function checkFinished() {
+    function checkFinished(collectionName, error) {
         finished++;
+        //console.log("finished saving " + collectionName +" ....... finished="+finished);
         if (finished>=3) {
+            console.log("finished saving all collections");
             finishSaving(gameData, layer);
         }
     }
 
     // TODO: save layer only when necessary
-    dbConn.get('layers', function (err, collMaps) {
+    var layerCollectionName = 'layers';
+    dbConn.get(layerCollectionName, function (err, collMaps) {
         if (err) {
             console.log(err);
             callback();
         }
-        collMaps.save(layer.save(), function(err,docs) {
+        collMaps.save(layer.save(), {w: 1}, function(err,docs) {
             if (err) throw err;
-            checkFinished();
+            checkFinished(layerCollectionName, 0);
         });
     });
 
@@ -72,7 +75,7 @@ function reflectGameListToDb(collectionName,gameList,callback) {
     dbConn.get(collectionName, function (err, collItems) {
         if (err) {
             console.log(err);
-            callback();
+            callback(collectionName, err);
         }
 
         // only save the recent changes:
@@ -80,31 +83,40 @@ function reflectGameListToDb(collectionName,gameList,callback) {
         var serializedObjArr = gameList.saveIds(recentlyChanged);
 
         var numObjToSave =  serializedObjArr.length;
+        //console.log('start saving '+numObjToSave+' objects in collection '+collectionName);
         if (numObjToSave > 0) {
 
             var numSaved = 0;
 
-            function doneOneObj(){
+            function doneOneObj(err){
                 numSaved++;
                 if ( numSaved==numObjToSave ) {
-                    callback();
+                    callback(collectionName, err);
                 }
             }
 
             for (var i=0; i<numObjToSave; i++){
-                collItems.save(serializedObjArr[i], function (err, docs) {
-                    if (err) {
-                        // add the state changes again so that it will eventually be saved later...
-                        gameList.notifyStateChange(serializedObjArr[i]._id);
-                        console.log(err);
-                    }
-                    doneOneObj();
-                });
+
+                (function(){
+
+                    var ii=i;
+                    collItems.save(serializedObjArr[ii], {w: 1}, function (err, docs) {
+                        if (err) {
+                            // add the state changes again so that it will eventually be saved later...
+                            gameList.notifyStateChange(serializedObjArr[ii]._id);
+                            console.log(err);
+                        }
+                        //console.log('test: finished saving number '+ii+' in collection '+collectionName);
+                        doneOneObj(err);
+                    });
+
+                })();
+
             }
 
         }
         else {
-            callback();
+            callback(collectionName, 0);
         }
     });
 }
@@ -112,11 +124,11 @@ function reflectGameListToDb(collectionName,gameList,callback) {
 function finishSaving(gameData, layer) {
 
     delete lockedLayers[layer._id];
-    console.log("zuerst");
+    console.log("saving is finished");
     // if in the mean time a new change request came in, then we start the saving from the beginning.
     if (resaveLayers.hasOwnProperty(layer._id)) {
         delete resaveLayers[layer._id];
-        console.log("danach");
+        console.log("start saving again, because there were some new changes in the meantime");
         startSaving(gameData, layer);
     }
 
