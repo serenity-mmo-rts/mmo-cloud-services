@@ -998,9 +998,7 @@ if (node) {
                 {
                     _stack:
                         [
-                            {
-                                getObjInRange: 500
-                            },
+                            {getObjInRange: 500},
                             {
                                 addToProp: {
                                     vars: ["maxHealthPoints", "points"],
@@ -1014,9 +1012,7 @@ if (node) {
                 {
                     _stack:
                         [
-                            {
-                                getObjInRange: 1000
-                            },
+                            {getObjInRange: 500},
                             {
                                 addToProp: {
                                     vars: ["maxHealthPoints", "points"],
