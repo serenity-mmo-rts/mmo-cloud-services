@@ -47,7 +47,7 @@ function saveLayerToDb(gameData, layer) {
         finished++;
         //console.log("finished saving " + collectionName +" ....... finished="+finished);
         if (finished>=3) {
-            console.log("finished saving all collections");
+            //console.log("finished saving all collections");
             finishSaving(gameData, layer);
         }
     }
