@@ -18,7 +18,7 @@ var ItemType = require('../game/types/ItemType').ItemType;
 
 
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
-var MapData = require('../game/Layer').MapData;
+var MapData = require('../game/layer/MapData').MapData;
 var User = require('../game/User').User;
 var AbstractEvent = require('../game/events/AbstractEvent').AbstractEvent;
 var EventFactory = require('../game/events/EventFactory').EventFactory;

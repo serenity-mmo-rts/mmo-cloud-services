@@ -458,7 +458,10 @@ if (node) {
             EnergyManager: {
                 requiredPerSec:  0
             },
-            UpgradeProduction: {},
+            UpgradeProduction: {
+                numSlots: 10,
+                itemTypeIds: []
+            },
             FeatureManager: {},
             WorkingPlace: {
                 requiredSkills: 0
@@ -496,7 +499,10 @@ if (node) {
             EnergyManager: {
                 requiredPerSec:  0
             },
-            UpgradeProduction: {},
+            UpgradeProduction: {
+                numSlots: 10,
+                itemTypeIds: []
+            },
             FeatureManager: {},
             WorkingPlace: {
                 requiredSkills: 0
@@ -736,6 +742,10 @@ if (node) {
             WorkingPlace: {
                 requiredSkills: 0
             },
+            UpgradeProduction: {
+                numSlots: 10,
+                itemTypeIds: []
+            },
             ProductivityCalculator: {},
             UserObject: {
                 maxHealthPoints:10,
@@ -782,6 +792,57 @@ if (node) {
         _buildTime: 5000
     });
     gameData.objectTypes.add(defenseTower);
+
+    var subObject = new ObjectType(gameData,{
+        _id: "subObject",
+        _blocks: {
+            Unit: {
+                itemTypeId:"unitItem",
+                deployTime: 20000
+            },
+            FeatureManager: {},
+            HubConnectivity: {},
+            UpgradeProduction: {
+                numSlots: 10,
+                itemTypeIds: []
+            },
+            UserObject: {
+                maxHealthPoints:20,
+                points: 15
+            }
+        },
+        _className: "subObject",
+        _initWidth: 48,
+        _initHeight: 48,
+        _allowOnMapTypeId: "cityMapType01",
+        _name: "Attack Unit",
+        _spritesheetId: "objectsSprite",
+        _spriteFrame: 0,
+        _iconSpritesheetId: "objectsSprite",
+        _iconSpriteFrame: 1,
+        _buildTime: 5000
+    });
+    gameData.objectTypes.add(subObject);
+
+    gameData.itemTypes.add(new ItemType(gameData,{
+        _id: "excavator",
+        _name: "excavator",
+        _className: "unitItem",
+        _blocks: {
+            SubObject: {
+                mapObjTypeId: "subObject"
+            },
+            Movable: {},
+            FeatureManager: {}
+        },
+        _allowOnMapTypeId: "moonMap01",
+        _iconSpritesheetId: "itemSprite",
+        _iconSpriteFrame: 3,
+        _buildMenuTooltip: "this is awesome",
+        _transitionTime: [10000,10000]
+
+    }));
+
 
 
 
@@ -909,9 +970,6 @@ if (node) {
         _buildTime: 2000
     }));
 
-
-
-
     var carbon = new RessourceType(gameData,{
         //_type: "RessourceType",
         _id: "12345",
@@ -942,7 +1000,6 @@ if (node) {
         _iconSpriteFrame: 4,
         _buildTime: 2000
     }));
-
 
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "engineerDept",
@@ -1124,7 +1181,7 @@ if (node) {
     gameData.layerTypes.get("cityMapType01")._buildCategories = [
         {name: 'Resources', objectTypeIds: ["Hub", "reactor", "mineralStorage", "liquidStorage", "plantation1", "plantation2"]},
         {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory", "robotFactory1"]},
-        {name: 'Military', objectTypeIds: ["ScienceCenter", "researchFacility1", "defenseTower"]}
+        {name: 'Military', objectTypeIds: ["ScienceCenter", "researchFacility1", "defenseTower", "subObject"]}
     ];
 
     // save build categories:
@@ -1161,36 +1218,26 @@ if (node) {
     });
     gameData.layers.add(cityMap2);
 
-// Map Objects
+// Sublayer Map Objects
     var city1 = new MapObject(gameData,{
         _id: "firstCity",
         objTypeId: "dome",
+        sublayerId: "cityMap01",
         mapId: moonMap._id,
         userId: 0,
-
         x: 0,
-        y: 0,
-
-        _blocks: {
-            Sublayer: {
-                subLayerMapId: "cityMap01"
-            }
-        }
+        y: 0
     });
-    //city1._blocks.Sublayer.subLayerMapId = "cityMap01";
     moonMap.mapData.mapObjects.add(city1);
+
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
         _id: "secondCity",
-        mapId: moonMap._id,
-        x: 300,
-        y: 0,
         objTypeId: "dome",
+        sublayerId: "cityMap02",
+        mapId: moonMap._id,
         userId: 0,
-        _blocks: {
-            Sublayer: {
-                subLayerMapId: "cityMap02"
-            }
-        }
+        x: 300,
+        y: 0
     }));
 
 
