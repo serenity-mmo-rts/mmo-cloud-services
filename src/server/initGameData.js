@@ -1191,6 +1191,7 @@ if (node) {
 
     var moonMap = new Layer(gameData,{
         _id: "moonMap01",
+        parentObjId: null,
         width: 20000,              // pixelsize / 4
         height: 20000,             // pixelsize / 2
         mapTypeId: "moonMapType01",
@@ -1200,6 +1201,7 @@ if (node) {
 
     var cityMap = new Layer(gameData,{
         _id: "cityMap01",
+        parentObjId: "firstCity",
         width: 10000,
         height: 10000,
         mapTypeId: "cityMapType01",
@@ -1210,6 +1212,7 @@ if (node) {
 
     var cityMap2 = new Layer(gameData,{
         _id: "cityMap02",
+        parentObjId: "secondCity",
         width: 10000,
         height: 10000,
         mapTypeId: "cityMapType01",
