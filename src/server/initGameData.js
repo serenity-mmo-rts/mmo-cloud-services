@@ -270,7 +270,9 @@ if (node) {
     var planetSprite = new Spritesheet(gameData,{
         _id: 'planetSprite',
         images: ["resources/objects/planets/Earth.png","resources/objects/planets/Mars.png",
-            "resources/objects/planets/Moon.png","resources/objects/planets/Saturn.png","resources/objects/planets/sunMOrange.png"],
+            "resources/objects/planets/Moon.png","resources/objects/planets/Saturn.png","resources/objects/planets/sunMOrange.png",
+            "resources/objects/planets/starM_lightGreen.png","resources/objects/planets/starM_Yellow.png","resources/objects/planets/starM_White.png",
+            "resources/objects/planets/starS_lightBlue.png","resources/objects/planets/starS_White.png"],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
             //icons:
@@ -278,7 +280,13 @@ if (node) {
             [0, 0, 640, 640, 1, 320,320],
             [0, 0, 1280, 1264, 2, 640,632],
             [0, 0, 640, 320, 3, 320,160],
-            [0, 0, 1200,1145, 4,600,572]
+            [0, 0, 1200,1145, 4,600,572],
+            [0, 0, 6,6, 5,3,3],
+            [0, 0, 6,6, 6,3,3],
+            [0, 0, 6,6, 7,3,3],
+            [0, 0, 6,6, 8,3,3],
+            [0, 0, 6,6, 9,3,3]
+
         ]
     });
     gameData.spritesheets.add(planetSprite);
@@ -315,6 +323,124 @@ if (node) {
         _groundImageScaling: 1
     });
     gameData.layerTypes.add(solarMapType);
+
+
+    var galaxyMapType = new LayerType(gameData,{
+        _id: "galaxyMapType01",
+        _name: "Galaxy",
+        _scale: 1,
+        _ratioWidthHeight: 2,
+        _bgColor: 000000,
+        _groundImage: "resources/background/starBackground.jpg",
+        _groundImageScaling: 1
+    });
+    gameData.layerTypes.add(galaxyMapType);
+
+
+    var starMGreen = new ObjectType(gameData, {
+        _id: "starMGreen",
+        _blocks: {
+            Environment: {}
+        },
+        _className: "environment",
+        _initWidth: 32,
+        _initHeight: 32,
+        _allowOnMapTypeId: "galaxyMapType01",
+        _name: "starMGreen",
+        _spritesheetId: planetSprite._id,
+        _spriteFrame: 5,
+        _iconSpritesheetId: planetSprite._id,
+        _iconSpriteFrame: 5,
+        _buildTime: 0
+    });
+    gameData.objectTypes.add(starMGreen);
+
+
+    var starMYellow = gameData.objectTypes.add(new ObjectType(gameData,{
+        _id: "starMYellow",
+        _blocks: {
+            Sublayer: {},
+            HubConnectivity: {
+                numPorts: 12
+            },
+            UserObject: {
+                maxHealthPoints: 100,
+                points: 50
+            },
+            UpgradeProduction: {
+                numSlots: 0,
+                itemTypeIds: []
+            }
+        },
+        _className: "sublayer",
+        _initWidth: 32,
+        _initHeight: 32,
+        _allowOnMapTypeId: "galaxyMapType01",
+        _name: "starMYellow",
+        _spritesheetId: planetSprite._id,
+        _spriteFrame: 6,
+        _iconSpritesheetId: planetSprite._id,
+        _iconSpriteFrame: 6,
+        _buildTime: 0
+    }));
+    gameData.objectTypes.add(starMYellow);
+
+
+    var starMWhite = new ObjectType(gameData, {
+        _id: "starMWhite",
+        _blocks: {
+            Environment: {}
+        },
+        _className: "environment",
+        _initWidth: 32,
+        _initHeight: 32,
+        _allowOnMapTypeId: "galaxyMapType01",
+        _name: "starMWhite",
+        _spritesheetId: planetSprite._id,
+        _spriteFrame: 7,
+        _iconSpritesheetId: planetSprite._id,
+        _iconSpriteFrame: 7,
+        _buildTime: 0
+    });
+    gameData.objectTypes.add(starMWhite);
+
+    var starSBlue = new ObjectType(gameData, {
+        _id: "starSBlue",
+        _blocks: {
+            Environment: {}
+        },
+        _className: "environment",
+        _initWidth: 16,
+        _initHeight: 16,
+        _allowOnMapTypeId: "galaxyMapType01",
+        _name: "starSBlue",
+        _spritesheetId: planetSprite._id,
+        _spriteFrame: 8,
+        _iconSpritesheetId: planetSprite._id,
+        _iconSpriteFrame: 8,
+        _buildTime: 0
+    });
+    gameData.objectTypes.add(starSBlue);
+
+    var starSWhite = new ObjectType(gameData, {
+        _id: "starSWhite",
+        _blocks: {
+            Environment: {}
+        },
+        _className: "environment",
+        _initWidth: 16,
+        _initHeight: 16,
+        _allowOnMapTypeId: "galaxyMapType01",
+        _name: "starSWhite",
+        _spritesheetId: planetSprite._id,
+        _spriteFrame: 9,
+        _iconSpritesheetId: planetSprite._id,
+        _iconSpriteFrame: 9,
+        _buildTime: 0
+    })
+    gameData.objectTypes.add(starSWhite);
+
+
 
     var crater01 = new ObjectType(gameData, {
         _id: "crater01",
@@ -999,11 +1125,6 @@ if (node) {
     var sunPlanet = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "sunPlanet",
         _blocks: {
-            HubNode: {
-                minRange: 400,
-                maxRange: 3000,
-                connBuildTimePerDist: 1
-            },
             HubConnectivity: {
                 numPorts: 12
             },
@@ -1032,11 +1153,6 @@ if (node) {
         _id: "earthPlanet",
         _blocks: {
             Sublayer: {},
-            HubNode: {
-                minRange: 400,
-                maxRange: 3000,
-                connBuildTimePerDist: 1
-            },
             HubConnectivity: {
                 numPorts: 12
             },
@@ -1066,11 +1182,6 @@ if (node) {
         _id: "marsPlanet",
         _blocks: {
             Sublayer: {},
-            HubNode: {
-                minRange: 400,
-                maxRange: 3000,
-                connBuildTimePerDist: 1
-            },
             HubConnectivity: {
                 numPorts: 12
             },
@@ -1314,13 +1425,24 @@ if (node) {
         {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01", "PlanetHub"]}
     ];
 
-    var solarMap = new Layer(gameData,{
-        _id: "solarMap01",
+    var galaxyMap = new Layer(gameData,{
+        _id: "galaxyMap01",
         parentObjId: null,
         width: 20000,              // pixelsize / 4
         height: 20000,             // pixelsize / 2
-        mapTypeId: "solarMapType01",
+        mapTypeId: "galaxyMapType01",
         parentMapId: null,
+        gameData: gameData
+    });
+    gameData.layers.add(galaxyMap);
+
+    var solarMap = new Layer(gameData,{
+        _id: "solarMap01",
+        parentObjId: "solarSystem01",
+        width: 20000,              // pixelsize / 4
+        height: 20000,             // pixelsize / 2
+        mapTypeId: "solarMapType01",
+        parentMapId: "galaxyMap01",
         gameData: gameData
     });
     gameData.layers.add(solarMap);
@@ -1425,6 +1547,52 @@ if (node) {
     }));
 
 
+    for (var i = 1; i < 6000; i++) {
+        var starType = Math.random();
+        if (starType<=0.5){
+           var usedStar = starMWhite;
+        }
+        else if (starType<=0.8){
+            var usedStar = starMGreen;
+        }
+        else if (starType<=0.9){
+            var usedStar = starSBlue;
+        }
+        else{
+            var usedStar = starSWhite;
+        }
+
+        var centerDist = (Math.pow(Math.random(),4) *galaxyMap.width);
+        var angle = (Math.random()*(2*Math.PI));
+        var posx = (Math.cos(angle) * centerDist);
+        var posy = (Math.sin(angle) * centerDist);
+
+        galaxyMap.mapData.mapObjects.add(new MapObject(gameData,{
+            _id: "galaxyStar01inst" + i,
+            mapId: galaxyMap._id,
+            x: posx,
+            y: posy,
+            objTypeId: usedStar._id,
+            userId: 0
+        }));
+    }
+
+
+    var solarSystem1 = new MapObject(gameData,{
+        _id: "solarSystem01",
+        objTypeId: "starMYellow",
+        sublayerId: "solarMap01",
+        mapId: galaxyMap._id,
+        userId: 0,
+        x: 20,
+        y: 20
+    });
+    galaxyMap.mapData.mapObjects.add(solarSystem1);
+
+
+
+
+
     for (var i = 1; i < 2000; i++) {
         moonMap.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "Moon1crater01inst" + i,
@@ -1437,7 +1605,6 @@ if (node) {
     }
 
 
-
     for (var i = 1; i < 2000; i++) {
         moonMap2.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "Moon2crater01inst" + i,
@@ -1448,7 +1615,6 @@ if (node) {
             userId: 0
         }));
     }
-
 
 
 // Now start adding example objects to our example cityMap01
@@ -1507,7 +1673,7 @@ if (node) {
 
 
     var gameVars = {
-        rootMapId: solarMap._id
+        rootMapId: galaxyMap._id
     }
 
     exports.gameData = gameData;
