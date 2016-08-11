@@ -1207,27 +1207,32 @@ if (node) {
     }));
 
     var carbon = new RessourceType(gameData,{
-        //_type: "RessourceType",
-        _id: "12345",
+        _id: "carbon",
         _name: "carbon",
-        //rendering
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4,
+        _iconSpriteFrame: 0,
         _buildMenuTooltip:"carbon is great",
         _buildTime: 2000
     });
     gameData.ressourceTypes.add(carbon);
     var iron = new RessourceType(gameData,{
-        //_type: "RessourceType",
-        _id: "324234",
+        _id: "iron",
         _name: "iron",
-        //rendering
         _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4,
+        _iconSpriteFrame: 3,
         _buildMenuTooltip:"iron is great",
         _buildTime: 2000
     });
     gameData.ressourceTypes.add(iron);
+    var oxygen = new RessourceType(gameData,{
+        _id: "oxygen",
+        _name: "oxygen",
+        _iconSpritesheetId: "ressourceSprite01",
+        _iconSpriteFrame: 1,
+        _buildMenuTooltip:"oxygen is great",
+        _buildTime: 2000
+    });
+    gameData.ressourceTypes.add(oxygen);
 
     gameData.technologyTypes.add(new TechnologyType(gameData,{
         _id: "wormholeTech",
