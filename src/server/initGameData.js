@@ -1030,7 +1030,8 @@ if (node) {
     var connection = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "connection",
         _blocks: {
-            Connection: {}
+            Connection: {},
+            UpgradeProduction: {}
         },
         _className: "connection",
         _initWidth: 150,
@@ -1047,7 +1048,8 @@ if (node) {
     var planetConnection = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "planetConnection",
         _blocks: {
-            Connection: {}
+            Connection: {},
+            UpgradeProduction: {}
         },
         _className: "connection",
         _initWidth: 150,
@@ -1125,17 +1127,7 @@ if (node) {
     var sunPlanet = gameData.objectTypes.add(new ObjectType(gameData,{
         _id: "sunPlanet",
         _blocks: {
-            HubConnectivity: {
-                numPorts: 12
-            },
-            UserObject: {
-                maxHealthPoints: 100,
-                points: 50
-            },
-            UpgradeProduction: {
-                numSlots: 0,
-                itemTypeIds: []
-            }
+            Environment: {}
         },
         _className: "center",
         _initWidth: 255,
@@ -1678,7 +1670,7 @@ if (node) {
 
 
     var gameVars = {
-        rootMapId: galaxyMap._id
+        rootMapId: cityMap2._id
     }
 
     exports.gameData = gameData;
