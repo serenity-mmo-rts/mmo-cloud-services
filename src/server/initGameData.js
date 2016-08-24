@@ -383,8 +383,6 @@ if (node) {
         _iconSpriteFrame: 6,
         _buildTime: 0
     }));
-    gameData.objectTypes.add(starMYellow);
-
 
     var starMWhite = new ObjectType(gameData, {
         _id: "starMWhite",
@@ -1544,7 +1542,7 @@ if (node) {
     }));
 
 
-    for (var i = 1; i < 6000; i++) {
+    for (var i = 1; i < 2000; i++) {
         var starType = Math.random();
         if (starType<=0.5){
            var usedStar = starMWhite;
