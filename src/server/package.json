@@ -9,6 +9,7 @@
     "bcrypt": "*",
     "connect-mongo": "*",
     "socket-ntp": "*",
-    "http-proxy": "*"
+    "http-proxy": "*",
+    "zmq": "*"
   }
 }
