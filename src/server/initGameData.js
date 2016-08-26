@@ -680,7 +680,7 @@ if (node) {
     var sciencecenter = new ObjectType(gameData,{
         _id: "ScienceCenter",
         _blocks: {
-            TechProduction: {},
+            Technologies: {},
             HubConnectivity: {},
             EnergyManager: {
                 requiredPerSec: 0,
@@ -1227,10 +1227,22 @@ if (node) {
     gameData.technologyTypes.add(new TechnologyType(gameData,{
         _id: "wormholeTech",
         _name: "Wormhole Technology",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 4,
-        _buildTime: 2000
+        _iconSpritesheetId: "itemSprite",
+        _iconSpriteFrame: 0,
+        _buildTime: 5000,
+        _allowOnMapTypeId: "moonMap01",
+        _allowOnObjTypeId: "ScienceCenter",
+        _requiredItemIds: [],
+        _requiredItemLevels: [],
+        _requiredTechnologies: [],
+        _requiredSkillPoints: 0,
+        _requiredResourceIds: [],
+        _requiredResourceAmounts: [],
+        _techPoints: 50
     }));
+
+
+
 
     gameData.itemTypes.add(new ItemType(gameData,{
         _id: "engineerDept",
