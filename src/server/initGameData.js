@@ -680,7 +680,9 @@ if (node) {
     var sciencecenter = new ObjectType(gameData,{
         _id: "ScienceCenter",
         _blocks: {
-            Technologies: {},
+            Technologies: {
+                producableTechnologies:["wormholeTech"]
+            },
             HubConnectivity: {},
             EnergyManager: {
                 requiredPerSec: 0,
@@ -1232,10 +1234,11 @@ if (node) {
         _buildTime: 5000,
         _allowOnMapTypeId: "moonMap01",
         _allowOnObjTypeId: "ScienceCenter",
+        _requiredTechnologies: [],
         _requiredItemIds: [],
         _requiredItemLevels: [],
-        _requiredTechnologies: [],
-        _requiredSkillPoints: 0,
+        _requiredSkillIds: [],
+        _requiredSkillPoints: [],
         _requiredResourceIds: [],
         _requiredResourceAmounts: [],
         _techPoints: 50
