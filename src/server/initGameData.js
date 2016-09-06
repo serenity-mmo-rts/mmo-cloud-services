@@ -680,7 +680,7 @@ if (node) {
     var sciencecenter = new ObjectType(gameData,{
         _id: "ScienceCenter",
         _blocks: {
-            Technologies: {
+            TechProduction: {
                 producableTechnologies:["wormholeTech"]
             },
             HubConnectivity: {},
@@ -719,7 +719,9 @@ if (node) {
     var reactor = new ObjectType(gameData,{
         _id: "reactor",
         _blocks: {
-            TechProduction: {},
+            TechProduction: {
+                producableTechnologies:["wormholeTech"]
+            },
             HubConnectivity: {},
             EnergyManager: {
                 requiredPerSec: 0,
@@ -1232,6 +1234,9 @@ if (node) {
         _iconSpritesheetId: "itemSprite",
         _iconSpriteFrame: 0,
         _buildTime: 5000,
+        _initWidth: 96,
+        _initHeight: 96,
+
         _allowOnMapTypeId: "moonMap01",
         _allowOnObjTypeId: "ScienceCenter",
         _requiredTechnologies: [],
