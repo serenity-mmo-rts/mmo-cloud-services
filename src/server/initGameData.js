@@ -1562,7 +1562,7 @@ if (node) {
     }));
 
 
-    for (var i = 1; i < 2000; i++) {
+    for (var i = 1; i < 900; i++) {
         var starType = Math.random();
         if (starType<=0.5){
            var usedStar = starMWhite;
@@ -1608,7 +1608,7 @@ if (node) {
 
 
 
-    for (var i = 1; i < 2000; i++) {
+    for (var i = 1; i < 900; i++) {
         moonMap.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "Moon1crater01inst" + i,
             mapId: moonMap._id,
@@ -1620,7 +1620,7 @@ if (node) {
     }
 
 
-    for (var i = 1; i < 2000; i++) {
+    for (var i = 1; i < 900; i++) {
         moonMap2.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "Moon2crater01inst" + i,
             mapId: moonMap2._id,
@@ -1633,7 +1633,7 @@ if (node) {
 
 
 // Now start adding example objects to our example cityMap01
-    for (var i = 1; i < 500; i++) {
+    for (var i = 1; i < 400; i++) {
         cityMap.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "rock01inst" + i,
             mapId: cityMap._id,
@@ -1643,7 +1643,7 @@ if (node) {
             userId: 0
         }));
     }
-    for (var i = 1; i < 500; i++) {
+    for (var i = 1; i < 400; i++) {
         cityMap.mapData.mapObjects.add(new MapObject(gameData,{
             _id: "rock02inst" + i,
             mapId: cityMap._id,
@@ -1672,6 +1672,17 @@ if (node) {
         mapId: cityMap2._id,
         x: 0,
         y: 0,
+        objTypeId: "furnitureFactory",
+        userId: 0,
+        state: mapObjectStates.FINISHED
+    }));
+
+    // Add Start Building
+    cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
+        _id: "furnitureFactory03",
+        mapId: cityMap2._id,
+        x: 500,
+        y: 500,
         objTypeId: "furnitureFactory",
         userId: 0,
         state: mapObjectStates.FINISHED

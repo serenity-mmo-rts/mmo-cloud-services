@@ -44,6 +44,20 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
                                             collGameVars.remove({},function(err, removed){
                                                 collUsers.remove({},function(err, removed){
                                                     collSessions.remove({},function(err, removed){
+
+                                                        /*var toInsert = initGameData.gameData.layers.get('cityMap02').mapData.mapObjects.save();
+
+                                                        collMapObjects.insert(toInsert, function (err, docs) {
+                                                            if (err) throw err;
+                                                            console.log('test');
+
+                                                            collMapObjects.insert(toInsert, function (err, docs) {
+                                                                if (err) throw err;
+                                                                console.log('test');
+                                                            });
+
+                                                        });*/
+
                                                         addSpritesheets();
                                                     });
                                                 });
@@ -120,16 +134,26 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addMapObjects() {
         console.log("add map objects")
+
         var numMapsToAdd = initGameData.gameData.layers.length();
         initGameData.gameData.layers.each(function(map) {
-            collMapObjects.insert(map.mapData.mapObjects.save(), function(err,docs) {
-                if (err) throw err;
+            var toInsert = map.mapData.mapObjects.save();
+
+            // TODO: Fix so that this works for more than 1000 objects.
+            // WARNING currently this is a bug...
+
+            collMapObjects.insert(toInsert, function (err, docs) {
+                if (err) {
+                    console.log(err);
+                    throw err;
+                }
 
                 numMapsToAdd--;
-                if(numMapsToAdd <= 0) {
+                if (numMapsToAdd <= 0) {
                     addItems();
                 }
             });
+
         });
     }
 

@@ -2,7 +2,7 @@ var mongodb = require('mongodb');
 var dbclient;
 var collections = { };
 
-var mongoServer = new mongodb.Server('localhost', mongodb.Connection.DEFAULT_PORT, {auto_reconnect: true});
+var mongoServer = new mongodb.Server('localhost', 27017, {auto_reconnect: true});
 var db = new mongodb.Db( 'serenity', mongoServer, {w: 1} );
 
 exports.connect = function(callback) {
@@ -43,7 +43,7 @@ exports.isConnected = function() {
 exports.get = function(name, callback) {
     if (dbclient) {
         if (!collections[name]) {
-            collections[name] = new mongodb.Collection(dbclient, name);
+            collections[name] = dbclient.collection(name);
         }
         callback(null, collections[name]);
     } else {
