@@ -1,3 +1,5 @@
+var async = require('async');
+
 var fs = require('fs');
 
 window = {};
@@ -29,49 +31,36 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     var collGameVars = db.collection('gameVars');
     var collUsers = db.collection('users');
     var collSessions = db.collection('sessions');
+    var collLayerServers = db.collection('layerServers');
 
     // remove all collections:
-    collSpritesheets.remove({},function(err, removed){
-        collMapTypes.remove({},function(err, removed){
-            collObjectType.remove({},function(err, removed){
-                collRessourceType.remove({},function(err, removed){
-                    collTechnologyType.remove({},function(err, removed){
-                        collItemType.remove({},function(err, removed){
-                            collItems.remove({},function(err, removed){
-                                collMaps.remove({},function(err, removed){
-                                    collMapObjects.remove({},function(err, removed){
-                                        collMapEvents.remove({},function(err, removed){
-                                            collGameVars.remove({},function(err, removed){
-                                                collUsers.remove({},function(err, removed){
-                                                    collSessions.remove({},function(err, removed){
+    async.each(
+        [
+            collSpritesheets,
+            collMapTypes,
+            collObjectType,
+            collRessourceType,
+            collTechnologyType,
+            collItemType,
+            collMaps,
+            collMapObjects,
+            collItems,
+            collMapEvents,
+            collGameVars,
+            collUsers,
+            collSessions,
+            collLayerServers
+        ],
+        function(collection, cb) {
+            // remove all content within collection:
+            collection.remove({},cb);
+        },
+        function(err){
+            addSpritesheets();
+        }
+    );
 
-                                                        /*var toInsert = initGameData.gameData.layers.get('cityMap02').mapData.mapObjects.save();
-
-                                                        collMapObjects.insert(toInsert, function (err, docs) {
-                                                            if (err) throw err;
-                                                            console.log('test');
-
-                                                            collMapObjects.insert(toInsert, function (err, docs) {
-                                                                if (err) throw err;
-                                                                console.log('test');
-                                                            });
-
-                                                        });*/
-
-                                                        addSpritesheets();
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+                   
 
     function addSpritesheets() {
         console.log("add sprites")
@@ -134,28 +123,41 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addMapObjects() {
         console.log("add map objects")
+        async.each(
+            initGameData.gameData.layers.toArray(),
+            addMapObjectsOfMap,
+            function(err){
+                addItems();
+            }
+        );
 
-        var numMapsToAdd = initGameData.gameData.layers.length();
-        initGameData.gameData.layers.each(function(map) {
-            var toInsert = map.mapData.mapObjects.save();
-
-            // TODO: Fix so that this works for more than 1000 objects.
-            // WARNING currently this is a bug...
-
-            collMapObjects.insert(toInsert, function (err, docs) {
-                if (err) {
-                    console.log(err);
-                    throw err;
-                }
-
-                numMapsToAdd--;
-                if (numMapsToAdd <= 0) {
-                    addItems();
-                }
-            });
-
-        });
     }
+
+    function addMapObjectsOfMap(map, callback) {
+
+        var toInsert = map.mapData.mapObjects.save();
+        var temparray = [];
+        var chunksize = 1000;
+        for (var i=0,j=toInsert.length; i<j; i+=chunksize) {
+            temparray.push(toInsert.slice(i,i+chunksize));
+        }
+
+        async.each(
+            temparray,
+            function(mapObjects, cb) {
+                collMapObjects.insert(mapObjects, function (err, docs) {
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
+                    cb(err);
+                });
+            },
+            callback
+        );
+    }
+
+
 
 
     function addItems() {
@@ -173,6 +175,8 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             }
         });
     }
+
+
 
     function addUsers() {
         console.log("add users")
@@ -220,6 +224,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             if (err) throw err;
             console.log("database is now ready!");
             db.close();
+            process.exit(code=0);
         });
     }
 });

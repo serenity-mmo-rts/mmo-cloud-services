@@ -209,6 +209,12 @@ function getMapEvents(gameData, currentMapData) {
 
 function setPointers(gameData, currentMapData) {
     currentMapData.mapData.mapObjects.setPointers();
+    currentMapData.mapData.mapObjects.each(function(mapObj){
+        mapObj.embedded(true);
+    });
     currentMapData.mapData.items.setPointers();
+    currentMapData.mapData.items.each(function(item){
+        item.embedded(true);
+    });
     currentMapData.eventScheduler.events.setPointers();
 }
