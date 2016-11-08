@@ -1621,7 +1621,7 @@ if (node) {
     var numArms = 5;
     var minRad = 0.01;
     var stdInArm = 0.2; // between 0 and 1
-    for (var i = 1; i < 3000; i++) {
+    for (var i = 1; i < 2000; i++) {
         var starType = Math.random();
         if (starType<=0.25){
            var usedStar = starMWhite;
@@ -1777,8 +1777,8 @@ if (node) {
 
 
     var gameVars = {
-        //rootMapId: cityMap2._id
-        rootMapId: galaxyMap._id
+        rootMapId: cityMap2._id
+        //rootMapId: galaxyMap._id
 
     }
 
