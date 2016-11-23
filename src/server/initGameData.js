@@ -333,7 +333,7 @@ if (node) {
         _bgColor: 000000,
         _groundImage: "resources/background/starBackground.jpg",
         _groundImageScaling: 0.1,
-        _groundDragScaling: 0.5
+        _groundDragScaling: 0.1
     });
     gameData.layerTypes.add(solarMapType);
 
