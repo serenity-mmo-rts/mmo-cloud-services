@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "socket.io": "*",
+    "socket.io-client": "*",
     "express": "*",
     "express.io": "*",
     "mongodb": "*",
@@ -10,6 +11,11 @@
     "connect-mongo": "*",
     "socket-ntp": "*",
     "http-proxy": "*",
-    "zmq": "*"
+    "zmq": "*",
+    "json-socket": "*",
+    "freeport": "*",
+    "async": "*",
+    "redis": "*",
+    "socket.io-redis": "*"
   }
 }

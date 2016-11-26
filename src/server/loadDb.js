@@ -12,123 +12,126 @@ var RessourceType = require('../game/types/ResourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
 //var FeatureType = require('../game/types/FeatureType').FeatureType;
-
+var async = require('async');
 
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var MapData = require('../game/Layer').MapData;
 
 
 
-exports.getGameData = function (gameData, gameVars) {
+exports.getGameData = function (gameData, gameVars, cb) {
     if (dbConn.isConnected()) {
-        fillGameData(gameData, gameVars);
+        fillGameData(gameData, gameVars, cb);
     }
     else {
         dbConn.connect(function () {
-            fillGameData(gameData, gameVars);
+            fillGameData(gameData, gameVars, cb);
         })
     }
 }
 
 
-function fillGameData(gameData, gameVars) {
+function fillGameData(gameData, gameVars, cb) {
 
+    async.parallel([
+            function(cb){ getGameVars(gameVars,cb); },
+            function(cb){ getResTypes(gameData,cb); },
+            function(cb){ getSpritesheets(gameData,cb); },
+            function(cb){ getMapTypes(gameData,cb); },
+            function(cb){ getObjTypes(gameData,cb); },
+            function(cb){ getTechTypes(gameData,cb); },
+            function(cb){ getItemTypes(gameData,cb); }
+        ],
+
+        // optional callback
+        function(err, results){
+            cb();
+        }
+    );
+
+}
+
+function getGameVars(gameVars, cb) {
     dbConn.get('gameVars', function (err, collGameVars) {
         if (err) throw err;
         collGameVars.findOne([], function (err, doc) {
             if (err) throw err;
             gameVars.rootMapId = doc.rootMapId;
         });
-        getSpritesheets(gameData);
+        cb(null,'getGameVars');
     });
-
 }
 
 
-function getSpritesheets(gameData) {
+function getSpritesheets(gameData,cb) {
     dbConn.get('spritesheets', function (err, collSpritesheets) {
         if (err) throw err;
         collSpritesheets.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.spritesheets = new GameList(gameData, Spritesheet, docs);
-            getResTypes(gameData);
+            cb(null,'getSpritesheets');
         });
     });
 }
 
 
-function getResTypes(gameData) {
+function getResTypes(gameData, cb) {
     dbConn.get('resTypes', function (err, collObjectType) {
         if (err) throw err;
         collObjectType.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.ressourceTypes= new GameList(gameData, RessourceType, docs);
-            getMapTypes(gameData);
+            cb(null,'getResTypes');
         });
-
     });
 }
 
-function getMapTypes(gameData) {
+function getMapTypes(gameData, cb) {
     dbConn.get('layerTypes', function (err, collMapTypes) {
         if (err) throw err;
         collMapTypes.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.layerTypes = new GameList(gameData, LayerType, docs);
-            getObjTypes(gameData);
+            cb(null,'getMapTypes');
         });
     });
 }
 
-function getObjTypes(gameData) {
+function getObjTypes(gameData,cb) {
     dbConn.get('objTypes', function (err, collObjectType) {
         if (err) throw err;
         collObjectType.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.objectTypes = new GameList(gameData, ObjectType, docs);
-            getTechTypes(gameData);
+            cb(null,'getObjTypes');
+        });
+    });
+}
+
+function getTechTypes(gameData,cb) {
+    dbConn.get('techTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.technologyTypes= new GameList(gameData, TechnologyType, docs);
+            cb(null,'getTechTypes');
+        });
+    });
+}
+
+function getItemTypes(gameData,cb) {
+    dbConn.get('itemTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.itemTypes= new GameList(gameData, ItemType, docs);
+            cb(null,'getItemTypes');
         });
     });
 }
 
 
-
-function getTechTypes(gameData) {
-dbConn.get('techTypes', function (err, collObjectType) {
-    if (err) throw err;
-    collObjectType.find().toArray(function (err, docs) {
-        if (err) throw err;
-        gameData.technologyTypes= new GameList(gameData, TechnologyType, docs);
-        getItemTypes(gameData);
-    });
-});
-}
-/**
-function getFeatTypes(gameData) {
-dbConn.get('featTypes', function (err, collObjectType) {
-    if (err) throw err;
-    collObjectType.find().toArray(function (err, docs) {
-        if (err) throw err;
-        gameData.featureTypes= new GameList(gameData, FeatureType, docs);
-        getItemTypes(gameData);
-    });
-});
-}
- **/
-
-function getItemTypes(gameData) {
-dbConn.get('itemTypes', function (err, collObjectType) {
-    if (err) throw err;
-    collObjectType.find().toArray(function (err, docs) {
-        if (err) throw err;
-        gameData.itemTypes= new GameList(gameData, ItemType, docs);
-        getMaps(gameData);
-    });
-});
-}
-
-
-function getMaps(gameData) {
+function getMaps(gameData,cb) {
     console.log("load layers from db")
     dbConn.get('layers', function (err, collMaps) {
         if (err) throw err;
@@ -136,15 +139,52 @@ function getMaps(gameData) {
             if (err) throw err;
             if (doc != null) {
                 var currentMapData = gameData.layers.add(new Layer(gameData, doc));
-                getMapObjects(gameData, currentMapData);
+                async.parallel([
+                        function(cb){ getMapObjects(gameData, currentMapData, cb); },
+                        function(cb){ getItems(gameData, currentMapData, cb); },
+                        function(cb){ getMapEvents(gameData, currentMapData, cb); }
+                    ],
+                    function(err, results){
+                        currentMapData.mapData.mapObjects.setPointers();
+                        currentMapData.mapData.items.setPointers();
+                        currentMapData.eventScheduler.events.setPointers();
+                        cb();
+                    }
+                );
             }
         });
     });
 }
 
 
-function getMapObjects(gameData, currentMapData) {
+exports.getMapById = function(gameData, mapId, cb) {
+    console.log("load layer " + mapId + " from db");
+    dbConn.get('layers', function (err, collMaps) {
+        if (err) throw err;
 
+        collMaps.findOne({_id: mapId}, function(err, doc) {
+            if (err) throw err;
+            if (doc != null) {
+                var currentMapData = gameData.layers.add(new Layer(gameData, doc));
+                async.series([
+                        function(cb){ getMapObjects(gameData, currentMapData, cb); },
+                        function(cb){ getItems(gameData, currentMapData, cb); },
+                        function(cb){ getMapEvents(gameData, currentMapData, cb); }
+                    ],
+                    function(err, results){
+                        currentMapData.mapData.mapObjects.setPointers();
+                        currentMapData.mapData.items.setPointers();
+                        currentMapData.eventScheduler.events.setPointers();
+                        cb();
+                    }
+                );
+            }
+        });
+    });
+}
+
+function getMapObjects(gameData, currentMapData, cb) {
+    console.log("load mapObjects of map "+currentMapData._id+" from db");
     dbConn.get('mapObjects', function (err, collMapObjects) {
         if (err) throw err;
         collMapObjects.find({mapId: currentMapData._id}).toArray(function(err, documents) {
@@ -159,14 +199,14 @@ function getMapObjects(gameData, currentMapData) {
             // reset the state changes, because we just added all objects from db:
             currentMapData.mapData.mapObjects.getAndResetStateChanges();
 
-            getItems(gameData,currentMapData);
+            cb(null,'getMapObjects');
         });
 
     });
 }
 
-function getItems(gameData, currentMapData) {
-
+function getItems(gameData, currentMapData, cb) {
+    console.log("load items of map "+currentMapData._id+" from db");
     dbConn.get('items', function (err, collItems) {
         if (err) throw err;
         collItems.find({mapId: currentMapData._id}).toArray(function(err, documents) {
@@ -181,12 +221,12 @@ function getItems(gameData, currentMapData) {
             // reset the state changes, because we just added all items from db:
             currentMapData.mapData.items.getAndResetStateChanges();
 
-            getMapEvents(gameData,currentMapData);
+            cb(null,'getItems');
         });
     });
 }
 
-function getMapEvents(gameData, currentMapData) {
+function getMapEvents(gameData, currentMapData, cb) {
     console.log("load events of map "+currentMapData._id+" from db");
     dbConn.get('mapEvents', function (err, collMapEvents) {
         if (err) throw err;
@@ -200,9 +240,8 @@ function getMapEvents(gameData, currentMapData) {
                 }
             }
 
-            setPointers(gameData, currentMapData);
+            cb(null,'getMapEvents');
 
-            currentMapData.timeScheduler.finishAllTillTime(Date.now());
         });
     });
 }
@@ -217,4 +256,5 @@ function setPointers(gameData, currentMapData) {
         item.embedded(true);
     });
     currentMapData.eventScheduler.events.setPointers();
+    currentMapData.timeScheduler.finishAllTillTime(Date.now());
 }

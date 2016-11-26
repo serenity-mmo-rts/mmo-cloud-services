@@ -5,25 +5,44 @@ var collections = { };
 var mongoServer = new mongodb.Server('localhost', 27017, {auto_reconnect: true});
 var db = new mongodb.Db( 'serenity', mongoServer, {w: 1} );
 
+var isConnecting = false;
+var queuedCallbacks = [];
+
 exports.connect = function(callback) {
-    db.open(function (err, c) {
-        if (!err) {
-            console.log("New Connection to mongodb established.");
-            dbclient = c;
-            dbclient.on('close', function() {
-                console.log("Connection to mongodb was closed.");
-                dbclient = null; // clear client
-                collections = { }; // clear old collections
-                // connection closed
-            });
-            if (callback) {
-                callback();
+
+    if (isConnecting){
+        // queue callback...
+        queuedCallbacks.push(callback);
+    }
+    else {
+        isConnecting = true;
+        db.open(function (err, c) {
+            if (!err) {
+                console.log("New Connection to mongodb established.");
+                dbclient = c;
+                dbclient.on('close', function () {
+                    console.log("Connection to mongodb was closed.");
+                    dbclient = null; // clear client
+                    collections = {}; // clear old collections
+                    // connection closed
+                });
+                isConnecting = false;
+                if (callback) {
+                    callback();
+                }
+                if (queuedCallbacks.length > 0) {
+                    for (var i=0; i<queuedCallbacks.length; i++) {
+                        queuedCallbacks[i]();
+                    }
+                    queuedCallbacks = [];
+                }
+            } else {
+                // error connecting
+                console.log("error connecting to mongodb server");
+                isConnecting = false;
             }
-        } else {
-            // error connecting
-            console.log("error connecting to mongodb server");
-        }
-    });
+        });
+    }
 }
 
 exports.getDb = function() {
@@ -39,7 +58,7 @@ exports.isConnected = function() {
     }
 }
 
-// get colleciton
+// get collection
 exports.get = function(name, callback) {
     if (dbclient) {
         if (!collections[name]) {
@@ -47,8 +66,11 @@ exports.get = function(name, callback) {
         }
         callback(null, collections[name]);
     } else {
-        // can perform reconnecting and then get collection and call callback
-        exports.connect(function(){exports.get(name,callback);});
-        //callback(new Error('not connected'));
+        // perform connect and then retry in recursive call
+        exports.connect(
+            function(){
+                exports.get(name,callback);
+            }
+        );
     }
 }

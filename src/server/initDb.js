@@ -123,6 +123,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addMapObjects() {
         console.log("add map objects")
+
         async.each(
             initGameData.gameData.layers.toArray(),
             addMapObjectsOfMap,
