@@ -1,24 +1,43 @@
 var child_process = require('child_process');
 
-function startLayerServerById(mapId) {
+var debugPortIterator = 5873;
+
+function startProxyRouter(id) {
+    debugPortIterator++;
     var forker = child_process.fork(
-        __dirname + '/server.js',
+        __dirname + '/serverProxyRouter.js',
+        [id],
+        {
+            //execArgv: ['--debug']
+            execArgv: ['--debug-brk='+debugPortIterator]
+        }
+    )
+}
+
+function startLayerServerById(mapId) {
+    debugPortIterator++;
+    var forker = child_process.fork(
+        __dirname + '/serverLayer.js',
         [mapId],
         {
-            execArgv: ['--debug']
+            execArgv: ['--debug-brk='+debugPortIterator]
         }
     )
 }
 
 function startSocketioProxy() {
+    debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverSocketio.js',
         [],
         {
-            execArgv: ['--debug']
+            execArgv: ['--debug-brk='+debugPortIterator]
         }
     )
 }
+
+
+setTimeout(startProxyRouter("1"),200);
 
 //startLayerServerById("galaxyMap01");
 //startLayerServerById("solarMap01");

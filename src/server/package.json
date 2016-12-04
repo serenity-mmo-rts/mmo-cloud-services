@@ -16,6 +16,9 @@
     "freeport": "*",
     "async": "*",
     "redis": "*",
-    "socket.io-redis": "*"
+    "socket.io-redis": "*",
+    "node-uuid": "*",
+    "axon": "*",
+    "bson": "*"
   }
 }
