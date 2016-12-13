@@ -1,5 +1,6 @@
 require('v8-profiler');
-var AsyncSocket = require('./asyncReplRouter').AsyncSocket;
+//var AsyncSocket = require('./asyncReplRouter').AsyncSocket;
+var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 
 var id = "proxy"+process.argv[2];
 console.log('started proxy server: ' + id);
@@ -27,4 +28,4 @@ setInterval(function(){
         numClients++;
     }
     console.log('numClients='+numClients);
-},2000);
+},6000);

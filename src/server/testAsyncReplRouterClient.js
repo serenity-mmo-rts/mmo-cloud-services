@@ -1,5 +1,6 @@
 require('v8-profiler');
-var AsyncSocket = require('./asyncReplRouter').AsyncSocket;
+//var AsyncSocket = require('./asyncReplRouter').AsyncSocket;
+var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 
 var id = "socketio"+process.argv[2];
 console.log('started server: ' + id);
@@ -7,7 +8,7 @@ var interval = 5000;
 var targetClient = "socketio1";
 var targetProxy = "proxy1";
 if (process.argv[2] == "1") {
-    interval = 30000;
+    interval = 300000;
     targetClient = "socketio2";
 }
 
@@ -25,6 +26,7 @@ function registerToProxy() {
         function(success, err) {
             if (success) {
                 registeredAtProxy = true;
+                console.log(id + ': registered at proxy!');
             }
             else {
                 console.log(err);
@@ -55,16 +57,29 @@ asyncSocket.on('testRequest',function(msgData, reply) {
     reply(answer);
 });
 
+var accumResult = 0;
+var logIterator = 0;
+function startNextRequest(valIterator) {
+
+    logIterator = valIterator;
+        var value = valIterator; //Math.floor(Math.random()*100);
+        asyncSocket.sendReq(
+            [targetProxy, targetClient],
+            'testRequest',
+            value,
+            function (answer) {
+                accumResult += answer;
+
+                //console.log(id + ': data value sent: '+value+'. Received answer: ' + answer);
+                startNextRequest(valIterator+1);
+            }
+        );
+        //console.log(id + ': send request to '+targetClient+' value ' + value);
+
+}
+
+setTimeout(function() {startNextRequest(1);}, interval);
 
 setInterval(function() {
-    var value = Math.floor(Math.random()*100);
-    asyncSocket.sendReq(
-        [targetProxy, targetClient],
-        'testRequest',
-        value,
-        function(answer) {
-            console.log(id + ': data value sent: '+value+'. Received answer: ' + answer);
-        }
-    );
-    //console.log(id + ': send request to '+targetClient+' value ' + value);
-}, interval);
+    console.log(id + ": iterator=" + logIterator);
+},500)
