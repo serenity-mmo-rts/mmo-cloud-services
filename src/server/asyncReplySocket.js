@@ -31,6 +31,7 @@ var AsyncSocket = exports.AsyncSocket = function (type) {
     Socket.call(this, type);
 
     this.replCallbacks = {};
+    this.msgIdIterator = 1;
 
     /*
      encoding of messages (all parts should be encoded as Buffer because zeroMq uses Buffer internally):
@@ -52,17 +53,16 @@ var AsyncSocket = exports.AsyncSocket = function (type) {
     this.on('message', function (source, data) {
 
         var flags = data.readUInt8(0);
-        var msgId = data.slice(1,17);
-        var msgIdStr = msgId.toString('base64');
-        var msgData = data.slice(17); //remaining data
+        var msgId = data.readUInt32LE(1);
+        var msgData = data.slice(5); //remaining data
 
         if (flags & msgFlags.IS_REPLY) {
             // this is a reply message, therefore execute the callback
-            if (!self.replCallbacks.hasOwnProperty(msgIdStr)){
-                console.log(self.identity + ": error: cannot find callback for this reply with msgId=" + msgIdStr)
+            if (!self.replCallbacks.hasOwnProperty(msgId)){
+                console.log(self.identity + ": error: cannot find callback for this reply with msgId=" + msgId)
             }
-            self.replCallbacks[msgIdStr](msgData);
-            delete self.replCallbacks[msgIdStr];
+            self.replCallbacks[msgId](msgData);
+            delete self.replCallbacks[msgId];
         }
         else {
             // this is a new request message, therefore emit event with a function handle for replying
@@ -78,11 +78,11 @@ var AsyncSocket = exports.AsyncSocket = function (type) {
                         if (!Buffer.isBuffer(answer)) {
                             answer = new Buffer(String(answer), 'utf8');
                         }
-                        data = new Buffer(17+answer.length);
-                        answer.copy(data,17);
+                        data = new Buffer(5+answer.length);
+                        answer.copy(data,5);
                     }
                     data.writeUInt8(msgFlags.IS_REPLY, 0);
-                    msgId.copy(data, 1);
+                    data.writeUInt32LE(msgId,1);
                     self.send([source, data]);
                 }
             );
@@ -108,9 +108,9 @@ util.inherits(AsyncSocket, Socket);
  * @api public
  */
 AsyncSocket.prototype.sendReq = function (destination, msgData, callback, isBufferWithHeader, timeout) {
-    var msgId = new Buffer(16);
-    uuid.v1(null, msgId, 0);
-    msgIdStr = msgId.toString('base64');
+    var msgId = this.msgIdIterator++;
+    var msgIdBuffer = new Buffer(4);
+    msgIdBuffer.writeUInt32LE( msgId, 0);
 
     var data;
     if (isBufferWithHeader) {
@@ -120,25 +120,25 @@ AsyncSocket.prototype.sendReq = function (destination, msgData, callback, isBuff
         if (!Buffer.isBuffer(msgData)) {
             msgData = new Buffer(String(msgData), 'utf8');
         }
-        data = new Buffer(17+msgData.length);
-        msgData.copy(data,17);
+        data = new Buffer(5+msgData.length);
+        msgData.copy(data,5);
     }
     data.writeUInt8(msgFlags.IS_REQ, 0);
-    msgId.copy(data, 1);
+    msgIdBuffer.copy(data, 1);
 
-    this.replCallbacks[msgIdStr] = callback;
-    //console.log(this.identity + ": added callback to this.replCallbacks for msgId: " + msgIdStr);
+    this.replCallbacks[msgId] = callback;
+    //console.log(this.identity + ": added callback to this.replCallbacks for msgId: " + msgId);
 
     this.send([destination, data]);
 
     if(timeout){
         var self = this;
         setTimeout(function(){
-            if (self.replCallbacks.hasOwnProperty(msgIdStr)) {
+            if (self.replCallbacks.hasOwnProperty(msgId)) {
                 console.log("error: No reply after timeout is reached...");
                 var err = new Error("No reply after timeout is reached...");
-                self.replCallbacks[msgIdStr](null, err);
-                delete self.replCallbacks[msgIdStr];
+                self.replCallbacks[msgId](null, err);
+                delete self.replCallbacks[msgId];
             }
         },timeout)
     }
@@ -226,7 +226,7 @@ AsyncRouter.prototype.sendReq = function (destination, evt, msgData, callback, t
     var bufferList = [];
 
     // add empty placeholder for header:
-    bufferList.push(new Buffer(17));
+    bufferList.push(new Buffer(5));
 
     var fieldSize;
     for (var k=1; k<destination.length; k++) {
