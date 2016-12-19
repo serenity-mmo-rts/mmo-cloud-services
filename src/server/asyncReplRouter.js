@@ -1,4 +1,4 @@
-require('v8-profiler');
+//require('v8-profiler');
 
 var zeromq = require('zmq');
 var uuid = require('node-uuid');

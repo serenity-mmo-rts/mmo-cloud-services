@@ -13,13 +13,56 @@ var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var User = require('../game/User').User;
 var AbstractEvent = require('../game/events/AbstractEvent').AbstractEvent;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
-
+var zmq = require('zmq');
 var socketioClient = require('socket.io-client');
-var redis = require('redis');
+var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 
-var pub = redis.createClient();
-var sub = redis.createClient();
-sub.subscribe('global');
+var serverName = "socketioProxy"+process.argv[2];
+
+
+
+// subscribe to map events
+var subSock = zmq.socket('sub');
+subSock.connect('tcp://127.0.0.1:3000');
+
+
+
+// start asyncSocket for request-response communication:
+var asyncSocket = new AsyncSocket('router');
+asyncSocket.identity = serverName;
+var targetProxy = 'proxy1';
+var registeredAtProxy = false;
+function registerToProxy() {
+    asyncSocket.sendReq(
+        targetProxy,
+        'register',
+        serverName,
+        function(success, err) {
+            if (success) {
+                registeredAtProxy = true;
+                console.log(serverName + ': registered at proxy!');
+
+                process.send({ registration: true });
+
+            }
+            else {
+                console.log(err);
+                console.log(serverName + ': registration at proxy failed!');
+
+                //retry:
+                registerToProxy();
+            }
+        },
+        300 //timeout 300 ms
+    );
+}
+asyncSocket.monitor();
+asyncSocket.on("connect",function(event_value, event_endpoint_addr){
+    console.log(serverName + ': Connect event: '+ event_value + '  addr: ' + event_endpoint_addr);
+    // register this client to proxy:
+    registerToProxy();
+});
+asyncSocket.connect('tcp://127.0.0.1:5001');
 
 
 
@@ -188,29 +231,72 @@ app.io.route('ready', function (req) {
     req.io.emit('initGameData', initGameData);
 })
 
+var clientsInMapIds = {}; // key: client, val: mapId
+var mapIdsWithClients = {}; // key: mapId, val: {clientIds...}
+
+function removeClientFromMap(socketId, req) {
+    if (clientsInMapIds.hasOwnProperty(socketId)) {
+        var oldMapId = clientsInMapIds[socketId];
+        if (req) req.io.leave(oldMapId);
+        delete mapIdsWithClients[oldMapId][socketId];
+        if (mapIdsWithClients[oldMapId].length === 0) {
+            subSock.unsubscribe('map_' + oldMapId);
+        }
+    }
+    // TODO: notify old map server that this client left, so that the server may shutdown after some time...
+}
+
+function addClientToMap(socketId, mapId, req){
+    if (req) req.io.join(mapId)
+    if (!mapIdsWithClients.hasOwnProperty(mapId)) {
+        mapIdsWithClients[mapId] = {};
+    }
+    mapIdsWithClients[mapId][socketId] = true;
+    clientsInMapIds[socketId] = mapId;
+    subSock.subscribe('map_' + mapId);
+}
+
+
 app.io.route('getMap', function (req) {
-    console.log("test")
     var requestedMapId = req.data.mapId;
-    req.session.mapId = requestedMapId;
-    var collLayerServers = db.collection('layerServers');
-    collLayerServers.findOne({_id: requestedMapId}, function (err, doc) {
-        if (err) throw err;
-        var port = doc.port;
-        var hostname = "127.0.0.1";
-        console.log("http://" + hostname + ":" + port);
-        var socket = socketioClient("http://" + hostname + ":" + port);
-        socket.on('connect', function (){
-            socket.emit('getMap',{mapId: requestedMapId}, function(mapData) {
-                req.io.respond(mapData);
-            });
-        });
-        socket.on('connect_error', function (err){
-            console.log("Error: "+err.message);
-        });
+    asyncSocket.sendReq(
+        [targetProxy, 'layer_'+requestedMapId],
+        'getMap',
+        {
+            mapId: requestedMapId
+        },
+        function (mapData) {
+            req.session.mapId = requestedMapId;
+            req.io.respond(mapData);
+            var socketId = req.socket.id;
 
+            // remove old association between client and map:
+            removeClientFromMap(socketId, req);
+
+            // add new association between client and map:
+            addClientToMap(socketId, requestedMapId, req);
+        }
+    );
+});
+
+
+app.io.sockets.on('connection', function(socket) {
+    var socketId = socket.id;
+    // and attach the disconnect event
+    socket.on('disconnect', function() {
+        removeClientFromMap(socketId);
     });
+});
 
-})
+subSock.on('message', function(topic, msgData) {
+    var tmp = msgData.toString();
+    msgData = JSON.parse(tmp);
+    console.log('received a message related to:', topic, 'containing message:', msgData);
+    app.io.room(msgData.map).broadcast(msgData.evt, msgData.dat);
+
+    // TODO: hold broadcasts in memory for clients that are just connecting to this layer... send them this message delayed so that they don't miss any updates...
+
+});
 
 app.io.route('newGameEvent', function (req) {
 
@@ -219,8 +305,23 @@ app.io.route('newGameEvent', function (req) {
         console.log("socket.io proxy receives new event from user " + req.session.username);
         var mapId = req.data[0];
 
-        // TODO: forward to corresponding server.js
-        req.io.respond({success: false});
+        var msgData = {
+            session: {
+                username: req.session.username,
+                loggedIn: req.session.loggedIn
+            },
+            data: req.data
+        };
+
+        // forward to corresponding serverLayer.js
+        asyncSocket.sendReq(
+            [targetProxy, 'layer_'+mapId],
+            'newGameEvent',
+            msgData,
+            function (answer) {
+                req.io.respond(answer);
+            }
+        );
     }
     else {
         req.io.respond({
@@ -230,13 +331,6 @@ app.io.route('newGameEvent', function (req) {
     }
 })
 
-
-// Listen for messages being published to this server from redis.
-sub.on('message', function(channel, msg) {
-
-    app.io.broadcast(msg.event, msg.data);
-
-});
 
 
 

@@ -62,6 +62,8 @@ exports.isConnected = function() {
 exports.get = function(name, callback) {
     if (dbclient) {
         if (!collections[name]) {
+            collections[name] = dbclient.collection(name);
+            //collections[name] = new mongodb.Collection(dbclient, name);
         }
         callback(null, collections[name]);
     } else {

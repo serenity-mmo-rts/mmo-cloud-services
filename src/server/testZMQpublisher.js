@@ -1,11 +1,10 @@
 // pubber.js
 var zmq = require('zmq')
-    , sock = zmq.socket('pub');
+    , pubSock = zmq.socket('pub');
 
-sock.bindSync('tcp://127.0.0.1:3000');
-console.log('Publisher bound to port 3000');
+pubSock.connect('tcp://127.0.0.1:3001');
 
 setInterval(function(){
     console.log('sending a multipart message envelope');
-    sock.send(['kitty cats', 'meow!']);
+    pubSock.send(['kitty cats', 'meow!']);
 }, 500);

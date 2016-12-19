@@ -21,7 +21,7 @@ var registeredAtProxy = false;
 function registerToProxy() {
     asyncSocket.sendReq(
         targetProxy,
-        'registerClient',
+        'register',
         id,
         function(success, err) {
             if (success) {

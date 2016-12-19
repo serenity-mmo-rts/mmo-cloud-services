@@ -15,6 +15,8 @@ var mongodb = require('mongodb');
 var dbConn = require('./dbConnection');
 var loadDb = require('./loadDb');
 var dbUpdating = require('./dbUpdating');
+var zmq = require('zmq');
+var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 
 var fs = require('fs');
 window = {};
@@ -22,7 +24,51 @@ eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
 
 var serverMapId = process.argv[2];
+var serverName = 'layer_'+serverMapId;
 console.log('starting new layer server with mapId ' + serverMapId);
+
+
+// start publishing socket for broadcasts to all connected clients:
+var pubSock = zmq.socket('pub');
+pubSock.connect('tcp://127.0.0.1:3001');
+
+// start asyncSocket for request-response communication:
+var asyncSocket = new AsyncSocket('router');
+asyncSocket.identity = serverName;
+var targetProxy = 'proxy1';
+var registeredAtProxy = false;
+function registerToProxy() {
+    asyncSocket.sendReq(
+        targetProxy,
+        'register',
+        serverName,
+        function(success, err) {
+            if (success) {
+                registeredAtProxy = true;
+                console.log(serverName + ': registered at proxy!');
+
+                process.send({ registration: true });
+
+            }
+            else {
+                console.log(err);
+                console.log(serverName + ': registration at proxy failed!');
+
+                //retry:
+                registerToProxy();
+            }
+        },
+        300 //timeout 300 ms
+    );
+}
+asyncSocket.monitor();
+asyncSocket.on("connect",function(event_value, event_endpoint_addr){
+    console.log(serverName + ': Connect event: '+ event_value + '  addr: ' + event_endpoint_addr);
+    // register this client to proxy:
+    registerToProxy();
+});
+asyncSocket.connect('tcp://127.0.0.1:5001');
+
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -30,10 +76,17 @@ app = express().http().io()
 
 var gameData = new GameData();
 var gameVars = {};
+var mapLoaded = false;
+var mapLoadedCallbacks = [];
 loadDb.getGameData(gameData,gameVars,function() {
     console.log("finished loading game types...")
     loadDb.getMapById(gameData, serverMapId, function() {
         console.log("finished loading map " + serverMapId)
+        mapLoaded = true;
+        for (var key in mapLoadedCallbacks){
+            mapLoadedCallbacks[key]();
+        }
+        mapLoadedCallbacks = [];
     });
 });
 
@@ -51,33 +104,42 @@ server.on('connection', function(socket) { //This is a standard net.Socket
 });
 
 
-app.io.route('getMap', function (req) {
-
-    console.log("getMap");
-    var mapData = gameData.layers.get(req.data.mapId);
-
-    if (mapData) {
-        // update world:
-        mapData.timeScheduler.finishAllTillTime(Date.now());
-
-        var sendMap = {
-            initMap: mapData.save(),
-            initMapObjects: mapData.mapData.mapObjects.save(),
-            initMapEvents: mapData.eventScheduler.events.save(),
-            initItems: mapData.mapData.items.save()
-        }
-
-        req.io.respond(sendMap);
+function whenMapLoaded(cb) {
+    if (mapLoaded) {
+        cb();
     }
+    else {
+        mapLoadedCallbacks.push(cb);
+    }
+}
 
-})
+asyncSocket.on('getMap',function(msgData, reply) {
+    console.log(serverName + ": getMap "+msgData.mapId);
+    whenMapLoaded(function(){
+        var mapData = gameData.layers.get(msgData.mapId);
+        if (mapData) {
+            // update world:
+            mapData.timeScheduler.finishAllTillTime(Date.now());
+            var sendMap = {
+                initMap: mapData.save(),
+                initMapObjects: mapData.mapData.mapObjects.save(),
+                initMapEvents: mapData.eventScheduler.events.save(),
+                initItems: mapData.mapData.items.save()
+            };
+            reply(sendMap);
+        }
+        else {
+            reply(null, new Error("error: map was not found!"));
+        }
+    });
+});
 
-app.io.route('newGameEvent', function (req) {
+asyncSocket.on('newGameEvent',function(msgData, reply) {
 
     // check if correct login:
-    if (req.session.loggedIn) {
-        console.log("new event from user " + req.session.username);
-        var mapId = req.data[0];
+    if (msgData.session.loggedIn) {
+        console.log("new event from user " + msgData.session.username);
+        var mapId = msgData.data[0];
 
         // update world:
         var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(Date.now());
@@ -85,8 +147,8 @@ app.io.route('newGameEvent', function (req) {
             dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
         }
 
-        var gameEvent = EventFactory(gameData,req.data[1]);
-        gameEvent._userId = req.session.username;
+        var gameEvent = EventFactory(gameData,msgData.data[1]);
+        gameEvent._userId = msgData.session.username;
         gameEvent._mapId = mapId;
         gameEvent.setPointers();
 
@@ -102,13 +164,19 @@ app.io.route('newGameEvent', function (req) {
 
             var serializedGameEvent = gameEvent.save();
             // the following broadcast goes to the client who created the event:
-            req.io.respond({
+            reply({
                 success: true,
                 updatedEvent: serializedGameEvent
             });
 
             // the following broadcast goes to all clients, but not the one who created the event:
-            req.io.broadcast('newGameEvent', [mapId, serializedGameEvent]);
+            //req.io.broadcast('newGameEvent', [mapId, serializedGameEvent]);
+            var msgData = {
+                evt: 'newGameEvent',
+                map: mapId,
+                dat: serializedGameEvent
+            }
+            pubSock.send('map_' + mapId, JSON.stringify(msgData));
 
             // save to  db
             dbConn.get('mapEvents', function (err, collMapEvents) {
@@ -124,14 +192,13 @@ app.io.route('newGameEvent', function (req) {
         }
         else {
             console.log("event is not valid!!");
-            req.io.respond({success: false});
+            reply({success: false});
         }
     }
     else {
-        req.io.respond({
+        reply({
             success: false
         });
-        req.io.emit('loginPrompt');
     }
 })
 
@@ -142,23 +209,23 @@ var hostname = os.hostname();
 var port = app.server.address().port;
 console.log("server of layer " + serverMapId + " is on listening on host " + hostname + " on port " + port);
 
-
-dbConn.get('layerServers', function (err, collLayerServers) {
-    if (err) throw err;
-
-    collLayerServers.save(
-        {
-            _id: serverMapId,
-            hostname: hostname,
-            port: port
-        },
-        function(err,docs) {
-            if (err) throw err;
-            console.log("successfully saved server hostname and port to db")
-        }
-    );
-
-});
+//
+//dbConn.get('layerServers', function (err, collLayerServers) {
+//    if (err) throw err;
+//
+//    collLayerServers.save(
+//        {
+//            _id: serverMapId,
+//            hostname: hostname,
+//            port: port
+//        },
+//        function(err,docs) {
+//            if (err) throw err;
+//            console.log("successfully saved server hostname and port to db")
+//        }
+//    );
+//
+//});
 
 
 //var collLayerServers = db.collection('layerServers');

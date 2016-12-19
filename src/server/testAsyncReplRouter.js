@@ -30,7 +30,7 @@ function startProxyRouter(id) {
 
 setTimeout(startProxyRouter("1"),500);
 
-setTimeout(startSocketioProxy("1"),5000);
+//setTimeout(startSocketioProxy("1"),5000);
 setTimeout(startSocketioProxy("2"),6000);
 
 /*
