@@ -16,10 +16,10 @@ var EventFactory = require('../game/events/EventFactory').EventFactory;
 var zmq = require('zmq');
 var socketioClient = require('socket.io-client');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
-
+var bson = require('bson');
 var serverName = "socketioProxy"+process.argv[2];
 
-
+var BSON = bson.BSONPure.BSON;
 
 // subscribe to map events
 var subSock = zmq.socket('sub');
@@ -289,9 +289,8 @@ app.io.sockets.on('connection', function(socket) {
 });
 
 subSock.on('message', function(topic, msgData) {
-    var tmp = msgData.toString();
-    msgData = JSON.parse(tmp);
-    console.log('received a message related to:', topic, 'containing message:', msgData);
+    msgData = BSON.deserialize(msgData);
+    //console.log('received a message related to:', topic, 'containing message:', msgData);
     app.io.room(msgData.map).broadcast(msgData.evt, msgData.dat);
 
     // TODO: hold broadcasts in memory for clients that are just connecting to this layer... send them this message delayed so that they don't miss any updates...

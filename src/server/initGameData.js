@@ -280,8 +280,7 @@ if (node) {
             "resources/objects/planets/starM_White.png",
             "resources/objects/planets/starS_lightBlue.png",
             "resources/objects/planets/starS_White.png",
-            "resources/objects/planets/starM_Orange.png",
-            "resources/objects/planets/galaxyCenter.png"
+            "resources/objects/planets/starM_Orange.png"
         ],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
@@ -296,9 +295,7 @@ if (node) {
             [0, 0, 6,6, 7,3,3],
             [0, 0, 27,29, 8,13,14],
             [0, 0, 16,15, 9,8,8],
-            [0, 0, 18,17, 10,9,8],
-            [0, 0, 115,115, 11,57,57]
-
+            [0, 0, 18,17, 10,9,8]
         ]
     });
     gameData.spritesheets.add(planetSprite);
@@ -470,23 +467,6 @@ if (node) {
     })
     gameData.objectTypes.add(starMOrange);
 
-    var galaxyCenter = new ObjectType(gameData, {
-        _id: "galaxyCenter",
-        _blocks: {
-            Environment: {}
-        },
-        _className: "environment",
-        _initWidth: 50,
-        _initHeight: 50,
-        _allowOnMapTypeId: "galaxyMapType01",
-        _name: "galaxyCenter",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 11,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 11,
-        _buildTime: 0
-    })
-    gameData.objectTypes.add(galaxyCenter);
 
 
 
@@ -1670,18 +1650,6 @@ if (node) {
         y: 100
     });
     galaxyMap.mapData.mapObjects.add(solarSystem1);
-
-
-    /*var galaxyCenter1 = new MapObject(gameData,{
-        _id: "galaxyCenter01",
-        objTypeId: "galaxyCenter",
-        mapId: galaxyMap._id,
-        userId: 0,
-        x: 0,
-        y: 0
-    });
-    galaxyMap.mapData.mapObjects.add(galaxyCenter1);*/
-
 
 
 

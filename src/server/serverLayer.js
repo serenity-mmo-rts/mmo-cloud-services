@@ -17,7 +17,9 @@ var loadDb = require('./loadDb');
 var dbUpdating = require('./dbUpdating');
 var zmq = require('zmq');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
+var bson = require('bson');
 
+var BSON = bson.BSONPure.BSON;
 var fs = require('fs');
 window = {};
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
@@ -176,7 +178,7 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
                 map: mapId,
                 dat: serializedGameEvent
             }
-            pubSock.send('map_' + mapId, JSON.stringify(msgData));
+            pubSock.send(['map_' + mapId, BSON.serialize(msgData,false,true,false)]);
 
             // save to  db
             dbConn.get('mapEvents', function (err, collMapEvents) {
