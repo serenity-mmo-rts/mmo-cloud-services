@@ -1568,7 +1568,7 @@ if (node) {
         height: 20000,             // pixelsize / 2
         mapTypeId: "moonMapType01",
         parentMapId: "solarMap01",
-        mapGeneratorParams: [2,2,14,2,50,20]  // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
+        mapGeneratorParams: [2,10000,14,2,50,20]  // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
     });
     gameData.layers.add(moonMap);
 
@@ -1580,7 +1580,7 @@ if (node) {
         height: 20000,             // pixelsize / 2
         mapTypeId: "moonMapType01",
         parentMapId: "solarMap01",
-        mapGeneratorParams: [1,2,15,2,50,20] // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
+        mapGeneratorParams: [1,10000,15,2,50,20] // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
     });
     gameData.layers.add(moonMap2);
 
@@ -1593,7 +1593,7 @@ if (node) {
         yPos: 10000,
         mapTypeId: "cityMapType01",
         parentMapId: "moonMap01",
-        mapGeneratorParams: [1,2,18,2,50,20]
+        mapGeneratorParams: [1,10000,18,2,50,20]
     });
     gameData.layers.add(cityMap); // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
 
@@ -1606,7 +1606,7 @@ if (node) {
         yPos: 30000,
         mapTypeId: "cityMapType01",
         parentMapId: "moonMap01",
-        mapGeneratorParams: [1,2,18,2,50,20] // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
+        mapGeneratorParams: [1,10000,18,2,50,20] // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
 
     });
     gameData.layers.add(cityMap2);
