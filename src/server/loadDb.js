@@ -11,6 +11,7 @@ var ObjectType = require('../game/types/ObjectType').ObjectType;
 var RessourceType = require('../game/types/ResourceType').RessourceType;
 var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
 var ItemType = require('../game/types/ItemType').ItemType;
+var UserType = require('../game/types/UserType').UserType;
 //var FeatureType = require('../game/types/FeatureType').FeatureType;
 var async = require('async');
 
@@ -40,7 +41,8 @@ function fillGameData(gameData, gameVars, cb) {
             function(cb){ getMapTypes(gameData,cb); },
             function(cb){ getObjTypes(gameData,cb); },
             function(cb){ getTechTypes(gameData,cb); },
-            function(cb){ getItemTypes(gameData,cb); }
+            function(cb){ getItemTypes(gameData,cb); },
+            function(cb){ getUserTypes(gameData,cb); }
         ],
 
         // optional callback
@@ -129,6 +131,18 @@ function getItemTypes(gameData,cb) {
         });
     });
 }
+
+function getUserTypes(gameData,cb) {
+    dbConn.get('userTypes', function (err, collObjectType) {
+        if (err) throw err;
+        collObjectType.find().toArray(function (err, docs) {
+            if (err) throw err;
+            gameData.userTypes= new GameList(gameData, UserType, docs);
+            cb(null,'getUserTypes');
+        });
+    });
+}
+
 
 
 function getMaps(gameData,cb) {

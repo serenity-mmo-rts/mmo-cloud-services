@@ -8,6 +8,7 @@ if (node) {
     var RessourceType = require('../game/types/ResourceType').RessourceType;
     var TechnologyType = require('../game/types/TechnologyType').TechnologyType;
     var ItemType = require('../game/types/ItemType').ItemType;
+    var UserType = require('../game/types/UserType').UserType;
     var Spritesheet = require('../game/Spritesheet').Spritesheet;
     var Layer = require('../game/Layer').Layer;
     var User = require('../game/User').User;
@@ -299,6 +300,13 @@ if (node) {
         ]
     });
     gameData.spritesheets.add(planetSprite);
+
+    var user = gameData.userTypes.add(new UserType(gameData,{
+        _id: "normalUser",
+        _blocks: {
+            Skills: {}
+        }
+    }));
 
     var cityMapType = new LayerType(gameData,{
         _id: "cityMapType01",

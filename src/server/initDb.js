@@ -22,6 +22,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     var collRessourceType = db.collection('resTypes');
     var collTechnologyType = db.collection('techTypes');
     var collItemType = db.collection('itemTypes');
+    var collUserType = db.collection('userTypes');
 
 
     var collMaps = db.collection('layers');
@@ -30,6 +31,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
     var collMapEvents = db.collection('mapEvents');
     var collGameVars = db.collection('gameVars');
     var collUsers = db.collection('users');
+    var collLogins = db.collection('logins');
     var collSessions = db.collection('sessions');
     var collLayerServers = db.collection('layerServers');
 
@@ -42,12 +44,14 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             collRessourceType,
             collTechnologyType,
             collItemType,
+            collUserType,
             collMaps,
             collMapObjects,
             collItems,
             collMapEvents,
             collGameVars,
             collUsers,
+            collLogins,
             collSessions,
             collLayerServers
         ],
@@ -108,10 +112,17 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
         console.log("add item types")
         collItemType.insert(initGameData.gameData.itemTypes.save(), function(err,docs) {
             if (err) throw err;
-            addMaps();
+            addUserTypes();
         });
     }
 
+    function addUserTypes() {
+        console.log("add user types")
+        collItemType.insert(initGameData.gameData.userTypes.save(), function(err,docs) {
+            if (err) throw err;
+            addMaps();
+        });
+    }
 
     function addMaps() {
         console.log("add layers")

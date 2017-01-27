@@ -150,9 +150,9 @@ app.io.route('register', function (req) {
     var password = req.data.password;
     var email = req.data.email;
 
-    dbConn.get('users',function(err,collUsers){
+    dbConn.get('logins',function(err,collLogins){
         if (err) throw err;
-        collUsers.findOne({$or: [
+        collLogins.findOne({$or: [
             {name: username},
             {email: email}
         ]}, function (err, doc) {
@@ -160,19 +160,31 @@ app.io.route('register', function (req) {
             if (doc == null) {
                 // Hash the password with the salt
                 var pwhash = bcrypt.hashSync(password, salt);
-                var userObject = {name: username, email: email, pw: pwhash, sid: sid};
-                collUsers.insert(userObject, {w: 1 }, function (err) {
-                    if (err) throw err;
+                var userLogin = {name: username, email: email, pw: pwhash, sid: sid};
 
-                    console.log("insertId=" + userObject._id);
-                    req.session.username = userObject.name;
-                    req.session.userId = userObject._id;
-                    req.session.loggedIn = true;
-                    req.io.emit('registerFeedback', {
-                        success: true
-                    })
-                    req.io.emit('loggedIn', {userId: userObject._id});
+                collLogins.insert(userLogin, {w: 1 }, function (err) {
+                    if (err) throw err;
+                    console.log("insertId=" + userLogin._id);
+
+
+                    dbConn.get('users',function(err,collUsers) {
+                        if (err) throw err;
+                        var userObject = new User(gameData,{name:userLogin.name,loginId:userLogin._id});
+                        collUsers.insert(userObject, {w: 1 }, function (err) {
+                            if (err) throw err;
+
+                            req.session.username = userLogin.name;
+                            req.session.userId = userLogin._id;
+                            req.session.loggedIn = true;
+                            req.io.emit('registerFeedback', {
+                                success: true
+                            })
+                            req.io.emit('loggedIn', {userId: userLogin._id});
+                        });
+                    });
+
                 });
+
             } else {
                 var errormessage = "";
                 if (doc.name == username) {
@@ -197,9 +209,9 @@ app.io.route('ready', function (req) {
     var sid = req.sessionID;
     console.log("sid=" + sid);
     // check if logged in:
-    dbConn.get('users',function(err,collUsers){
+    dbConn.get('logins',function(err,collLogins){
         if (err) throw err;
-        collUsers.findOne({sid: sid}, function (err, doc) {
+        collLogins.findOne({sid: sid}, function (err, doc) {
             if (err) throw err;
             if (doc == null) {
                 req.session.loggedIn = false;
@@ -224,6 +236,7 @@ app.io.route('ready', function (req) {
         ressourceTypes: gameData.ressourceTypes.save(),
         technologyTypes: gameData.technologyTypes.save(),
         itemTypes: gameData.itemTypes.save(),
+        userTypes: gameData.userTypes.save(),
         //featureTypes: gameData. featureTypes.save(),
         initMapId: gameVars.rootMapId
 
