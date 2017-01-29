@@ -111,9 +111,9 @@ function getObjTypes(gameData,cb) {
 }
 
 function getTechTypes(gameData,cb) {
-    dbConn.get('techTypes', function (err, collObjectType) {
+    dbConn.get('techTypes', function (err, collTechType) {
         if (err) throw err;
-        collObjectType.find().toArray(function (err, docs) {
+        collTechType.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.technologyTypes= new GameList(gameData, TechnologyType, docs);
             cb(null,'getTechTypes');
@@ -122,9 +122,9 @@ function getTechTypes(gameData,cb) {
 }
 
 function getItemTypes(gameData,cb) {
-    dbConn.get('itemTypes', function (err, collObjectType) {
+    dbConn.get('itemTypes', function (err, collItemType) {
         if (err) throw err;
-        collObjectType.find().toArray(function (err, docs) {
+        collItemType.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.itemTypes= new GameList(gameData, ItemType, docs);
             cb(null,'getItemTypes');
@@ -133,9 +133,9 @@ function getItemTypes(gameData,cb) {
 }
 
 function getUserTypes(gameData,cb) {
-    dbConn.get('userTypes', function (err, collObjectType) {
+    dbConn.get('userTypes', function (err, collUserType) {
         if (err) throw err;
-        collObjectType.find().toArray(function (err, docs) {
+        collUserType.find().toArray(function (err, docs) {
             if (err) throw err;
             gameData.userTypes= new GameList(gameData, UserType, docs);
             cb(null,'getUserTypes');

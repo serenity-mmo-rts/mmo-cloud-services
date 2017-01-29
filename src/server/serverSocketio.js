@@ -110,9 +110,9 @@ app.io.route('login', function (req) {
     var username = req.data.name;
     var password = req.data.password;
 
-    dbConn.get('users',function(err,collUsers){
+    dbConn.get('logins',function(err,collLogins){
         if (err) throw err;
-        collUsers.findOne({name: username}, function (err, doc) {
+        collLogins.findOne({name: username}, function (err, doc) {
             if (err) throw err;
             if (doc == null) {
                 req.io.emit('loginError', {msg: "username does not exist!"});
@@ -121,10 +121,11 @@ app.io.route('login', function (req) {
                 bcrypt.compare(password, doc.pw, function (err, res) {
                     if (res) {
                         if (doc.sid != sid) {
-                            collUsers.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
+                            collLogins.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
                                 if (err) throw err;
                                 req.session.username = doc.name;
-                                req.session.userId = doc._id;
+                                req.session.loginId = doc._id;
+                                req.session.userId = doc.userId;
                                 req.session.loggedIn = true;
                                 console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
                                 req.io.emit('loggedIn', {userId: doc1._id});
@@ -158,27 +159,30 @@ app.io.route('register', function (req) {
         ]}, function (err, doc) {
             if (err) throw err;
             if (doc == null) {
+
                 // Hash the password with the salt
                 var pwhash = bcrypt.hashSync(password, salt);
-                var userLogin = {name: username, email: email, pw: pwhash, sid: sid};
+                var loginId = (new mongodb.ObjectID()).toHexString();
+                var userId = (new mongodb.ObjectID()).toHexString();
+
+                var userLogin = {_id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
+                var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: userLogin.name, loginId: loginId});
 
                 collLogins.insert(userLogin, {w: 1 }, function (err) {
                     if (err) throw err;
-                    console.log("insertId=" + userLogin._id);
-
-
+                    console.log("inserted loginId=" + userLogin._id);
                     dbConn.get('users',function(err,collUsers) {
                         if (err) throw err;
-                        var userObject = new User(gameData,{name:userLogin.name,loginId:userLogin._id});
-                        collUsers.insert(userObject, {w: 1 }, function (err) {
+                        collUsers.insert(userObject.save(), {w: 1 }, function (err) {
                             if (err) throw err;
-
+                            console.log("inserted userId=" + userId);
                             req.session.username = userLogin.name;
-                            req.session.userId = userLogin._id;
+                            req.session.loginId = loginId;
+                            req.session.userId = userId;
                             req.session.loggedIn = true;
                             req.io.emit('registerFeedback', {
                                 success: true
-                            })
+                            });
                             req.io.emit('loggedIn', {userId: userLogin._id});
                         });
                     });

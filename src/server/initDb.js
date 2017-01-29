@@ -118,7 +118,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
 
     function addUserTypes() {
         console.log("add user types")
-        collItemType.insert(initGameData.gameData.userTypes.save(), function(err,docs) {
+        collUserType.insert(initGameData.gameData.userTypes.save(), function(err,docs) {
             if (err) throw err;
             addMaps();
         });
