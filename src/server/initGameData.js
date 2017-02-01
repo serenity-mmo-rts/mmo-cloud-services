@@ -304,7 +304,8 @@ if (node) {
     var user = gameData.userTypes.add(new UserType(gameData,{
         _id: "normalUser",
         _blocks: {
-            Skills: {}
+            Skills: {},
+            Technologies: {}
         }
     }));
 

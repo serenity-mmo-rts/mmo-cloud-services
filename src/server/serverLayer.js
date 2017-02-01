@@ -118,21 +118,58 @@ function whenMapLoaded(cb) {
 asyncSocket.on('getMap',function(msgData, reply) {
     console.log(serverName + ": getMap "+msgData.mapId);
     whenMapLoaded(function(){
-        var mapData = gameData.layers.get(msgData.mapId);
-        if (mapData) {
-            // update world:
-            mapData.timeScheduler.finishAllTillTime(Date.now());
-            var sendMap = {
-                initMap: mapData.save(),
-                initMapObjects: mapData.mapData.mapObjects.save(),
-                initMapEvents: mapData.eventScheduler.events.save(),
-                initItems: mapData.mapData.items.save()
-            };
-            reply(sendMap);
+        var userId = msgData.userId;
+        if (userId == null){
+            var mapData = gameData.layers.get(msgData.mapId);
+            if (mapData) {
+                // update world:
+                mapData.timeScheduler.finishAllTillTime(Date.now());
+                var sendMap = {
+                    initMap: mapData.save(),
+                    initMapObjects: mapData.mapData.mapObjects.save(),
+                    initMapEvents: mapData.eventScheduler.events.save(),
+                    initItems: mapData.mapData.items.save(),
+                    initUserData: []
+                };
+                reply(sendMap);
+            }
+            else {
+                reply(null, new Error("error: map was not found!"));
+            }
         }
         else {
-            reply(null, new Error("error: map was not found!"));
+            dbConn.get('users', function (err, collUsers) {
+                if (err) throw err;
+                collUsers.find({_id: userId}).toArray(function (err, documents) {
+                    if (err) throw err;
+                    if (documents != null) {
+
+                        var user = new User(gameData, documents[0]);
+                        gameData.users.add(user);
+
+                        var mapData = gameData.layers.get(msgData.mapId);
+                        if (mapData) {
+                            // update world:
+                            mapData.timeScheduler.finishAllTillTime(Date.now());
+                            var sendMap = {
+                                initMap: mapData.save(),
+                                initMapObjects: mapData.mapData.mapObjects.save(),
+                                initMapEvents: mapData.eventScheduler.events.save(),
+                                initItems: mapData.mapData.items.save(),
+                                initUserData: [user.save()]
+                            };
+                            reply(sendMap);
+                        }
+                        else {
+                            reply(null, new Error("error: map was not found!"));
+                        }
+                    }
+
+
+                });
+            });
         }
+
     });
 });
 

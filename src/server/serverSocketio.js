@@ -128,7 +128,7 @@ app.io.route('login', function (req) {
                                 req.session.userId = doc.userId;
                                 req.session.loggedIn = true;
                                 console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
-                                req.io.emit('loggedIn', {userId: doc1._id});
+                                req.io.emit('loggedIn', {userId: doc1._id, userName: doc.name});
                             });
                         }
                     }
@@ -183,7 +183,7 @@ app.io.route('register', function (req) {
                             req.io.emit('registerFeedback', {
                                 success: true
                             });
-                            req.io.emit('loggedIn', {userId: userLogin._id});
+                            req.io.emit('loggedIn', {userId: userLogin._id, userName: userLogin.name});
                         });
                     });
 
@@ -223,10 +223,11 @@ app.io.route('ready', function (req) {
             }
             else {
                 req.session.username = doc.name;
-                req.session.userId = doc._id;
+                req.session.loginId = doc._id;
+                req.session.userId = doc.userId;
                 req.session.loggedIn = true;
                 console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
-                req.io.emit('loggedIn', {userId: doc._id});
+                req.io.emit('loggedIn', {userId: doc._id,userName: doc.name });
             }
         });
     });
@@ -280,7 +281,8 @@ app.io.route('getMap', function (req) {
         [targetProxy, 'layer_'+requestedMapId],
         'getMap',
         {
-            mapId: requestedMapId
+            mapId: requestedMapId,
+            userId: req.session.userId
         },
         function (mapData) {
             req.session.mapId = requestedMapId;
@@ -324,7 +326,8 @@ app.io.route('newGameEvent', function (req) {
         var msgData = {
             session: {
                 username: req.session.username,
-                loggedIn: req.session.loggedIn
+                loggedIn: req.session.loggedIn,
+                userId: req.session.userId
             },
             data: req.data
         };

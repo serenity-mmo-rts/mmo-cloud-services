@@ -2,7 +2,8 @@ var dbConn = require('./dbConnection');
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
-var ItemModel = require('../game/Item').ItemModel;
+var ItemModel = require('../game/Item').Item;
+
 var LayerType = require('../game/types/LayerType').LayerType;
 var Layer = require('../game/Layer').Layer;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
