@@ -127,8 +127,9 @@ app.io.route('login', function (req) {
                                 req.session.loginId = doc._id;
                                 req.session.userId = doc.userId;
                                 req.session.loggedIn = true;
-                                console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
-                                req.io.emit('loggedIn', {userId: doc1._id, userName: doc.name});
+                                //console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
+                                //req.io.emit('loggedIn', {userId: doc1.userId, userName: doc.name});
+                                userLoggedIn(req);
                             });
                         }
                     }
@@ -166,7 +167,7 @@ app.io.route('register', function (req) {
                 var userId = (new mongodb.ObjectID()).toHexString();
 
                 var userLogin = {_id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
-                var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: userLogin.name, loginId: loginId});
+                var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: username, loginId: loginId});
 
                 collLogins.insert(userLogin, {w: 1 }, function (err) {
                     if (err) throw err;
@@ -176,14 +177,15 @@ app.io.route('register', function (req) {
                         collUsers.insert(userObject.save(), {w: 1 }, function (err) {
                             if (err) throw err;
                             console.log("inserted userId=" + userId);
-                            req.session.username = userLogin.name;
+                            req.session.username = username;
                             req.session.loginId = loginId;
                             req.session.userId = userId;
                             req.session.loggedIn = true;
                             req.io.emit('registerFeedback', {
                                 success: true
                             });
-                            req.io.emit('loggedIn', {userId: userLogin._id, userName: userLogin.name});
+                            //req.io.emit('loggedIn', {userId: userId, userName: username});
+                            userLoggedIn(req);
                         });
                     });
 
@@ -226,8 +228,9 @@ app.io.route('ready', function (req) {
                 req.session.loginId = doc._id;
                 req.session.userId = doc.userId;
                 req.session.loggedIn = true;
-                console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
-                req.io.emit('loggedIn', {userId: doc._id,userName: doc.name });
+                //console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
+                //req.io.emit('loggedIn', {userId: doc._id,userName: doc.name });
+                userLoggedIn(req);
             }
         });
     });
@@ -264,6 +267,12 @@ function removeClientFromMap(socketId, req) {
     // TODO: notify old map server that this client left, so that the server may shutdown after some time...
 }
 
+
+function userLoggedIn(req) {
+    console.log("user " + req.session.username + " is back! (userId=" + req.session.userId + ")");
+    req.io.emit('loggedIn', {userId: req.session.userId, userName: req.session.username });
+}
+
 function addClientToMap(socketId, mapId, req){
     if (req) req.io.join(mapId)
     if (!mapIdsWithClients.hasOwnProperty(mapId)) {
@@ -281,8 +290,8 @@ app.io.route('getMap', function (req) {
         [targetProxy, 'layer_'+requestedMapId],
         'getMap',
         {
-            mapId: requestedMapId,
-            userId: req.session.userId
+            mapId: requestedMapId
+            //userId: req.session.userId
         },
         function (mapData) {
             req.session.mapId = requestedMapId;
@@ -294,6 +303,18 @@ app.io.route('getMap', function (req) {
 
             // add new association between client and map:
             addClientToMap(socketId, requestedMapId, req);
+        }
+    );
+});
+
+
+app.io.route('getUserData', function (req) {
+    var requestedMapId = req.data.mapId;
+    asyncSocket.sendReq(
+        [targetProxy, 'layer_'+requestedMapId],
+        'getUserData',
+        {
+            userId: req.session.userId
         }
     );
 });

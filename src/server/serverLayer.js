@@ -80,15 +80,22 @@ var gameData = new GameData();
 var gameVars = {};
 var mapLoaded = false;
 var mapLoadedCallbacks = [];
+var userLoaded = false;
+var userLoadedCallbacks = [];
 loadDb.getGameData(gameData,gameVars,function() {
     console.log("finished loading game types...")
     loadDb.getMapById(gameData, serverMapId, function() {
         console.log("finished loading map " + serverMapId)
         mapLoaded = true;
+        userLoaded = true;
         for (var key in mapLoadedCallbacks){
             mapLoadedCallbacks[key]();
         }
+        for (var key in userLoadedCallbacks){
+            userLoadedCallbacks[key]();
+        }
         mapLoadedCallbacks = [];
+        userLoadedCallbacks = [];
     });
 });
 
@@ -115,29 +122,42 @@ function whenMapLoaded(cb) {
     }
 }
 
+function whenUserLoaded(cb) {
+    if (userLoaded) {
+        cb();
+    }
+    else {
+        userLoadedCallbacks.push(cb);
+    }
+}
+
 asyncSocket.on('getMap',function(msgData, reply) {
     console.log(serverName + ": getMap "+msgData.mapId);
     whenMapLoaded(function(){
-        var userId = msgData.userId;
-        if (userId == null){
-            var mapData = gameData.layers.get(msgData.mapId);
-            if (mapData) {
-                // update world:
-                mapData.timeScheduler.finishAllTillTime(Date.now());
-                var sendMap = {
-                    initMap: mapData.save(),
-                    initMapObjects: mapData.mapData.mapObjects.save(),
-                    initMapEvents: mapData.eventScheduler.events.save(),
-                    initItems: mapData.mapData.items.save(),
-                    initUserData: []
-                };
-                reply(sendMap);
-            }
-            else {
-                reply(null, new Error("error: map was not found!"));
-            }
+        var mapData = gameData.layers.get(msgData.mapId);
+        if (mapData) {
+            // update world:
+            mapData.timeScheduler.finishAllTillTime(Date.now());
+            var sendMap = {
+                initMap: mapData.save(),
+                initMapObjects: mapData.mapData.mapObjects.save(),
+                initMapEvents: mapData.eventScheduler.events.save(),
+                initItems: mapData.mapData.items.save()
+            };
+            reply(sendMap);
         }
         else {
+            reply(null, new Error("error: map was not found!"));
+        }
+    });
+});
+
+
+
+asyncSocket.on('getUserData',function(msgData, reply) {
+    whenUserLoaded(function(){
+        var userId = msgData.userId;
+        if (userId != null){
             dbConn.get('users', function (err, collUsers) {
                 if (err) throw err;
                 collUsers.find({_id: userId}).toArray(function (err, documents) {
@@ -147,31 +167,25 @@ asyncSocket.on('getMap',function(msgData, reply) {
                         var user = new User(gameData, documents[0]);
                         gameData.users.add(user);
 
-                        var mapData = gameData.layers.get(msgData.mapId);
-                        if (mapData) {
-                            // update world:
-                            mapData.timeScheduler.finishAllTillTime(Date.now());
-                            var sendMap = {
-                                initMap: mapData.save(),
-                                initMapObjects: mapData.mapData.mapObjects.save(),
-                                initMapEvents: mapData.eventScheduler.events.save(),
-                                initItems: mapData.mapData.items.save(),
-                                initUserData: [user.save()]
+                        if (user) {
+                            var data = {
+                                internal: user.save()
                             };
-                            reply(sendMap);
+                            reply(data);
                         }
                         else {
-                            reply(null, new Error("error: map was not found!"));
+                            reply(null, new Error("error: user was not found!"));
                         }
                     }
 
 
                 });
             });
-        }
 
+        }
     });
 });
+
 
 asyncSocket.on('newGameEvent',function(msgData, reply) {
 
