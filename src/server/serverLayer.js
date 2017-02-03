@@ -80,22 +80,15 @@ var gameData = new GameData();
 var gameVars = {};
 var mapLoaded = false;
 var mapLoadedCallbacks = [];
-var userLoaded = false;
-var userLoadedCallbacks = [];
 loadDb.getGameData(gameData,gameVars,function() {
     console.log("finished loading game types...")
     loadDb.getMapById(gameData, serverMapId, function() {
         console.log("finished loading map " + serverMapId)
         mapLoaded = true;
-        userLoaded = true;
         for (var key in mapLoadedCallbacks){
             mapLoadedCallbacks[key]();
         }
-        for (var key in userLoadedCallbacks){
-            userLoadedCallbacks[key]();
-        }
         mapLoadedCallbacks = [];
-        userLoadedCallbacks = [];
     });
 });
 
@@ -122,14 +115,6 @@ function whenMapLoaded(cb) {
     }
 }
 
-function whenUserLoaded(cb) {
-    if (userLoaded) {
-        cb();
-    }
-    else {
-        userLoadedCallbacks.push(cb);
-    }
-}
 
 asyncSocket.on('getMap',function(msgData, reply) {
     console.log(serverName + ": getMap "+msgData.mapId);
@@ -155,35 +140,34 @@ asyncSocket.on('getMap',function(msgData, reply) {
 
 
 asyncSocket.on('getUserData',function(msgData, reply) {
-    whenUserLoaded(function(){
-        var userId = msgData.userId;
-        if (userId != null){
-            dbConn.get('users', function (err, collUsers) {
+    var userId = msgData.userId;
+    if (userId != null){
+        dbConn.get('users', function (err, collUsers) {
+            if (err) throw err;
+            collUsers.find({_id: userId}).toArray(function (err, documents) {
                 if (err) throw err;
-                collUsers.find({_id: userId}).toArray(function (err, documents) {
-                    if (err) throw err;
-                    if (documents != null) {
+                if (documents != null) {
 
-                        var user = new User(gameData, documents[0]);
-                        gameData.users.add(user);
+                    var user = new User(gameData, documents[0]);
+                    gameData.users.add(user);
 
-                        if (user) {
-                            var data = {
-                                internal: user.save()
-                            };
-                            reply(data);
-                        }
-                        else {
-                            reply(null, new Error("error: user was not found!"));
-                        }
+                    if (user) {
+                        var data = {
+                            internal: user.save()
+                        };
+                        reply(data);
                     }
+                    else {
+                        reply(null, new Error("error: user was not found!"));
+                    }
+                }
 
 
-                });
             });
+        });
 
-        }
-    });
+    }
+
 });
 
 
