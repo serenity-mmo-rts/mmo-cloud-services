@@ -267,22 +267,22 @@ function removeClientFromMap(socketId, req) {
     // TODO: notify old map server that this client left, so that the server may shutdown after some time...
 }
 
-
-function userLoggedIn(req) {
-    console.log("user " + req.session.username + " is back! (userId=" + req.session.userId + ")");
-    req.io.emit('loggedIn', {userId: req.session.userId, userName: req.session.username });
-}
-
 function addClientToMap(socketId, mapId, req){
     if (req) req.io.join(mapId)
     if (!mapIdsWithClients.hasOwnProperty(mapId)) {
         mapIdsWithClients[mapId] = {};
     }
+    req.session.mapId = mapId;
     mapIdsWithClients[mapId][socketId] = true;
     clientsInMapIds[socketId] = mapId;
     subSock.subscribe('map_' + mapId);
 }
 
+
+function userLoggedIn(req) {
+    console.log("user " + req.session.username + " is back! (userId=" + req.session.userId + ")");
+    req.io.emit('loggedIn', {userId: req.session.userId, userName: req.session.username });
+}
 
 app.io.route('getMap', function (req) {
     var requestedMapId = req.data.mapId;
@@ -309,12 +309,15 @@ app.io.route('getMap', function (req) {
 
 
 app.io.route('getUserData', function (req) {
-    var requestedMapId = req.data.mapId;
+    var clientConnectedToMapId = req.session.mapId;
     asyncSocket.sendReq(
-        [targetProxy, 'layer_'+requestedMapId],
+        [targetProxy, 'layer_'+clientConnectedToMapId],
         'getUserData',
         {
             userId: req.session.userId
+        },
+        function (userData) {
+            req.io.respond(userData);
         }
     );
 });

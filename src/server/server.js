@@ -112,9 +112,9 @@ setTimeout(startSocketioProxy("1"),600);
 
 //startLayerServerById("galaxyMap01");
 //startLayerServerById("solarMap01");
-setTimeout(startLayerServerById("moonMap01"),1000);
-//startLayerServerById("moonMap02");
-setTimeout(startLayerServerById("cityMap01"),1000);
+//setTimeout(startLayerServerById("moonMap01"),1000);
+startLayerServerById("moonMap02");
+//setTimeout(startLayerServerById("cityMap01"),1000);
 setTimeout(startLayerServerById("cityMap02"),1000);
 
 
