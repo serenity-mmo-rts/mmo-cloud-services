@@ -185,7 +185,7 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
         }
 
         var gameEvent = EventFactory(gameData,msgData.data[1]);
-        gameEvent._userId = msgData.session.username;
+        gameEvent._userId = msgData.session.userId;
         gameEvent._mapId = mapId;
         gameEvent.setPointers();
 
