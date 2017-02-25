@@ -229,7 +229,7 @@ function getItems(gameData, currentMapData, cb) {
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {
                     var item = new ItemModel(gameData, documents[i]);
-                    currentMapData.addItem(item);
+                    currentMapData.mapData.addItem(item);
                 }
             }
 
