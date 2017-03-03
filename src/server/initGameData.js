@@ -1390,6 +1390,10 @@ if (node) {
             ],
             FeatureManager: {
 
+            },
+            Movable: {
+                movementSpeed: 5,  // per sec
+                maxRange: 500
             }
         },
         _allowOnMapTypeId: "moonMap01",
