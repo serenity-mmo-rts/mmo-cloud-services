@@ -1392,7 +1392,7 @@ if (node) {
 
             },
             Movable: {
-                movementSpeed: 5,  // per sec
+                movementSpeed: 0.1,  // per sec
                 maxRange: 500
             }
         },
