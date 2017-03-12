@@ -236,7 +236,24 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
             if (err) throw err;
             console.log("database is now ready!");
             db.close();
-            process.exit(code=0);
+            //process.exit(code=0);
+            startServer()
         });
     }
 });
+
+
+
+var child_process = require('child_process');
+var debugPortIterator = 5872;
+
+function startServer() {
+    var forker = child_process.fork(
+        __dirname + '/server.js',
+        [1],
+        {
+            //execArgv: ['--debug']
+            execArgv: ['--debug-brk='+debugPortIterator]
+        }
+    )
+}
