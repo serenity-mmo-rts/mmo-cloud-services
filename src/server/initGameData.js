@@ -1055,7 +1055,7 @@ if (node) {
         _id: "subObject",
         _blocks: {
             Unit: {
-                itemTypeId:"unitItem",
+                itemTypeId:"unitItem1",
                 deployTime: 20000
             },
             FeatureManager: {},
@@ -1083,14 +1083,17 @@ if (node) {
     gameData.objectTypes.add(subObject);
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "excavator",
+        _id: "unitItem1",
         _name: "excavator",
         _className: "unitItem",
         _blocks: {
             SubObject: {
                 mapObjTypeId: "subObject"
             },
-            Movable: {},
+            Movable: {
+                movementSpeed: 0.1,  // per sec
+                maxRange: 500
+            },
             FeatureManager: {}
         },
         _allowOnMapTypeId: "moonMap01",
