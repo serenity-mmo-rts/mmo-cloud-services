@@ -171,6 +171,94 @@ asyncSocket.on('getUserData',function(msgData, reply) {
 });
 
 
+function notifyLayerToReloadObject(targetMapId, objectIds, itemIds, callback) {
+    var msgData = {
+        event: "loadFromDb",
+        objectIds: objectIds,
+        itemIds: itemIds
+    };
+    sendServerMessage(targetMapId, msgData, callback);
+}
+
+
+function sendServerMessage(targetMapId, msgData, callback) {
+    asyncSocket.sendReq(
+        [targetProxy, 'layer_'+targetMapId],
+        'serverMessage',
+        msgData,
+        function (answer) {
+            req.io.respond(answer);
+        }
+    );
+}
+
+asyncSocket.on('serverMessage',function(msgData, reply) {
+    if (msgData.event == "loadFromDb") {
+        var objectIds = msgData.objectIds;
+        var itemIds = msgData.itemIds;
+
+        if (objectIds.length>0){
+            loadObjects();
+        }
+        else {
+            loadItems();
+        }
+
+        function loadObjects() {
+            dbConn.get('mapObjects', function (err, collMapObjects) {
+                if (err) throw err;
+                collMapObjects.find({_id: objectIds}).toArray(function (err, documents) {
+                    if (documents != null) {
+                        for (var i = 0; i < documents.length; i++) {
+                            var mapObj = new MapObject(gameData, documents[i]);
+                            gameData.layers.get(serverMapId).mapData.addObject(mapObj);
+                        }
+                    }
+
+                    if (itemIds.length>0) {
+                        loadItems();
+                    }
+                    else {
+                        reply({
+                            success: true
+                        });
+                    }
+
+                });
+            });
+        }
+
+
+        function loadItems() {
+            dbConn.get('items', function (err, collMapObjects) {
+                if (err) throw err;
+                collMapObjects.find({_id: objectIds}).toArray(function (err, documents) {
+                    if (documents != null) {
+                        for (var i=0; i<documents.length; i++) {
+                            var mapObj = new MapObject(gameData, documents[i]);
+                            gameData.layers.get(serverMapId).mapData.addObject(mapObj);
+                        }
+                    }
+                    reply({
+                        success: true
+                    });
+                });
+            });
+        }
+
+
+
+    }
+    else {
+        reply({
+            success: false
+        });
+    }
+
+})
+
+
+
 asyncSocket.on('newGameEvent',function(msgData, reply) {
 
     // check if correct login:
