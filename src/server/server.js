@@ -90,14 +90,15 @@ asyncSocket.on("connect",function(event_value, event_endpoint_addr){
 asyncSocket.connect('tcp://127.0.0.1:5001');
 
 
-asyncSocket.on('startLayerServer',function(mapId, callback) {
+asyncSocket.on('startLayerServer',function(msgData, callback) {
 
-    startLayerServerById(mapId, function(m) {
+    console.log("master: starting layer server "+msgData.mapId+"...");
+    startLayerServerById(msgData.mapId, function(m) {
 
         callback({
             success: true
         });
-        console.log("layer started and registered at proxy...");
+        console.log("master: layer "+msgData.mapId+" started and registered at proxy...");
 
     });
 
@@ -113,7 +114,7 @@ setTimeout(startSocketioProxy("1"),600);
 //startLayerServerById("galaxyMap01");
 //startLayerServerById("solarMap01");
 //setTimeout(startLayerServerById("moonMap01"),1000);
-startLayerServerById("moonMap02");
+//startLayerServerById("moonMap01");
 //setTimeout(startLayerServerById("cityMap01"),1000);
 setTimeout(startLayerServerById("cityMap02"),1000);
 

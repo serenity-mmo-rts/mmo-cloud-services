@@ -11,14 +11,27 @@ var Spritesheet = require('../game/Spritesheet').Spritesheet;
 
 var lockedLayers = {};
 var resaveLayers = {};
+var callbacksAfterNextSave = {};
+var callbacksAfterCurrent = {};
 
-exports.reflectLayerToDb = function (gameData, layer) {
+exports.reflectLayerToDb = function (gameData, layer, callback) {
+
+    if (callback) {
+        if (!callbacksAfterNextSave.hasOwnProperty(layer._id)){
+            callbacksAfterNextSave[layer._id] = [];
+        }
+        callbacksAfterNextSave[layer._id].push(callback);
+    }
 
     if (lockedLayers.hasOwnProperty(layer._id)) {
-        console.log("This map layer is write locked in the db. Cannot reflect to db at the moment! add db changes to queue...")
+        console.log("This map layer is write locked in the db. Cannot reflect to db at the moment! add db changes to queue...");
         resaveLayers[layer._id] = true;
     }
     else {
+        if (callbacksAfterNextSave.hasOwnProperty(layer._id)) {
+            callbacksAfterCurrent[layer._id] = callbacksAfterNextSave[layer._id];
+        }
+        callbacksAfterNextSave[layer._id] = [];
         startSaving(gameData, layer);
     }
 
@@ -122,6 +135,17 @@ function reflectGameListToDb(collectionName,gameList,callback) {
 }
 
 function finishSaving(gameData, layer) {
+
+    // call callbacks:
+    if (callbacksAfterCurrent.hasOwnProperty(layer._id)){
+        for (var k= callbacksAfterCurrent[layer._id].length - 1; k>=0; k--) {
+            console.log("call callbacksAfterCurrent")
+            callbacksAfterCurrent[layer._id][k]();
+        }
+        callbacksAfterCurrent[layer._id] = [];
+    }
+
+    // finish:
 
     delete lockedLayers[layer._id];
     console.log("saving is finished");

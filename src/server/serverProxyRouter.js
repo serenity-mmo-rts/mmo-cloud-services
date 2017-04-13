@@ -18,7 +18,7 @@ asyncSocket.on( "destNotFound", function(destStr, forward) {
         asyncSocket.sendReq(
             'master',
             'startLayerServer',
-            mapId,
+            {mapId: mapId},
             function(answer) {
                 console.log(serverName + ": destination "+ destStr + " was started... forward request now...");
                 forward();

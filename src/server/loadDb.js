@@ -2,7 +2,7 @@ var dbConn = require('./dbConnection');
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
-var ItemModel = require('../game/Item').Item;
+var Item = require('../game/Item').Item;
 
 var LayerType = require('../game/types/LayerType').LayerType;
 var Layer = require('../game/Layer').Layer;
@@ -202,7 +202,7 @@ function getMapObjects(gameData, currentMapData, cb) {
     console.log("load mapObjects of map "+currentMapData._id+" from db");
     dbConn.get('mapObjects', function (err, collMapObjects) {
         if (err) throw err;
-        collMapObjects.find({mapId: currentMapData._id}).toArray(function(err, documents) {
+        collMapObjects.find({$or: [ {mapId: currentMapData._id}, {targetMapId: currentMapData._id} ]}).toArray(function(err, documents) {
             if (err) throw err;
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {
@@ -224,11 +224,11 @@ function getItems(gameData, currentMapData, cb) {
     console.log("load items of map "+currentMapData._id+" from db");
     dbConn.get('items', function (err, collItems) {
         if (err) throw err;
-        collItems.find({mapId: currentMapData._id}).toArray(function(err, documents) {
+        collItems.find({$or: [ {mapId: currentMapData._id}, {targetMapId: currentMapData._id} ]} ).toArray(function(err, documents) {
             if (err) throw err;
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {
-                    var item = new ItemModel(gameData, documents[i]);
+                    var item = new Item(gameData, documents[i]);
                     currentMapData.mapData.addItem(item);
                 }
             }

@@ -18,6 +18,7 @@ var dbUpdating = require('./dbUpdating');
 var zmq = require('zmq');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var bson = require('bson');
+var async = require('async');
 
 var BSON = bson.BSONPure.BSON;
 var fs = require('fs');
@@ -171,30 +172,18 @@ asyncSocket.on('getUserData',function(msgData, reply) {
 });
 
 
-function notifyLayerToReloadObject(targetMapId, objectIds, itemIds, callback) {
-    var msgData = {
-        event: "loadFromDb",
-        objectIds: objectIds,
-        itemIds: itemIds
-    };
-    sendServerMessage(targetMapId, msgData, callback);
-}
-
-
-function sendServerMessage(targetMapId, msgData, callback) {
-    asyncSocket.sendReq(
-        [targetProxy, 'layer_'+targetMapId],
-        'serverMessage',
-        msgData,
-        function (answer) {
-            req.io.respond(answer);
-        }
+function notifyServer(msgData) {
+    asyncSocket.sendNotify(
+        [targetProxy, 'layer_'+msgData.targetMapId],
+        'serverNotify',
+        msgData
     );
 }
 
-asyncSocket.on('serverMessage',function(msgData, reply) {
+asyncSocket.on('serverNotify',function(msgData) {
+    console.log("serverNotify");
     if (msgData.event == "loadFromDb") {
-        var objectIds = msgData.objectIds;
+        /*var objectIds = msgData.objectIds;
         var itemIds = msgData.itemIds;
 
         if (objectIds.length>0){
@@ -202,60 +191,91 @@ asyncSocket.on('serverMessage',function(msgData, reply) {
         }
         else {
             loadItems();
+        }*/
+
+        // We first have to load both from db and only when both db-operations are finished, we should add them to game:
+
+        /*var documentsObjects = null;
+        var documentsItems = null;
+
+
+        function loadObjects(cb) {
+
         }
 
-        function loadObjects() {
-            dbConn.get('mapObjects', function (err, collMapObjects) {
-                if (err) throw err;
-                collMapObjects.find({_id: objectIds}).toArray(function (err, documents) {
-                    if (documents != null) {
-                        for (var i = 0; i < documents.length; i++) {
-                            var mapObj = new MapObject(gameData, documents[i]);
-                            gameData.layers.get(serverMapId).mapData.addObject(mapObj);
-                        }
-                    }
 
-                    if (itemIds.length>0) {
-                        loadItems();
-                    }
-                    else {
-                        reply({
-                            success: true
+        function loadItems(cb) {
+
+        }*/
+
+
+
+        async.parallel([
+                function(callback){
+                    if (msgData.itemIds.length>0) {
+                        dbConn.get('mapObjects', function (err, collMapObjects) {
+                            if (err) throw err;
+                            collMapObjects.find({ _id: { $in: msgData.objectIds } }).toArray(function (err, documents) {
+                                //documentsObjects = documents;
+                                callback(null, documents);
+                            });
                         });
                     }
+                    else {
+                        callback(null, []);
+                    }
+                },
+                function(callback){
+                    if (msgData.itemIds.length>0) {
+                        dbConn.get('items', function (err, collItems) {
+                            if (err) throw err;
+                            collItems.find({ _id: { $in: msgData.itemIds } }).toArray(function (err, documents) {
+                                //documentsItems = documents;
+                                callback(null, documents);
+                            });
+                        });
+                    }
+                    else {
+                        callback(null, []);
+                    }
+                }
+            ],
+            function(err, results){
+                if (err) {
+                    console.log("error retrieving from db");
+                }
 
-                });
-            });
-        }
+                // wait for mapdata to be fully loaded:
+                whenMapLoaded(function(){
 
+                    // now add objects and items to mapData:
 
-        function loadItems() {
-            dbConn.get('items', function (err, collMapObjects) {
-                if (err) throw err;
-                collMapObjects.find({_id: objectIds}).toArray(function (err, documents) {
-                    if (documents != null) {
-                        for (var i=0; i<documents.length; i++) {
-                            var mapObj = new MapObject(gameData, documents[i]);
+                    var documentsObjects = results[0];
+                    if (documentsObjects != null) {
+                        for (var i = 0; i < documentsObjects.length; i++) {
+                            var mapObj = new MapObject(gameData, documentsObjects[i]);
                             gameData.layers.get(serverMapId).mapData.addObject(mapObj);
+                            mapObj.setPointers();
                         }
                     }
-                    reply({
-                        success: true
-                    });
+
+                    var documentsItems = results[1];
+                    if (documentsItems != null) {
+                        for (var i=0; i<documentsItems.length; i++) {
+                            var item = new Item(gameData, documentsItems[i]);
+                            gameData.layers.get(serverMapId).mapData.addItem(item);
+                            item.setPointers();
+                        }
+                    }
+
                 });
-            });
-        }
 
-
+            }
+        );
 
     }
-    else {
-        reply({
-            success: false
-        });
-    }
 
-})
+});
 
 
 
@@ -268,9 +288,6 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
 
         // update world:
         var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(Date.now());
-        if (numEventsFinished > 0) {
-            dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
-        }
 
         var gameEvent = EventFactory(gameData,msgData.data[1]);
         gameEvent._userId = msgData.session.userId;
@@ -284,7 +301,16 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
 
             // execute event locally on server:
             gameEvent.executeOnServer();
-            dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
+            var notifyMsg = gameEvent.notifyServer();
+            var callbackAfterSave = null;
+            if (notifyMsg) {
+                callbackAfterSave = function() {
+                    console.log("callbackAfterSave");
+                    notifyServer(notifyMsg);
+                }
+            }
+
+            dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId), callbackAfterSave);
             console.log("event was successfully executed. Now broadcast to clients...");
 
             var serializedGameEvent = gameEvent.save();
@@ -317,6 +343,9 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
         }
         else {
             console.log("event is not valid!!");
+            if (numEventsFinished > 0) {
+                dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
+            }
             reply({success: false});
         }
     }
