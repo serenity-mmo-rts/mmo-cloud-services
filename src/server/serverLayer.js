@@ -6,6 +6,7 @@ var express = require('express.io')
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
+var Item = require('../game/Item').Item;
 var ObjectType = require('../game/types/ObjectType').ObjectType;
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var User = require('../game/User').User;
@@ -181,34 +182,8 @@ function notifyServer(msgData) {
 }
 
 asyncSocket.on('serverNotify',function(msgData) {
-    console.log("serverNotify");
+    console.log(serverName+" received serverNotify event "+msgData.event);
     if (msgData.event == "loadFromDb") {
-        /*var objectIds = msgData.objectIds;
-        var itemIds = msgData.itemIds;
-
-        if (objectIds.length>0){
-            loadObjects();
-        }
-        else {
-            loadItems();
-        }*/
-
-        // We first have to load both from db and only when both db-operations are finished, we should add them to game:
-
-        /*var documentsObjects = null;
-        var documentsItems = null;
-
-
-        function loadObjects(cb) {
-
-        }
-
-
-        function loadItems(cb) {
-
-        }*/
-
-
 
         async.parallel([
                 function(callback){
