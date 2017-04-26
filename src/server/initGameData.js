@@ -1056,7 +1056,7 @@ if (node) {
         _blocks: {
             Unit: {
                 itemTypeId:"unitItem1",
-                deployTime: 20000
+                deployTime: 20000,
             },
             FeatureManager: {},
             HubConnectivity: {},
@@ -1092,7 +1092,8 @@ if (node) {
             },
             Movable: {
                 movementSpeed: 0.1,  // per sec
-                maxRange: 500
+                maxRange: 500,
+                movingUpTime: 3000
             },
             FeatureManager: {}
         },
