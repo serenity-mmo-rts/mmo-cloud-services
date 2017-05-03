@@ -161,8 +161,15 @@ function getMaps(gameData,cb) {
                     ],
                     function(err, results){
                         currentMapData.mapData.mapObjects.setPointers();
+                        currentMapData.mapData.mapObjects.each(function(mapObj){
+                            mapObj.embedded(true);
+                        });
                         currentMapData.mapData.items.setPointers();
+                        currentMapData.mapData.items.each(function(item){
+                            item.embedded(true);
+                        });
                         currentMapData.eventScheduler.events.setPointers();
+                        currentMapData.timeScheduler.finishAllTillTime(Date.now());
                         cb();
                     }
                 );
@@ -188,8 +195,15 @@ exports.getMapById = function(gameData, mapId, cb) {
                     ],
                     function(err, results){
                         currentMapData.mapData.mapObjects.setPointers();
+                        currentMapData.mapData.mapObjects.each(function(mapObj){
+                            mapObj.embedded(true);
+                        });
                         currentMapData.mapData.items.setPointers();
+                        currentMapData.mapData.items.each(function(item){
+                            item.embedded(true);
+                        });
                         currentMapData.eventScheduler.events.setPointers();
+                        currentMapData.timeScheduler.finishAllTillTime(Date.now());
                         cb();
                     }
                 );
