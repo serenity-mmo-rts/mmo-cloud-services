@@ -272,6 +272,7 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
         // check if event is valid:
         if (gameEvent.isValid()) {
 
+            gameEvent.oldId = gameEvent._id;
             gameEvent._id = (new mongodb.ObjectID()).toHexString();
 
             // execute event locally on server:
@@ -291,12 +292,11 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
             var serializedGameEvent = gameEvent.save();
             // the following broadcast goes to the client who created the event:
             reply({
-                success: true,
-                updatedEvent: serializedGameEvent
+                success: true//,
+                //updatedEvent: serializedGameEvent
             });
 
-            // the following broadcast goes to all clients, but not the one who created the event:
-            //req.io.broadcast('newGameEvent', [mapId, serializedGameEvent]);
+            // the following broadcast goes to all clients:
             var msgData = {
                 evt: 'newGameEvent',
                 map: mapId,
