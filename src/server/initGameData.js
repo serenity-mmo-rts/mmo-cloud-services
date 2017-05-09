@@ -895,7 +895,10 @@ if (node) {
     var mineralStorage = new ObjectType(gameData,{
         _id: "mineralStorage",
         _blocks: {
-            ResourceStorage: {},
+            ResourceStorage: {
+                ressourceTypeIds: ["iron","carbon"],
+                ressourceCapacity: [100, 200]
+            },
             FeatureManager: {},
             HubConnectivity: {},
             UpgradeProduction: {
@@ -929,7 +932,10 @@ if (node) {
     var liquidStorage = new ObjectType(gameData,{
         _id: "liquidStorage",
         _blocks: {
-            ResourceStorage: {},
+            ResourceStorage: {
+                ressourceTypeIds: ["oxygen"],
+                ressourceCapacity: [100]
+            },
             FeatureManager: {},
             HubConnectivity: {
                 numPorts:  1
@@ -964,8 +970,18 @@ if (node) {
     var plantation1 = new ObjectType(gameData,{
         _id: "plantation1",
         _blocks: {
-            ResourceStorage: {},
+            ResourceStorage: {
+                ressourceTypeIds: ["oxygen"],
+                ressourceCapacity: [5]
+            },
             FeatureManager: {},
+            HubConnectivity: {
+                numPorts:  1
+            },
+            SoilPuller: {
+                ressourceTypeIds: ["oxygen"],
+                ressourceMaxInPerSec: [5]
+            },
             UpgradeProduction: {
                 numSlots: 10,
                 itemTypeIds: ["engineerDept","solarPanel"]
@@ -995,8 +1011,18 @@ if (node) {
     var plantation2 = new ObjectType(gameData,{
         _id: "plantation2",
         _blocks: {
-            ResourceStorage: {},
+            ResourceStorage: {
+                ressourceTypeIds: ["oxygen"],
+                ressourceCapacity: [5]
+            },
             FeatureManager: {},
+            SoilPuller: {
+                ressourceTypeIds: ["oxygen"],
+                ressourceMaxInPerSec: [5]
+            },
+            HubConnectivity: {
+                numPorts:  1
+            },
             WorkingPlace: {
                 requiredSkills: 0
             },
