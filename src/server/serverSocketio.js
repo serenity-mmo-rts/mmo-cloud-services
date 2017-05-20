@@ -286,6 +286,10 @@ function userLoggedIn(req) {
 
 app.io.route('getMap', function (req) {
     var requestedMapId = req.data.mapId;
+    if (requestedMapId==0) {
+        console.log("error: the client is requesting MapId=0 !!!!!!!!!!!")
+        return;
+    }
     asyncSocket.sendReq(
         [targetProxy, 'layer_'+requestedMapId],
         'getMap',
