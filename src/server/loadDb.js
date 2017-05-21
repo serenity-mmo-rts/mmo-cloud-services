@@ -160,6 +160,10 @@ function getMaps(gameData,cb) {
                         function(cb){ getMapEvents(gameData, currentMapData, cb); }
                     ],
                     function(err, results){
+                        //setPointers(gameData, currentMapData);
+                        currentMapData.initialize();
+
+                        /*
                         currentMapData.mapData.mapObjects.setPointers();
                         currentMapData.mapData.mapObjects.each(function(mapObj){
                             mapObj.embedded(true);
@@ -170,6 +174,8 @@ function getMaps(gameData,cb) {
                         });
                         currentMapData.eventScheduler.events.setPointers();
                         currentMapData.timeScheduler.finishAllTillTime(Date.now());
+                        */
+
                         cb();
                     }
                 );
@@ -194,6 +200,10 @@ exports.getMapById = function(gameData, mapId, cb) {
                         function(cb){ getMapEvents(gameData, currentMapData, cb); }
                     ],
                     function(err, results){
+                        //setPointers(gameData, currentMapData);
+                        currentMapData.initialize();
+
+                        /*
                         currentMapData.mapData.mapObjects.setPointers();
                         currentMapData.mapData.mapObjects.each(function(mapObj){
                             mapObj.embedded(true);
@@ -204,6 +214,8 @@ exports.getMapById = function(gameData, mapId, cb) {
                         });
                         currentMapData.eventScheduler.events.setPointers();
                         currentMapData.timeScheduler.finishAllTillTime(Date.now());
+                        */
+
                         cb();
                     }
                 );
@@ -219,10 +231,14 @@ function getMapObjects(gameData, currentMapData, cb) {
         collMapObjects.find({$or: [ {mapId: currentMapData._id}, {targetMapId: currentMapData._id} ]}).toArray(function(err, documents) {
             if (err) throw err;
             if (documents != null) {
+
+                currentMapData.mapData.mapObjects.load(documents);
+                currentMapData.mapData.rebuildQuadTree();
+                /*
                 for (var i=0; i<documents.length; i++) {
                     var mapObj = new MapObject(gameData, documents[i]);
                     currentMapData.mapData.addObject(mapObj);
-                }
+                }*/
             }
 
             // reset the state changes, because we just added all objects from db:
@@ -275,7 +291,8 @@ function getMapEvents(gameData, currentMapData, cb) {
     });
 }
 
-function setPointers(gameData, currentMapData) {
+function setPointers(gameData, myNewMap) {
+    /*
     currentMapData.mapData.mapObjects.setPointers();
     currentMapData.mapData.mapObjects.each(function(mapObj){
         mapObj.embedded(true);
@@ -286,4 +303,18 @@ function setPointers(gameData, currentMapData) {
     });
     currentMapData.eventScheduler.events.setPointers();
     currentMapData.timeScheduler.finishAllTillTime(Date.now());
+    */
+
+    // now call setPointers() for everything
+    myNewMap.mapData.setPointers(); // this will call setPointer() on all mapObjects and items
+    myNewMap.eventScheduler.events.setPointers();
+
+    // now embed into game:
+    myNewMap.mapData.mapObjects.each(function(mapObj){
+        mapObj.embedded(true);
+    });
+    myNewMap.mapData.items.each(function(item){
+        item.embedded(true);
+    });
+
 }
