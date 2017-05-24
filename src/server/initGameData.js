@@ -1,7 +1,7 @@
 var node = !(typeof exports === 'undefined');
 if (node) {
     var GameData = require('../game/GameData').GameData;
-    var mapObjectStates = require('../game/MapObject').mapObjectStates;
+    var State = require('../game/AbstractBlock').State;
     var MapObject = require('../game/MapObject').MapObject;
     var LayerType = require('../game/types/LayerType').LayerType;
     var ObjectType = require('../game/types/ObjectType').ObjectType;
@@ -1779,7 +1779,7 @@ if (node) {
         y: 0,
         objTypeId: "furnitureFactory",
         userId: 0,
-        state: mapObjectStates.FINISHED
+        state: State.NORMAL
     }));
 
 
@@ -1791,7 +1791,7 @@ if (node) {
         y: 0,
         objTypeId: "furnitureFactory",
         userId: 0,
-        state: mapObjectStates.FINISHED
+        state: State.NORMAL
     }));
 
     // Add Start Building
@@ -1802,7 +1802,7 @@ if (node) {
         y: 500,
         objTypeId: "furnitureFactory",
         userId: 0,
-        state: mapObjectStates.FINISHED
+        state: State.NORMAL
     }));
 
 
