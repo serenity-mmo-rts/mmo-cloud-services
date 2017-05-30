@@ -274,7 +274,7 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
 
             gameEvent.oldId = gameEvent._id;
             gameEvent._id = (new mongodb.ObjectID()).toHexString();
-
+            gameEvent._isFinished = false;
             gameData.layers.get(mapId).eventScheduler.addEvent(gameEvent);
 
             // execute event locally on server:

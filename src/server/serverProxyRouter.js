@@ -11,7 +11,7 @@ asyncSocket.bind(port, function(err) {
 });
 
 asyncSocket.on( "destNotFound", function(destStr, forward) {
-
+    console.log(serverName+": destStr="+destStr);
     if(destStr.indexOf('layer_') === 0) {
         var mapId = destStr.substring(6);
         console.log("layer server "+mapId+" not started. notify master...");

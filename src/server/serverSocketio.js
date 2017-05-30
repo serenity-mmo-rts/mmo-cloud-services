@@ -286,6 +286,7 @@ function userLoggedIn(req) {
 
 app.io.route('getMap', function (req) {
     var requestedMapId = req.data.mapId;
+    console.log("serverSocketio: getMap: "+requestedMapId);
     if (requestedMapId==0) {
         console.log("error: the client is requesting MapId=0 !!!!!!!!!!!")
         return;
@@ -314,6 +315,11 @@ app.io.route('getMap', function (req) {
 
 app.io.route('getUserData', function (req) {
     var clientConnectedToMapId = req.session.mapId;
+    if (!clientConnectedToMapId) {
+        console.log(serverName+': ERROR: getUserData without a valid mapId!!!');
+        req.io.respond(null);
+        return;
+    }
     asyncSocket.sendReq(
         [targetProxy, 'layer_'+clientConnectedToMapId],
         'getUserData',
