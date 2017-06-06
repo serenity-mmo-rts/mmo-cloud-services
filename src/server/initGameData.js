@@ -316,7 +316,10 @@ if (node) {
         _ratioWidthHeight: 2,
         _bgColor: 000000,
         _groundImage: "resources/ground.png",
-        _groundImageScaling: 1
+        _groundImageScaling: 1,
+        _blocks: {
+            HubSystem: {}
+        }
     });
     gameData.layerTypes.add(cityMapType);
 
@@ -327,8 +330,11 @@ if (node) {
         _ratioWidthHeight: 2,
         _bgColor: 000000,
         _groundImage: "resources/moonGround.png",
-        _groundImageScaling: 1
-    })
+        _groundImageScaling: 1,
+        _blocks: {
+            HubSystem: {}
+        }
+    });
     gameData.layerTypes.add(moonMapType);
 
     var solarMapType = new LayerType(gameData,{
