@@ -3,7 +3,6 @@ var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 
 express = require('express.io')
-var MongoStore = require('connect-mongo')(express)
 
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
@@ -19,7 +18,8 @@ var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var bson = require('bson');
 var serverName = "socketioProxy"+process.argv[2];
 
-var BSON = bson.BSONPure.BSON;
+//var BSON = bson.BSONPure.BSON;
+var BSON = new bson.BSONPure.BSON();
 
 // subscribe to map events
 var subSock = zmq.socket('sub');
@@ -92,8 +92,17 @@ loadDb.getGameData(gameData,gameVars,function() {
 // Setup sessions
 app.use(express.cookieParser())
 var db = dbConn.getDb();
-app.use(express.session({secret: 'thisIsAnAwesomeGame',
-    store: new MongoStore({db: db})}))
+
+var MongoStore = require('connect-mongo')(express);
+
+dbConn.connect(function() {
+
+    app.use(express.session({secret: 'thisIsAnAwesomeGame',
+        store: new MongoStore({db: db})}))
+})
+
+
+
 
 app.use(express.static('../client'));
 app.use('/game', express.static('../game'));

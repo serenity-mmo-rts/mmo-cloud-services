@@ -21,7 +21,8 @@ var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var bson = require('bson');
 var async = require('async');
 
-var BSON = bson.BSONPure.BSON;
+//var BSON = bson.BSONPure.BSON;
+var BSON = new bson.BSONPure.BSON();
 var fs = require('fs');
 window = {};
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
