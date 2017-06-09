@@ -72,7 +72,7 @@ var fs = require('fs');
 window = {};
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
-app = express().http().io()
+app = express().http().io();
 
 var gameData = new GameData();
 var gameVars = {};
@@ -130,13 +130,13 @@ app.io.route('login', function (req) {
                 bcrypt.compare(password, doc.pw, function (err, res) {
                     if (res) {
                         if (doc.sid != sid) {
-                            collLogins.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
+                            collLogins.findAndModify({id: doc.id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
                                 if (err) throw err;
                                 req.session.username = doc.name;
-                                req.session.loginId = doc._id;
+                                req.session.loginId = doc.id;
                                 req.session.userId = doc.userId;
                                 req.session.loggedIn = true;
-                                //console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
+                                //console.log('login of userId: ' + doc1.id + ' username: ' + doc1.name);
                                 //req.io.emit('loggedIn', {userId: doc1.userId, userName: doc.name});
                                 userLoggedIn(req);
                             });
@@ -144,7 +144,7 @@ app.io.route('login', function (req) {
                     }
                     else {
                         req.io.emit('loginError', {msg: "wrong password!"});
-                        console.log('loginError of userId: ' + doc._id + ' username: ' + doc.name);
+                        console.log('loginError of userId: ' + doc.id + ' username: ' + doc.name);
                     }
                 });
             }
@@ -175,12 +175,12 @@ app.io.route('register', function (req) {
                 var loginId = (new mongodb.ObjectID()).toHexString();
                 var userId = (new mongodb.ObjectID()).toHexString();
 
-                var userLogin = {_id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
-                var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: username, loginId: loginId});
+                var userLogin = {id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
+                var userObject = new User(gameData,{id: userId, userTypeId: "normalUser" , name: username, loginId: loginId});
 
                 collLogins.insert(userLogin, {w: 1 }, function (err) {
                     if (err) throw err;
-                    console.log("inserted loginId=" + userLogin._id);
+                    console.log("inserted loginId=" + userLogin.id);
                     dbConn.get('users',function(err,collUsers) {
                         if (err) throw err;
                         collUsers.insert(userObject.save(), {w: 1 }, function (err) {
@@ -234,11 +234,11 @@ app.io.route('ready', function (req) {
             }
             else {
                 req.session.username = doc.name;
-                req.session.loginId = doc._id;
+                req.session.loginId = doc.id;
                 req.session.userId = doc.userId;
                 req.session.loggedIn = true;
-                //console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
-                //req.io.emit('loggedIn', {userId: doc._id,userName: doc.name });
+                //console.log("user " + doc.name + " is back! (userId=" + doc.id + ")");
+                //req.io.emit('loggedIn', {userId: doc.id,userName: doc.name });
                 userLoggedIn(req);
             }
         });

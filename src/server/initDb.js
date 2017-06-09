@@ -214,7 +214,7 @@ mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: t
        initGameData.gameData.layers.each(function(layer){
            console.log("in map")
             layer.mapObjects.each(function(obj){
-                console.log(obj._id)
+                console.log(obj.id)
                 collItems.insert(obj.items.save(), function(err,docs) {
                     console.log("in obj")
                     if (err) console.log("damn an error")  // here comes an error

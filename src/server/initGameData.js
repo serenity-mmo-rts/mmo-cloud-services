@@ -19,7 +19,7 @@ if (node) {
     var gameData = new GameData();
 
     var forestSprite = new Spritesheet(gameData,{
-        _id: 'forestSprite01',
+        id: 'forestSprite01',
         images: ["resources/forest.png"],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
@@ -30,7 +30,7 @@ if (node) {
     gameData.spritesheets.add(forestSprite);
 
     var moonSprite = new Spritesheet(gameData,{
-        _id: 'moonSprite01',
+        id: 'moonSprite01',
         images: ["resources/objects/crater.png","resources/objects/dome.png","resources/objects/domeIcon.png"],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
@@ -38,11 +38,11 @@ if (node) {
             [0, 0, 164, 79, 1, 82, 45],
             [0, 0, 32, 15, 2, 0, 0]
         ]
-    })
+    });
     gameData.spritesheets.add(moonSprite);
 
     var citySprite = new Spritesheet(gameData,{
-        _id: 'cityBuildingsSprite01',
+        id: 'cityBuildingsSprite01',
         images: ["resources/CityBuildings.png", "resources/CityBuildingsIcons.png"],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
@@ -66,7 +66,7 @@ if (node) {
     gameData.spritesheets.add(citySprite);
 
     var objectsSprite = new Spritesheet(gameData,{
-        _id: 'objectsSprite',
+        id: 'objectsSprite',
         images: ["resources/objects/defenseTower.png", "resources/objects/defenseTowerIcon.png",
             "resources/objects/furnitureFactory.png", "resources/objects/furnitureFactoryIcon.png",
             "resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png",
@@ -108,11 +108,11 @@ if (node) {
 
             [0, 0, 129, 142, 17, 65, 70]
         ]
-    })
+    });
     gameData.spritesheets.add(objectsSprite);
 
     var planetConnectionSprite = new Spritesheet(gameData,{
-        _id: 'planetConnectionSprite',
+        id: 'planetConnectionSprite',
         images: [
             "resources/objects/planetPipe.ori/Image0000.png",
             "resources/objects/planetPipe.ori/Image0001.png",
@@ -132,11 +132,11 @@ if (node) {
             [0, 0, 100, 50, 5, 50, 25],
             [0, 0, 100, 50, 6, 50, 25]
         ]
-    })
+    });
     gameData.spritesheets.add(planetConnectionSprite);
 
     var robotFactorySprite = new Spritesheet(gameData,{
-        _id: 'robotFactorySprite',
+        id: 'robotFactorySprite',
         images: [
             "resources/objects/RobotFactory/Image0000.png",
             "resources/objects/RobotFactory/Image0020.png",
@@ -161,11 +161,11 @@ if (node) {
         animations: {
             working: [0, 7, "working", 0.05]
         }
-    })
+    });
     gameData.spritesheets.add(robotFactorySprite);
 
     var researchFacilitySprite = new Spritesheet(gameData,{
-        _id: 'researchFacilitySprite',
+        id: 'researchFacilitySprite',
         images: [
             "resources/objects/ResearchFacility/Image0001.png",
             "resources/objects/ResearchFacility/Image0002.png",
@@ -188,11 +188,11 @@ if (node) {
                 speed: 0.05
             }
         }
-    })
+    });
     gameData.spritesheets.add(researchFacilitySprite);
 
     var mineralStorageSprite = new Spritesheet(gameData,{
-        _id: 'mineralStorageSprite',
+        id: 'mineralStorageSprite',
         images: [
             "resources/objects/mineralStorage/Image0001.png",
             "resources/objects/mineralStorage/Image0002.png",
@@ -225,12 +225,12 @@ if (node) {
                 speed: 0.05
             }
         }
-    })
+    });
     gameData.spritesheets.add(mineralStorageSprite);
 
 
     var ressourceSprite = new Spritesheet(gameData,{
-        _id: 'ressourceSprite01',
+        id: 'ressourceSprite01',
         images: ["resources/RessourceIcons.png"],
         frames: [
             // x, y, width, height, imageIndex, regX, regY
@@ -246,7 +246,7 @@ if (node) {
     gameData.spritesheets.add(ressourceSprite);
 
     var itemSprite = new Spritesheet(gameData,{
-        _id: 'itemSprite',
+        id: 'itemSprite',
         images: ["resources/own_icons/connectionSlot.png","resources/own_icons/engineerDepartment.png","resources/own_icons/excavator.png",
             "resources/own_icons/itDepartment.png","resources/own_icons/officePlace.png","resources/own_icons/robotArm.png",
             "resources/own_icons/slotMachine.png","resources/own_icons/telescope.png","resources/own_icons/warehouseStorage.png"],
@@ -269,7 +269,7 @@ if (node) {
 
 
     var planetSprite = new Spritesheet(gameData,{
-        _id: 'planetSprite',
+        id: 'planetSprite',
         images: [
             "resources/objects/planets/Earth.png",
             "resources/objects/planets/Mars.png",
@@ -302,70 +302,70 @@ if (node) {
     gameData.spritesheets.add(planetSprite);
 
     var user = gameData.userTypes.add(new UserType(gameData,{
-        _id: "normalUser",
-        _blocks: {
+        id: "normalUser",
+        blocks: {
             Skills: {},
             Technologies: {}
         }
     }));
 
     var cityMapType = new LayerType(gameData,{
-        _id: "cityMapType01",
-        _name: "City",
-        _scale: 1,
-        _ratioWidthHeight: 2,
-        _bgColor: 000000,
-        _groundImage: "resources/ground.png",
-        _groundImageScaling: 1,
-        _blocks: {
+        id: "cityMapType01",
+        name: "City",
+        scale: 1,
+        ratioWidthHeight: 2,
+        bgColor: 000000,
+        groundImage: "resources/ground.png",
+        groundImageScaling: 1,
+        blocks: {
             HubSystem: {}
         }
     });
     gameData.layerTypes.add(cityMapType);
 
     var moonMapType = new LayerType(gameData,{
-        _id: "moonMapType01",
-        _name: "Moon",
-        _scale: 1,
-        _ratioWidthHeight: 2,
-        _bgColor: 000000,
-        _groundImage: "resources/moonGround.png",
-        _groundImageScaling: 1,
-        _blocks: {
+        id: "moonMapType01",
+        name: "Moon",
+        scale: 1,
+        ratioWidthHeight: 2,
+        bgColor: 000000,
+        groundImage: "resources/moonGround.png",
+        groundImageScaling: 1,
+        blocks: {
             HubSystem: {}
         }
     });
     gameData.layerTypes.add(moonMapType);
 
     var solarMapType = new LayerType(gameData,{
-        _id: "solarMapType01",
-        _name: "Solar",
-        _scale: 1,
-        _ratioWidthHeight: 2,
-        _bgColor: 000000,
-        _groundImage: "resources/background/starBackground.jpg",
-        _groundImageScaling: 0.1,
-        _groundDragScaling: 0.1
+        id: "solarMapType01",
+        name: "Solar",
+        scale: 1,
+        ratioWidthHeight: 2,
+        bgColor: 000000,
+        groundImage: "resources/background/starBackground.jpg",
+        groundImageScaling: 0.1,
+        groundDragScaling: 0.1
     });
     gameData.layerTypes.add(solarMapType);
 
 
     var galaxyMapType = new LayerType(gameData,{
-        _id: "galaxyMapType01",
-        _name: "Galaxy",
-        _scale: 1,
-        _ratioWidthHeight: 2,
-        _bgColor: 000000,
-        _groundImage: "resources/background/starBackgroundBlack.jpg",
-        _groundImageScaling: 1,
-        _groundDragScaling: 0.1
+        id: "galaxyMapType01",
+        name: "Galaxy",
+        scale: 1,
+        ratioWidthHeight: 2,
+        bgColor: 000000,
+        groundImage: "resources/background/starBackgroundBlack.jpg",
+        groundImageScaling: 1,
+        groundDragScaling: 0.1
     });
     gameData.layerTypes.add(galaxyMapType);
 
 
     var redDwarf = new ObjectType(gameData, {
-        _id: "redDwarf",
-        _blocks: {
+        id: "redDwarf",
+        blocks: {
             Sublayer: {},
             HubConnectivity: {
                 numPorts: 12
@@ -379,31 +379,31 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 32,
-        _initHeight: 32,
-        _allowOnMapTypeId: "galaxyMapType01",
-        _name: "redDwarf",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 5,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 5,
-        _buildTime: 0,
-        _StarSizesMean : 2,
-        _StarSizesStd :0.5,
-        _StarHeatMean : 2,
-        _StarHeatStd : 0.5,
-        _PlanetAmountMean : 8,
-        _PlanetAmountStd : 4,
-        _PlanetSizesMean : 14, // in 2 pow n
-        _PlanetSizesStd : 3
+        className: "sublayer",
+        initWidth: 32,
+        initHeight: 32,
+        allowOnMapTypeId: "galaxyMapType01",
+        name: "redDwarf",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 5,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 5,
+        buildTime: 0,
+        StarSizesMean : 2,
+        StarSizesStd :0.5,
+        StarHeatMean : 2,
+        StarHeatStd : 0.5,
+        PlanetAmountMean : 8,
+        PlanetAmountStd : 4,
+        PlanetSizesMean : 14, // in 2 pow n
+        PlanetSizesStd : 3
     });
     gameData.objectTypes.add(redDwarf);
 
 
     var normalStar = gameData.objectTypes.add(new ObjectType(gameData,{
-        _id: "normalStar",
-        _blocks: {
+        id: "normalStar",
+        blocks: {
             Sublayer: {},
             HubConnectivity: {
                 numPorts: 12
@@ -417,29 +417,29 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 32,
-        _initHeight: 32,
-        _allowOnMapTypeId: "galaxyMapType01",
-        _name: "normalStar",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 6,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 6,
-        _buildTime: 0,
-        _StarSizesMean : 5,
-        _StarSizesStd :1,
-        _StarHeatMean : 5,
-        _StarHeatStd : 1,
-        _PlanetAmountMean : 7,
-        _PlanetAmountStd : 5,
-        _PlanetSizesMean : 15, // in 2 pow n
-        _PlanetSizesStd : 4
+        className: "sublayer",
+        initWidth: 32,
+        initHeight: 32,
+        allowOnMapTypeId: "galaxyMapType01",
+        name: "normalStar",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 6,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 6,
+        buildTime: 0,
+        StarSizesMean : 5,
+        StarSizesStd :1,
+        StarHeatMean : 5,
+        StarHeatStd : 1,
+        PlanetAmountMean : 7,
+        PlanetAmountStd : 5,
+        PlanetSizesMean : 15, // in 2 pow n
+        PlanetSizesStd : 4
     }));
 
     var doubleSystem = new ObjectType(gameData, {
-        _id: "doubleSystem",
-        _blocks: {
+        id: "doubleSystem",
+        blocks: {
             Sublayer: {},
             HubConnectivity: {
                 numPorts: 12
@@ -453,31 +453,31 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 32,
-        _initHeight: 32,
-        _allowOnMapTypeId: "galaxyMapType01",
-        _name: "doubleSystem",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 7,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 7,
-        _buildTime: 0,
-        _StarSizesMean : 4,
-        _StarSizesStd :1,
-        _StarHeatMean : 4,
-        _StarHeatStd : 1,
-        _PlanetAmountMean : 6,
-        _PlanetAmountStd : 5,
-        _PlanetSizesMean : 14, // in 2 pow n
-        _PlanetSizesStd : 2
+        className: "sublayer",
+        initWidth: 32,
+        initHeight: 32,
+        allowOnMapTypeId: "galaxyMapType01",
+        name: "doubleSystem",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 7,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 7,
+        buildTime: 0,
+        StarSizesMean : 4,
+        StarSizesStd :1,
+        StarHeatMean : 4,
+        StarHeatStd : 1,
+        PlanetAmountMean : 6,
+        PlanetAmountStd : 5,
+        PlanetSizesMean : 14, // in 2 pow n
+        PlanetSizesStd : 2
     });
     gameData.objectTypes.add(doubleSystem);
 
 
     var neutronStar = new ObjectType(gameData, {
-        _id: "neutronStar",
-        _blocks: {
+        id: "neutronStar",
+        blocks: {
             Sublayer: {},
             HubConnectivity: {
                 numPorts: 12
@@ -491,30 +491,30 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 16,
-        _initHeight: 16,
-        _allowOnMapTypeId: "galaxyMapType01",
-        _name: "neutronStar",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 8,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 8,
-        _buildTime: 0,
-        _StarSizesMean : 0.5,
-        _StarSizesStd :0.1,
-        _StarHeatMean : 0.5,
-        _StarHeatStd : 0.1,
-        _PlanetAmountMean : 3,
-        _PlanetAmountStd : 2,
-        _PlanetSizesMean : 13, // in 2 pow n
-        _PlanetSizesStd : 5
+        className: "sublayer",
+        initWidth: 16,
+        initHeight: 16,
+        allowOnMapTypeId: "galaxyMapType01",
+        name: "neutronStar",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 8,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 8,
+        buildTime: 0,
+        StarSizesMean : 0.5,
+        StarSizesStd :0.1,
+        StarHeatMean : 0.5,
+        StarHeatStd : 0.1,
+        PlanetAmountMean : 3,
+        PlanetAmountStd : 2,
+        PlanetSizesMean : 13, // in 2 pow n
+        PlanetSizesStd : 5
     });
     gameData.objectTypes.add(neutronStar);
 
     var blackHole = new ObjectType(gameData, {
-        _id: "blackHole",
-        _blocks: {
+        id: "blackHole",
+        blocks: {
             Sublayer: {},
             HubConnectivity: {
                 numPorts: 12
@@ -528,84 +528,84 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 16,
-        _initHeight: 16,
-        _allowOnMapTypeId: "galaxyMapType01",
-        _name: "blackHole",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 9,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 9,
-        _buildTime: 0,
-        _StarSizesMean : 0.25,
-        _StarSizesStd : 10,
-        _StarHeatMean : 0.25,
-        _StarHeatStd : 10,
-        _PlanetAmountMean : 1,
-        _PlanetAmountStd : 1,
-        _PlanetSizesMean : 13, // in 2 pow n
-        _PlanetSizesStd : 5
-    })
+        className: "sublayer",
+        initWidth: 16,
+        initHeight: 16,
+        allowOnMapTypeId: "galaxyMapType01",
+        name: "blackHole",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 9,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 9,
+        buildTime: 0,
+        StarSizesMean : 0.25,
+        StarSizesStd : 10,
+        StarHeatMean : 0.25,
+        StarHeatStd : 10,
+        PlanetAmountMean : 1,
+        PlanetAmountStd : 1,
+        PlanetSizesMean : 13, // in 2 pow n
+        PlanetSizesStd : 5
+    });
     gameData.objectTypes.add(blackHole);
 
     var crater01 = new ObjectType(gameData, {
-        _id: "crater01",
-        _blocks: {
+        id: "crater01",
+        blocks: {
             Environment: {}
         },
-        _className: "environment",
-        _initWidth: 10,
-        _initHeight: 10,
-        _allowOnMapTypeId: "moonMapType01",
-        _name: "crater01",
-        _spritesheetId: moonSprite._id,
-        _spriteFrame: 0,
-        _iconSpritesheetId: moonSprite._id,
-        _iconSpriteFrame: 0,
-        _buildTime: 0
-    })
+        className: "environment",
+        initWidth: 10,
+        initHeight: 10,
+        allowOnMapTypeId: "moonMapType01",
+        name: "crater01",
+        spritesheetId: moonSprite.id,
+        spriteFrame: 0,
+        iconSpritesheetId: moonSprite.id,
+        iconSpriteFrame: 0,
+        buildTime: 0
+    });
     gameData.objectTypes.add(crater01);
 
     var rock01 = new ObjectType(gameData,{
-        _id: "rock01",
-        _blocks: {
+        id: "rock01",
+        blocks: {
             Environment: {}
         },
-        _className: "environment",
-        _initWidth: 12,
-        _initHeight: 12,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "rock01",
-        _spritesheetId: "forestSprite01",
-        _spriteFrame: 0,
-        _iconSpritesheetId: "forestSprite01",
-        _iconSpriteFrame: 0,
-        _buildTime: 0
-    })
+        className: "environment",
+        initWidth: 12,
+        initHeight: 12,
+        allowOnMapTypeId: "cityMapType01",
+        name: "rock01",
+        spritesheetId: "forestSprite01",
+        spriteFrame: 0,
+        iconSpritesheetId: "forestSprite01",
+        iconSpriteFrame: 0,
+        buildTime: 0
+    });
     gameData.objectTypes.add(rock01);
 
     var rock02 = new ObjectType(gameData,{
-        _id: "rock02",
-        _blocks: {
+        id: "rock02",
+        blocks: {
             Environment: {}
         },
-        _className: "environment",
-        _initWidth: 12,
-        _initHeight: 12,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "rock2",
-        _spritesheetId: "forestSprite01",
-        _spriteFrame: 1,
-        _iconSpritesheetId: "forestSprite01",
-        _iconSpriteFrame: 0,
-        _buildTime: 0
+        className: "environment",
+        initWidth: 12,
+        initHeight: 12,
+        allowOnMapTypeId: "cityMapType01",
+        name: "rock2",
+        spritesheetId: "forestSprite01",
+        spriteFrame: 1,
+        iconSpritesheetId: "forestSprite01",
+        iconSpriteFrame: 0,
+        buildTime: 0
     });
     gameData.objectTypes.add(rock02);
 
     var factory = new ObjectType(gameData,{
-        _id: "Factory1",
-        _blocks: {
+        id: "Factory1",
+        blocks: {
             HubConnectivity: {},
             ResourceProduction: {},
             EnergyManager: {},
@@ -623,22 +623,22 @@ if (node) {
         },
 
 
-        _className: "factory",
-        _initWidth: 36,
-        _initHeight: 36,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Mining Factory",
-        _spritesheetId: "cityBuildingsSprite01",
-        _spriteFrame: 0,
-        _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 6,
-        _buildTime: 20000
-    })
+        className: "factory",
+        initWidth: 36,
+        initHeight: 36,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Mining Factory",
+        spritesheetId: "cityBuildingsSprite01",
+        spriteFrame: 0,
+        iconSpritesheetId: "cityBuildingsSprite01",
+        iconSpriteFrame: 6,
+        buildTime: 20000
+    });
     gameData.objectTypes.add(factory);
 
     var robotFactory = new ObjectType(gameData,{
-        _id: "robotFactory1",
-        _blocks: {
+        id: "robotFactory1",
+        blocks: {
             HubConnectivity: {},
             ResourceProduction: {},
             EnergyManager: {},
@@ -656,23 +656,23 @@ if (node) {
         },
 
 
-        _className: "factory",
-        _initWidth: 85,
-        _initHeight: 85,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Robot Factory",
-        _spritesheetId: "robotFactorySprite",
-        _spriteFrame: 0,
-        _spriteAnimation: "working",
-        _iconSpritesheetId: "robotFactorySprite",
-        _iconSpriteFrame: 0,
-        _buildTime: 2000
-    })
+        className: "factory",
+        initWidth: 85,
+        initHeight: 85,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Robot Factory",
+        spritesheetId: "robotFactorySprite",
+        spriteFrame: 0,
+        spriteAnimation: "working",
+        iconSpritesheetId: "robotFactorySprite",
+        iconSpriteFrame: 0,
+        buildTime: 2000
+    });
     gameData.objectTypes.add(robotFactory);
 
     var researchFacility = new ObjectType(gameData,{
-        _id: "researchFacility1",
-        _blocks: {
+        id: "researchFacility1",
+        blocks: {
             HubConnectivity: {},
             ResourceProduction: {},
             EnergyManager: {},
@@ -690,23 +690,23 @@ if (node) {
         },
 
 
-        _className: "factory",
-        _initWidth: 40,
-        _initHeight: 60,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Research Facility",
-        _spritesheetId: "researchFacilitySprite",
-        _spriteFrame: 0,
-        _spriteAnimation: "working",
-        _iconSpritesheetId: "researchFacilitySprite",
-        _iconSpriteFrame: 0,
-        _buildTime: 2000
-    })
+        className: "factory",
+        initWidth: 40,
+        initHeight: 60,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Research Facility",
+        spritesheetId: "researchFacilitySprite",
+        spriteFrame: 0,
+        spriteAnimation: "working",
+        iconSpritesheetId: "researchFacilitySprite",
+        iconSpriteFrame: 0,
+        buildTime: 2000
+    });
     gameData.objectTypes.add(researchFacility);
 
     var hub = new ObjectType(gameData,{
-        _id: "Hub",
-        _blocks: {
+        id: "Hub",
+        blocks: {
             HubNode: {
                 canBuildConnectionTypeId: "connection",
                 maxRange: 1000,
@@ -732,22 +732,22 @@ if (node) {
                 points: 5
             }
         },
-        _className: "hub",
-        _initWidth: 35,
-        _initHeight: 35,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Small Hub",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 6,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 7,
-        _buildTime: 12000
+        className: "hub",
+        initWidth: 35,
+        initHeight: 35,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Small Hub",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 6,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 7,
+        buildTime: 12000
     });
     gameData.objectTypes.add(hub);
 
     var planethub = new ObjectType(gameData,{
-        _id: "PlanetHub",
-        _blocks: {
+        id: "PlanetHub",
+        blocks: {
             HubNode: {
                 canBuildConnectionTypeId: "planetConnection",
                 maxRange: 1000,
@@ -773,22 +773,22 @@ if (node) {
                 points: 5
             }
         },
-        _className: "hub",
-        _initWidth: 35,
-        _initHeight: 35,
-        _allowOnMapTypeId: "moonMapType01",
-        _name: "Small Planet Hub",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 16,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 16,
-        _buildTime: 12000
+        className: "hub",
+        initWidth: 35,
+        initHeight: 35,
+        allowOnMapTypeId: "moonMapType01",
+        name: "Small Planet Hub",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 16,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 16,
+        buildTime: 12000
     });
     gameData.objectTypes.add(planethub);
 
     var sciencecenter = new ObjectType(gameData,{
-        _id: "ScienceCenter",
-        _blocks: {
+        id: "ScienceCenter",
+        blocks: {
             TechProduction: {
                 producableTechnologies:["wormholeTech"]
             },
@@ -812,22 +812,22 @@ if (node) {
             }
 
         },
-        _className: "scienceCenter",
-        _initWidth: 36,
-        _initHeight: 36,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Military Research Facility",
-        _spritesheetId: "cityBuildingsSprite01",
-        _spriteFrame: 2,
-        _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 8,
-        _buildTime: 10000
+        className: "scienceCenter",
+        initWidth: 36,
+        initHeight: 36,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Military Research Facility",
+        spritesheetId: "cityBuildingsSprite01",
+        spriteFrame: 2,
+        iconSpritesheetId: "cityBuildingsSprite01",
+        iconSpriteFrame: 8,
+        buildTime: 10000
     });
     gameData.objectTypes.add(sciencecenter);
 
     var reactor = new ObjectType(gameData,{
-        _id: "reactor",
-        _blocks: {
+        id: "reactor",
+        blocks: {
             TechProduction: {
                 producableTechnologies:["wormholeTech"]
             },
@@ -851,22 +851,22 @@ if (node) {
             }
 
         },
-        _className: "reactor",
-        _initWidth: 45,
-        _initHeight: 45,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Reactor",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 17,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 17,
-        _buildTime: 3000
+        className: "reactor",
+        initWidth: 45,
+        initHeight: 45,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Reactor",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 17,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 17,
+        buildTime: 3000
     });
     gameData.objectTypes.add(reactor);
 
     var furnitureFactory = new ObjectType(gameData,{
-        _id: "furnitureFactory",
-        _blocks: {
+        id: "furnitureFactory",
+        blocks: {
             ResourceProduction: {},
             HubConnectivity: {},
             EnergyManager: {},
@@ -885,22 +885,22 @@ if (node) {
             }
 
         },
-        _className: "factory",
-        _initWidth: 48,
-        _initHeight: 48,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Furniture Factory",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 2,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 3,
-        _buildTime: 1000
+        className: "factory",
+        initWidth: 48,
+        initHeight: 48,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Furniture Factory",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 2,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 3,
+        buildTime: 1000
     });
     gameData.objectTypes.add(furnitureFactory);
 
     var mineralStorage = new ObjectType(gameData,{
-        _id: "mineralStorage",
-        _blocks: {
+        id: "mineralStorage",
+        blocks: {
             ResourceStorage: {
                 ressourceTypeIds: ["iron","carbon"],
                 ressourceCapacity: [100, 200]
@@ -921,23 +921,23 @@ if (node) {
             }
 
         },
-        _className: "storage",
-        _initWidth: 95,
-        _initHeight: 95,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Mineral Storage",
-        _spritesheetId: "mineralStorageSprite",
-        _spriteFrame: 0,
-        _spriteAnimation: "working",
-        _iconSpritesheetId: "mineralStorageSprite",
-        _iconSpriteFrame: 0,
-        _buildTime: 1000
+        className: "storage",
+        initWidth: 95,
+        initHeight: 95,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Mineral Storage",
+        spritesheetId: "mineralStorageSprite",
+        spriteFrame: 0,
+        spriteAnimation: "working",
+        iconSpritesheetId: "mineralStorageSprite",
+        iconSpriteFrame: 0,
+        buildTime: 1000
     });
     gameData.objectTypes.add(mineralStorage);
 
     var liquidStorage = new ObjectType(gameData,{
-        _id: "liquidStorage",
-        _blocks: {
+        id: "liquidStorage",
+        blocks: {
             ResourceStorage: {
                 ressourceTypeIds: ["oxygen"],
                 ressourceCapacity: [100]
@@ -960,22 +960,22 @@ if (node) {
             }
 
         },
-        _className: "storage",
-        _initWidth: 150,
-        _initHeight: 150,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Liquid Storage",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 8,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 9,
-        _buildTime: 1000
+        className: "storage",
+        initWidth: 150,
+        initHeight: 150,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Liquid Storage",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 8,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 9,
+        buildTime: 1000
     });
     gameData.objectTypes.add(liquidStorage);
 
     var plantation1 = new ObjectType(gameData,{
-        _id: "plantation1",
-        _blocks: {
+        id: "plantation1",
+        blocks: {
             ResourceStorage: {
                 ressourceTypeIds: ["oxygen"],
                 ressourceCapacity: [5]
@@ -1001,22 +1001,22 @@ if (node) {
                 points: 5
             }
         },
-        _className: "plantation",
-        _initWidth: 40,
-        _initHeight: 40,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "tree plantation",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 12,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 13,
-        _buildTime: 1000
+        className: "plantation",
+        initWidth: 40,
+        initHeight: 40,
+        allowOnMapTypeId: "cityMapType01",
+        name: "tree plantation",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 12,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 13,
+        buildTime: 1000
     });
     gameData.objectTypes.add(plantation1);
 
     var plantation2 = new ObjectType(gameData,{
-        _id: "plantation2",
-        _blocks: {
+        id: "plantation2",
+        blocks: {
             ResourceStorage: {
                 ressourceTypeIds: ["oxygen"],
                 ressourceCapacity: [5]
@@ -1042,22 +1042,22 @@ if (node) {
                 points: 5
             }
         },
-        _className: "plantation",
-        _initWidth: 40,
-        _initHeight: 40,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "tree plantation 2",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 14,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 15,
-        _buildTime: 1000
+        className: "plantation",
+        initWidth: 40,
+        initHeight: 40,
+        allowOnMapTypeId: "cityMapType01",
+        name: "tree plantation 2",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 14,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 15,
+        buildTime: 1000
     });
     gameData.objectTypes.add(plantation2);
 
     var defenseTower = new ObjectType(gameData,{
-        _id: "defenseTower",
-        _blocks: {
+        id: "defenseTower",
+        blocks: {
             Tower: {},
             FeatureManager: {},
             HubConnectivity: {},
@@ -1070,22 +1070,22 @@ if (node) {
                 points: 5
             }
         },
-        _className: "tower",
-        _initWidth: 48,
-        _initHeight: 48,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Defense Tower",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 0,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 1,
-        _buildTime: 5000
+        className: "tower",
+        initWidth: 48,
+        initHeight: 48,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Defense Tower",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 0,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 1,
+        buildTime: 5000
     });
     gameData.objectTypes.add(defenseTower);
 
     var subObject = new ObjectType(gameData,{
-        _id: "subObject",
-        _blocks: {
+        id: "subObject",
+        blocks: {
             Unit: {
                 itemTypeId:"unitItem1",
                 deployTime: 20000,
@@ -1101,24 +1101,24 @@ if (node) {
                 points: 15
             }
         },
-        _className: "subObject",
-        _initWidth: 48,
-        _initHeight: 48,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Attack Unit",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 0,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 1,
-        _buildTime: 5000
+        className: "subObject",
+        initWidth: 48,
+        initHeight: 48,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Attack Unit",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 0,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 1,
+        buildTime: 5000
     });
     gameData.objectTypes.add(subObject);
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "unitItem1",
-        _name: "excavator",
-        _className: "unitItem",
-        _blocks: {
+        id: "unitItem1",
+        name: "excavator",
+        className: "unitItem",
+        blocks: {
             SubObject: {
                 mapObjTypeId: "subObject"
             },
@@ -1129,18 +1129,18 @@ if (node) {
             },
             FeatureManager: {}
         },
-        _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "itemSprite",
-        _iconSpriteFrame: 3,
-        _buildMenuTooltip: "this is awesome",
-        _transitionTime: [10000,10000]
+        allowOnMapTypeId: "moonMap01",
+        iconSpritesheetId: "itemSprite",
+        iconSpriteFrame: 3,
+        buildMenuTooltip: "this is awesome",
+        transitionTime: [10000,10000]
 
     }));
 
 
     var spacecraftUnitObject = new ObjectType(gameData,{
-        _id: "spacecraftUnitObject01",
-        _blocks: {
+        id: "spacecraftUnitObject01",
+        blocks: {
             Unit: {},
             FeatureManager: {},
             HubConnectivity: {
@@ -1155,58 +1155,58 @@ if (node) {
                 points: 5
             }
         },
-        _className: "spacecraft",
-        _initWidth: 48,
-        _initHeight: 48,
-        _allowOnMapTypeId: "moonMapType01",
-        _name: "spacecraft",
-        _spritesheetId: "objectsSprite",
-        _spriteFrame: 4,
-        _iconSpritesheetId: "objectsSprite",
-        _iconSpriteFrame: 5,
-        _buildTime: 5000
+        className: "spacecraft",
+        initWidth: 48,
+        initHeight: 48,
+        allowOnMapTypeId: "moonMapType01",
+        name: "spacecraft",
+        spritesheetId: "objectsSprite",
+        spriteFrame: 4,
+        iconSpritesheetId: "objectsSprite",
+        iconSpriteFrame: 5,
+        buildTime: 5000
     });
     gameData.objectTypes.add(spacecraftUnitObject);
 
     var connection = gameData.objectTypes.add(new ObjectType(gameData,{
-        _id: "connection",
-        _blocks: {
+        id: "connection",
+        blocks: {
             Connection: {},
             UpgradeProduction: {}
         },
-        _className: "connection",
-        _initWidth: 150,
-        _initHeight: 10,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "Connection",
-        _spritesheetId: "forestSprite01",
-        _spriteFrame: 1,
-        _iconSpritesheetId: "forestSprite01",
-        _iconSpriteFrame: 0,
-        _buildTime: 2000
+        className: "connection",
+        initWidth: 150,
+        initHeight: 10,
+        allowOnMapTypeId: "cityMapType01",
+        name: "Connection",
+        spritesheetId: "forestSprite01",
+        spriteFrame: 1,
+        iconSpritesheetId: "forestSprite01",
+        iconSpriteFrame: 0,
+        buildTime: 2000
     }));
 
     var planetConnection = gameData.objectTypes.add(new ObjectType(gameData,{
-        _id: "planetConnection",
-        _blocks: {
+        id: "planetConnection",
+        blocks: {
             Connection: {},
             UpgradeProduction: {}
         },
-        _className: "connection",
-        _initWidth: 150,
-        _initHeight: 10,
-        _allowOnMapTypeId: "moonMapType01",
-        _name: "Planet Hub Connection",
-        _spritesheetId: "planetConnectionSprite",
-        _spriteFrame: [0, 1, 2, 3, 4, 5, 6],
-        _iconSpritesheetId: "planetConnectionSprite",
-        _iconSpriteFrame: 0,
-        _buildTime: 2000
+        className: "connection",
+        initWidth: 150,
+        initHeight: 10,
+        allowOnMapTypeId: "moonMapType01",
+        name: "Planet Hub Connection",
+        spritesheetId: "planetConnectionSprite",
+        spriteFrame: [0, 1, 2, 3, 4, 5, 6],
+        iconSpritesheetId: "planetConnectionSprite",
+        iconSpriteFrame: 0,
+        buildTime: 2000
     }));
 
     var constructionSite = new ObjectType(gameData,{
-        _id: "constructionSite",
-        _blocks: {
+        id: "constructionSite",
+        blocks: {
             ConstructionSite: {},
             HubConnectivity: {},
             UserObject: {
@@ -1218,22 +1218,22 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "constructionSite",
-        _initWidth: 48,
-        _initHeight: 48,
-        _allowOnMapTypeId: "cityMapType01",
-        _name: "constructionSite",
-        _spritesheetId: "cityBuildingsSprite01",
-        _spriteFrame: 3,
-        _iconSpritesheetId: "cityBuildingsSprite01",
-        _iconSpriteFrame: 10,
-        _buildTime: 0
+        className: "constructionSite",
+        initWidth: 48,
+        initHeight: 48,
+        allowOnMapTypeId: "cityMapType01",
+        name: "constructionSite",
+        spritesheetId: "cityBuildingsSprite01",
+        spriteFrame: 3,
+        iconSpritesheetId: "cityBuildingsSprite01",
+        iconSpriteFrame: 10,
+        buildTime: 0
     });
     gameData.objectTypes.add(constructionSite);
 
     var dome = gameData.objectTypes.add(new ObjectType(gameData,{
-        _id: "dome",
-        _blocks: {
+        id: "dome",
+        blocks: {
             Sublayer: {},
             HubNode: {
                 minRange: 400,
@@ -1252,39 +1252,39 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 80,
-        _initHeight: 80,
-        _allowOnMapTypeId: "moonMapType01",
-        _name: "City Dome",
-        _spritesheetId: moonSprite._id,
-        _spriteFrame: 1,
-        _iconSpritesheetId: moonSprite._id,
-        _iconSpriteFrame: 2,
-        _buildTime: 2000
+        className: "sublayer",
+        initWidth: 80,
+        initHeight: 80,
+        allowOnMapTypeId: "moonMapType01",
+        name: "City Dome",
+        spritesheetId: moonSprite.id,
+        spriteFrame: 1,
+        iconSpritesheetId: moonSprite.id,
+        iconSpriteFrame: 2,
+        buildTime: 2000
     }));
 
 
     var sunPlanet = gameData.objectTypes.add(new ObjectType(gameData,{
-        _id: "sunPlanet",
-        _blocks: {
+        id: "sunPlanet",
+        blocks: {
             Environment: {}
         },
-        _className: "center",
-        _initWidth: 255,
-        _initHeight: 255,
-        _allowOnMapTypeId: "solarMapType01",
-        _name: "Sun",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 4,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 4,
-        _buildTime: 20000
+        className: "center",
+        initWidth: 255,
+        initHeight: 255,
+        allowOnMapTypeId: "solarMapType01",
+        name: "Sun",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 4,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 4,
+        buildTime: 20000
     }));
 
     var earthPlanet = gameData.objectTypes.add(new ObjectType(gameData,{
-        _id: "earthPlanet",
-        _blocks: {
+        id: "earthPlanet",
+        blocks: {
             Sublayer: {},
             HubConnectivity: {
                 numPorts: 12
@@ -1298,22 +1298,22 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 255,
-        _initHeight: 255,
-        _allowOnMapTypeId: "solarMapType01",
-        _name: "Earth",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 0,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 0,
-        _buildTime: 20000
+        className: "sublayer",
+        initWidth: 255,
+        initHeight: 255,
+        allowOnMapTypeId: "solarMapType01",
+        name: "Earth",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 0,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 0,
+        buildTime: 20000
     }));
 
 
     var marsPlanet = gameData.objectTypes.add(new ObjectType(gameData,{
-        _id: "marsPlanet",
-        _blocks: {
+        id: "marsPlanet",
+        blocks: {
             Sublayer: {},
             HubConnectivity: {
                 numPorts: 12
@@ -1327,78 +1327,78 @@ if (node) {
                 itemTypeIds: []
             }
         },
-        _className: "sublayer",
-        _initWidth: 255,
-        _initHeight: 255,
-        _allowOnMapTypeId: "solarMapType01",
-        _name: "Mars",
-        _spritesheetId: planetSprite._id,
-        _spriteFrame: 1,
-        _iconSpritesheetId: planetSprite._id,
-        _iconSpriteFrame: 1,
-        _buildTime: 15000
+        className: "sublayer",
+        initWidth: 255,
+        initHeight: 255,
+        allowOnMapTypeId: "solarMapType01",
+        name: "Mars",
+        spritesheetId: planetSprite.id,
+        spriteFrame: 1,
+        iconSpritesheetId: planetSprite.id,
+        iconSpriteFrame: 1,
+        buildTime: 15000
     }));
 
     var carbon = new RessourceType(gameData,{
-        _id: "carbon",
-        _name: "carbon",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 0,
-        _buildMenuTooltip:"carbon is great",
-        _buildTime: 2000
+        id: "carbon",
+        name: "carbon",
+        iconSpritesheetId: "ressourceSprite01",
+        iconSpriteFrame: 0,
+        buildMenuTooltip:"carbon is great",
+        buildTime: 2000
     });
     gameData.ressourceTypes.add(carbon);
     var iron = new RessourceType(gameData,{
-        _id: "iron",
-        _name: "iron",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 3,
-        _buildMenuTooltip:"iron is great",
-        _buildTime: 2000
+        id: "iron",
+        name: "iron",
+        iconSpritesheetId: "ressourceSprite01",
+        iconSpriteFrame: 3,
+        buildMenuTooltip:"iron is great",
+        buildTime: 2000
     });
     gameData.ressourceTypes.add(iron);
     var oxygen = new RessourceType(gameData,{
-        _id: "oxygen",
-        _name: "oxygen",
-        _iconSpritesheetId: "ressourceSprite01",
-        _iconSpriteFrame: 1,
-        _buildMenuTooltip:"oxygen is great",
-        _buildTime: 2000
+        id: "oxygen",
+        name: "oxygen",
+        iconSpritesheetId: "ressourceSprite01",
+        iconSpriteFrame: 1,
+        buildMenuTooltip:"oxygen is great",
+        buildTime: 2000
     });
     gameData.ressourceTypes.add(oxygen);
 
     gameData.technologyTypes.add(new TechnologyType(gameData,{
-        _id: "wormholeTech",
-        _name: "Wormhole Technology",
-        _iconSpritesheetId: "itemSprite",
-        _iconSpriteFrame: 0,
-        _buildTime: 5000,
-        _initWidth: 96,
-        _initHeight: 96,
+        id: "wormholeTech",
+        name: "Wormhole Technology",
+        iconSpritesheetId: "itemSprite",
+        iconSpriteFrame: 0,
+        buildTime: 5000,
+        initWidth: 96,
+        initHeight: 96,
 
-        _allowOnMapTypeId: "moonMap01",
-        _allowOnObjTypeId: "ScienceCenter",
-        _requiredTechnologies: [],
-        _requiredItemIds: [],
-        _requiredItemLevels: [],
-        _requiredSkillIds: [],
-        _requiredSkillPoints: [],
-        _requiredResourceIds: [],
-        _requiredResourceAmounts: [],
-        _techPoints: 50
+        allowOnMapTypeId: "moonMap01",
+        allowOnObjTypeId: "ScienceCenter",
+        requiredTechnologies: [],
+        requiredItemIds: [],
+        requiredItemLevels: [],
+        requiredSkillIds: [],
+        requiredSkillPoints: [],
+        requiredResourceIds: [],
+        requiredResourceAmounts: [],
+        techPoints: 50
     }));
 
 
 
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "engineerDept",
-        _name: "Engineering Department",
-        _className: "ProductivityUpgrade",
-        _blocks: {
+        id: "engineerDept",
+        name: "Engineering Department",
+        className: "ProductivityUpgrade",
+        blocks: {
             Feature: [
                 {
-                    _stack: [
+                    stack: [
                         {getParentObj: {}},
                         {
                             addToProp: {
@@ -1411,7 +1411,7 @@ if (node) {
                     ]
                 },
                 {
-                    _stack: [
+                    stack: [
                         {getParentObj: {}},
                         {
                             addToProp: {
@@ -1432,22 +1432,22 @@ if (node) {
                 maxRange: 500
             }
         },
-        _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "itemSprite",
-        _iconSpriteFrame: 1,
-        _buildMenuTooltip: "this is awesome",
-        _buildTime: [10000,10000,10000,10000,10000]
+        allowOnMapTypeId: "moonMap01",
+        iconSpritesheetId: "itemSprite",
+        iconSpriteFrame: 1,
+        buildMenuTooltip: "this is awesome",
+        buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "solarPanel",
-        _name: "Solar Panels",
-        _className: "ProductivityUpgrade",
-        _blocks: {
+        id: "solarPanel",
+        name: "Solar Panels",
+        className: "ProductivityUpgrade",
+        blocks: {
             Feature: [
                 {
-                    _stack:
+                    stack:
                         [
                             {getObjInRange: 500},
                             {
@@ -1461,7 +1461,7 @@ if (node) {
                         ]
                 },
                 {
-                    _stack:
+                    stack:
                         [
                             {getObjInRange: 500},
                             {
@@ -1479,24 +1479,24 @@ if (node) {
 
             }
         },
-        _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "itemSprite",
-        _iconSpriteFrame: 7,
-        _buildMenuTooltip: "this is even better",
-        _buildTime: [10000,10000,10000,10000,10000]
+        allowOnMapTypeId: "moonMap01",
+        iconSpritesheetId: "itemSprite",
+        iconSpriteFrame: 7,
+        buildMenuTooltip: "this is even better",
+        buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
 
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "activationItem",
-        _name: "activationItem",
-        _className: "ProductivityUpgrade",
-        _blocks: {
+        id: "activationItem",
+        name: "activationItem",
+        className: "ProductivityUpgrade",
+        blocks: {
             Feature: [
                 {
-                    _stack: [
+                    stack: [
                         {activatePerClick: {targetType: "self", range: Infinity}},
                         {getParentObj: {}},
                         {addToProp: {
@@ -1515,7 +1515,7 @@ if (node) {
                     ]
                 },
                 {
-                    _stack: [
+                    stack: [
                         {getParentObj: {}},
                         {
                             addToProp: {
@@ -1532,22 +1532,22 @@ if (node) {
 
             }
         },
-        _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "itemSprite",
-        _iconSpriteFrame: 4,
-        _buildMenuTooltip: "this is awesome",
-        _buildTime: [10000,10000,10000,10000,10000]
+        allowOnMapTypeId: "moonMap01",
+        iconSpritesheetId: "itemSprite",
+        iconSpriteFrame: 4,
+        buildMenuTooltip: "this is awesome",
+        buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
     gameData.itemTypes.add(new ItemType(gameData,{
-        _id: "targetSelectionItem",
-        _name: "targetSelectionItem",
-        _className: "ProductivityUpgrade",
-        _blocks: {
+        id: "targetSelectionItem",
+        name: "targetSelectionItem",
+        className: "ProductivityUpgrade",
+        blocks: {
             Feature: [
                 {
-                    _stack: [
+                    stack: [
                         {activatePerClick: {targetType: "object", range: 500}},
                         {addToProp: {
                             vars: ["maxHealthPoints"],
@@ -1563,30 +1563,30 @@ if (node) {
 
             }
         },
-        _allowOnMapTypeId: "moonMap01",
-        _iconSpritesheetId: "itemSprite",
-        _iconSpriteFrame: 2,
-        _buildMenuTooltip: "this is awesome",
-        _buildTime: [10000,10000,10000,10000,10000]
+        allowOnMapTypeId: "moonMap01",
+        iconSpritesheetId: "itemSprite",
+        iconSpriteFrame: 2,
+        buildMenuTooltip: "this is awesome",
+        buildTime: [10000,10000,10000,10000,10000]
 
     }));
 
 // save build categories:
-    gameData.layerTypes.get("cityMapType01")._buildCategories = [
+    gameData.layerTypes.get("cityMapType01").buildCategories = [
         {name: 'Resources', objectTypeIds: ["Hub", "reactor", "mineralStorage", "liquidStorage", "plantation1", "plantation2"]},
         {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory", "robotFactory1"]},
         {name: 'Military', objectTypeIds: ["ScienceCenter", "researchFacility1", "defenseTower", "subObject"]}
     ];
 
     // save build categories:
-    gameData.layerTypes.get("moonMapType01")._buildCategories = [
+    gameData.layerTypes.get("moonMapType01").buildCategories = [
         {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01", "PlanetHub"]}
     ];
 
     // create instances from here
 
     var galaxyMap = new Layer(gameData,{
-        _id: "galaxyMap01",
+        id: "galaxyMap01",
         parentObjId: null,
         width: 5000,              // pixelsize / 4
         height: 5000,             // pixelsize / 2
@@ -1599,7 +1599,7 @@ if (node) {
 
 
     var solarMap = new Layer(gameData,{
-        _id: "solarMap01",
+        id: "solarMap01",
         parentObjId: "solarSystem01",
         width: 20000,              // pixelsize / 4
         height: 20000,             // pixelsize / 2
@@ -1611,7 +1611,7 @@ if (node) {
 
 
     var moonMap = new Layer(gameData,{
-        _id: "moonMap01",
+        id: "moonMap01",
         parentObjId: "firstPlanet",
         width: 20000,              // pixelsize / 4
         height: 20000,             // pixelsize / 2
@@ -1623,7 +1623,7 @@ if (node) {
 
 
     var moonMap2 = new Layer(gameData,{
-        _id: "moonMap02",
+        id: "moonMap02",
         parentObjId: "secondPlanet",
         width: 20000,              // pixelsize / 4
         height: 20000,             // pixelsize / 2
@@ -1634,7 +1634,7 @@ if (node) {
     gameData.layers.add(moonMap2);
 
     var cityMap = new Layer(gameData,{
-        _id: "cityMap01",
+        id: "cityMap01",
         parentObjId: "firstCity",
         width: 10000,
         height: 10000,
@@ -1647,7 +1647,7 @@ if (node) {
     gameData.layers.add(cityMap); // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
 
     var cityMap2 = new Layer(gameData,{
-        _id: "cityMap02",
+        id: "cityMap02",
         parentObjId: "secondCity",
         width: 10000,
         height: 10000,
@@ -1662,10 +1662,10 @@ if (node) {
 
 // Sublayer Map Objects
     var sun = new MapObject(gameData,{
-        _id: "sun01",
+        id: "sun01",
         objTypeId: "sunPlanet",
         sublayerId: null,
-        mapId: solarMap._id(),
+        mapId: solarMap.id(),
         userId: 0,
         x: 0,
         y: 0
@@ -1673,10 +1673,10 @@ if (node) {
     solarMap.mapData.mapObjects.add(sun);
 
     var planet1 = new MapObject(gameData,{
-        _id: "firstPlanet",
+        id: "firstPlanet",
         objTypeId: "earthPlanet",
         sublayerId: "moonMap01",
-        mapId: solarMap._id(),
+        mapId: solarMap.id(),
         userId: 0,
         x: 1500,
         y: 0
@@ -1684,10 +1684,10 @@ if (node) {
     solarMap.mapData.mapObjects.add(planet1);
 
     var planet2 = new MapObject(gameData,{
-        _id: "secondPlanet",
+        id: "secondPlanet",
         objTypeId: "marsPlanet",
         sublayerId: "moonMap02",
-        mapId: solarMap._id(),
+        mapId: solarMap.id(),
         userId: 0,
         x: -1500,
         y: 1500
@@ -1695,10 +1695,10 @@ if (node) {
     solarMap.mapData.mapObjects.add(planet2);
 
     var city1 = new MapObject(gameData,{
-        _id: "firstCity",
+        id: "firstCity",
         objTypeId: "dome",
         sublayerId: "cityMap01",
-        mapId: moonMap._id(),
+        mapId: moonMap.id(),
         userId: 0,
         x: 0,
         y: 0
@@ -1706,10 +1706,10 @@ if (node) {
     moonMap.mapData.mapObjects.add(city1);
 
     moonMap.mapData.mapObjects.add(new MapObject(gameData,{
-        _id: "secondCity",
+        id: "secondCity",
         objTypeId: "dome",
         sublayerId: "cityMap02",
-        mapId: moonMap._id(),
+        mapId: moonMap.id(),
         userId: 0,
         x: 300,
         y: 0
@@ -1718,10 +1718,10 @@ if (node) {
 
 
     var solarSystem1 = new MapObject(gameData,{
-        _id: "solarSystem01",
+        id: "solarSystem01",
         objTypeId: "normalStar",
         sublayerId: "solarMap01",
-        mapId: galaxyMap._id(),
+        mapId: galaxyMap.id(),
         userId: 0,
         x: 200,
         y: 100
@@ -1733,11 +1733,11 @@ if (node) {
 
     for (var i = 1; i < 2000; i++) {
         moonMap.mapData.mapObjects.add(new MapObject(gameData,{
-            _id: "Moon1crater01inst" + i,
-            mapId: moonMap._id(),
-            x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01._initWidth / 2)),
-            y: Math.floor((Math.random() - 0.5) * (moonMap.height - crater01._initHeight / 2)),
-            objTypeId: crater01._id,
+            id: "Moon1crater01inst" + i,
+            mapId: moonMap.id(),
+            x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01.initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (moonMap.height - crater01.initHeight / 2)),
+            objTypeId: crater01.id,
             userId: 0
         }));
     }
@@ -1745,11 +1745,11 @@ if (node) {
 
     for (var i = 1; i < 2000; i++) {
         moonMap2.mapData.mapObjects.add(new MapObject(gameData,{
-            _id: "Moon2crater01inst" + i,
-            mapId: moonMap2._id(),
-            x: Math.floor((Math.random() - 0.5) * (moonMap2.width - crater01._initWidth / 2)),
-            y: Math.floor((Math.random() - 0.5) * (moonMap2.height - crater01._initHeight / 2)),
-            objTypeId: crater01._id,
+            id: "Moon2crater01inst" + i,
+            mapId: moonMap2.id(),
+            x: Math.floor((Math.random() - 0.5) * (moonMap2.width - crater01.initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (moonMap2.height - crater01.initHeight / 2)),
+            objTypeId: crater01.id,
             userId: 0
         }));
     }
@@ -1758,29 +1758,29 @@ if (node) {
 // Now start adding example objects to our example cityMap01
     for (var i = 1; i < 1000; i++) {
         cityMap.mapData.mapObjects.add(new MapObject(gameData,{
-            _id: "rock01inst" + i,
-            mapId: cityMap._id(),
-            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock01._initWidth / 2)),
-            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock01._initHeight / 2)),
-            objTypeId: rock01._id,
+            id: "rock01inst" + i,
+            mapId: cityMap.id(),
+            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock01.initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock01.initHeight / 2)),
+            objTypeId: rock01.id,
             userId: 0
         }));
     }
     for (var i = 1; i < 1000; i++) {
         cityMap.mapData.mapObjects.add(new MapObject(gameData,{
-            _id: "rock02inst" + i,
-            mapId: cityMap._id(),
-            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock02._initWidth / 2)),
-            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock02._initHeight / 2)),
-            objTypeId: rock02._id,
+            id: "rock02inst" + i,
+            mapId: cityMap.id(),
+            x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock02.initWidth / 2)),
+            y: Math.floor((Math.random() - 0.5) * (cityMap.height - rock02.initHeight / 2)),
+            objTypeId: rock02.id,
             userId: 0
         }));
     }
 
     // Add Start Building
     cityMap.mapData.mapObjects.add(new MapObject(gameData,{
-        _id: "furnitureFactory01",
-        mapId: cityMap._id(),
+        id: "furnitureFactory01",
+        mapId: cityMap.id(),
         x: 0,
         y: 0,
         objTypeId: "furnitureFactory",
@@ -1791,8 +1791,8 @@ if (node) {
 
     // Add Start Building
     cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
-        _id: "furnitureFactory02",
-        mapId: cityMap2._id(),
+        id: "furnitureFactory02",
+        mapId: cityMap2.id(),
         x: 0,
         y: 0,
         objTypeId: "furnitureFactory",
@@ -1802,8 +1802,8 @@ if (node) {
 
     // Add Start Building
     cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
-        _id: "furnitureFactory03",
-        mapId: cityMap2._id(),
+        id: "furnitureFactory03",
+        mapId: cityMap2.id(),
         x: 500,
         y: 500,
         objTypeId: "furnitureFactory",
@@ -1816,16 +1816,16 @@ if (node) {
 
 
     /*gameData.users.add(new User(gameData, {
-     _id: "testuser01",
+     id: "testuser01",
      name: "testuser"
      }));*/
 
 
     var gameVars = {
-        rootMapId: cityMap2._id()
-        //rootMapId: galaxyMap._id
+        rootMapId: cityMap2.id()
+        //rootMapId: galaxyMap.id
 
-    }
+    };
 
     exports.gameData = gameData;
     exports.gameVars = gameVars;

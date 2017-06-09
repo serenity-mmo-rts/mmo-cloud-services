@@ -77,16 +77,16 @@ asyncSocket.connect('tcp://127.0.0.1:5001');
 
 var salt = bcrypt.genSaltSync(10);
 
-app = express().http().io()
+app = express().http().io();
 
 var gameData = new GameData();
 var gameVars = {};
 var mapLoaded = false;
 var mapLoadedCallbacks = [];
 loadDb.getGameData(gameData,gameVars,function() {
-    console.log("finished loading game types...")
+    console.log("finished loading game types...");
     loadDb.getMapById(gameData, serverMapId, function() {
-        console.log("finished loading map " + serverMapId)
+        console.log("finished loading map " + serverMapId);
         mapLoaded = true;
         for (var key in mapLoadedCallbacks){
             mapLoadedCallbacks[key]();
@@ -147,7 +147,7 @@ asyncSocket.on('getUserData',function(msgData, reply) {
     if (userId != null){
         dbConn.get('users', function (err, collUsers) {
             if (err) throw err;
-            collUsers.find({_id: userId}).toArray(function (err, documents) {
+            collUsers.find({id: userId}).toArray(function (err, documents) {
                 if (err) throw err;
                 if (documents != null) {
 
@@ -191,7 +191,7 @@ asyncSocket.on('serverNotify',function(msgData) {
                     if (msgData.itemIds.length>0) {
                         dbConn.get('mapObjects', function (err, collMapObjects) {
                             if (err) throw err;
-                            collMapObjects.find({ _id: { $in: msgData.objectIds } }).toArray(function (err, documents) {
+                            collMapObjects.find({ id: { $in: msgData.objectIds } }).toArray(function (err, documents) {
                                 //documentsObjects = documents;
                                 callback(null, documents);
                             });
@@ -205,7 +205,7 @@ asyncSocket.on('serverNotify',function(msgData) {
                     if (msgData.itemIds.length>0) {
                         dbConn.get('items', function (err, collItems) {
                             if (err) throw err;
-                            collItems.find({ _id: { $in: msgData.itemIds } }).toArray(function (err, documents) {
+                            collItems.find({ id: { $in: msgData.itemIds } }).toArray(function (err, documents) {
                                 //documentsItems = documents;
                                 callback(null, documents);
                             });
@@ -266,16 +266,16 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
         var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(Date.now());
 
         var gameEvent = EventFactory(gameData,msgData.data[1]);
-        gameEvent._userId = msgData.session.userId;
-        gameEvent._mapId = mapId;
+        gameEvent.userId = msgData.session.userId;
+        gameEvent.mapId = mapId;
         gameEvent.setPointers();
 
         // check if event is valid:
         if (gameEvent.isValid()) {
 
-            gameEvent.oldId = gameEvent._id;
-            gameEvent._id = (new mongodb.ObjectID()).toHexString();
-            gameEvent._isFinished = false;
+            gameEvent.oldId = gameEvent.id;
+            gameEvent.id = (new mongodb.ObjectID()).toHexString();
+            gameEvent.isFinished = false;
             gameData.layers.get(mapId).eventScheduler.addEvent(gameEvent);
 
             // execute event locally on server:
@@ -313,7 +313,7 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
                 collMapEvents.save(serializedGameEvent, {safe:true}, function(err,docs) {
                     if (err) throw err;
                     else {
-                        console.log("saved event "+serializedGameEvent._id+" to db");
+                        console.log("saved event "+serializedGameEvent.id+" to db");
                     }
                 });
             });
@@ -347,7 +347,7 @@ console.log("server of layer " + serverMapId + " is on listening on host " + hos
 //
 //    collLayerServers.save(
 //        {
-//            _id: serverMapId,
+//            id: serverMapId,
 //            hostname: hostname,
 //            port: port
 //        },
