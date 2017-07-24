@@ -1010,7 +1010,7 @@ if (node) {
         spriteFrame: 12,
         iconSpritesheetId: "objectsSprite",
         iconSpriteFrame: 13,
-        buildTime: 1000
+        buildTime: 10000
     });
     gameData.objectTypes.add(plantation1);
 
@@ -1051,7 +1051,7 @@ if (node) {
         spriteFrame: 14,
         iconSpritesheetId: "objectsSprite",
         iconSpriteFrame: 15,
-        buildTime: 1000
+        buildTime: 10000
     });
     gameData.objectTypes.add(plantation2);
 
