@@ -901,7 +901,7 @@ if (node) {
     var mineralStorage = new ObjectType(gameData,{
         id: "mineralStorage",
         blocks: {
-            ResourceStorage: {
+            ResourceStorageManager: {
                 ressourceTypeIds: ["iron","carbon"],
                 ressourceCapacity: [100, 200]
             },
@@ -938,7 +938,7 @@ if (node) {
     var liquidStorage = new ObjectType(gameData,{
         id: "liquidStorage",
         blocks: {
-            ResourceStorage: {
+            ResourceStorageManager: {
                 ressourceTypeIds: ["oxygen"],
                 ressourceCapacity: [100]
             },
@@ -976,7 +976,7 @@ if (node) {
     var plantation1 = new ObjectType(gameData,{
         id: "plantation1",
         blocks: {
-            ResourceStorage: {
+            ResourceStorageManager: {
                 ressourceTypeIds: ["oxygen"],
                 ressourceCapacity: [5]
             },
@@ -1017,7 +1017,7 @@ if (node) {
     var plantation2 = new ObjectType(gameData,{
         id: "plantation2",
         blocks: {
-            ResourceStorage: {
+            ResourceStorageManager: {
                 ressourceTypeIds: ["oxygen"],
                 ressourceCapacity: [5]
             },

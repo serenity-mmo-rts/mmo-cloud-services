@@ -262,13 +262,16 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
         console.log("new event from user " + msgData.session.username);
         var mapId = msgData.data[0];
 
+        var currentTime = Date.now();
+
         // update world:
-        var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(Date.now());
+        var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(currentTime);
 
         var gameEvent = EventFactory(gameData,msgData.data[1]);
         gameEvent.userId = msgData.session.userId;
         gameEvent.mapId = mapId;
         gameEvent.setPointers();
+        gameEvent.startedTime = currentTime;
 
         // check if event is valid:
         if (gameEvent.isValid()) {
@@ -277,6 +280,8 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
             gameEvent.id = (new mongodb.ObjectID()).toHexString();
             gameEvent.isFinished = false;
             gameData.layers.get(mapId).eventScheduler.addEvent(gameEvent);
+
+            gameData.layers.currentTime = currentTime;
 
             // execute event locally on server:
             gameEvent.executeOnServer();
