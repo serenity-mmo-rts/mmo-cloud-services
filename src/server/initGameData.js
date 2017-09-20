@@ -1506,7 +1506,7 @@ if (node) {
                             values: ["50"]
                         }
                         },
-                        {wait: { waitingTime : 5000 }},
+                        {wait: { waitingTime : 50000 }},
                         {clear: { effectIdx: 0}},
                         {deactivate:{}},
                         {wait: { waitingTime : 3000}},
