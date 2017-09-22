@@ -1088,7 +1088,7 @@ if (node) {
         blocks: {
             Unit: {
                 itemTypeId:"unitItem1",
-                deployTime: 20000,
+                deployTime: 20000
             },
             FeatureManager: {},
             HubConnectivity: {},
@@ -1506,12 +1506,11 @@ if (node) {
                             values: ["50"]
                         }
                         },
-                        {wait: { waitingTime : 50000 }},
+                        {wait: { waitingTime : 10000 }},
                         {clear: { effectIdx: 0}},
                         {deactivate:{}},
                         {wait: { waitingTime : 3000}},
                         {goToExecutionIndex: {index : 0}}
-
                     ]
                 },
                 {
