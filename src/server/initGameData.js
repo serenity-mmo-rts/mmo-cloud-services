@@ -872,7 +872,7 @@ if (node) {
             EnergyManager: {},
             UpgradeProduction: {
                 numSlots: 10,
-                itemTypeIds: ["engineerDept","solarPanel","activationItem","targetSelectionItem"]
+                itemTypeIds: ["engineerDept","solarPanel","activationItem","targetSelectionItem","activationResetItem"]
             },
             FeatureManager: {},
             WorkingPlace: {
@@ -1534,6 +1534,57 @@ if (node) {
         allowOnMapTypeId: "moonMap01",
         iconSpritesheetId: "itemSprite",
         iconSpriteFrame: 4,
+        buildMenuTooltip: "this is awesome",
+        buildTime: [10000,10000,10000,10000,10000]
+
+    }));
+
+
+
+    gameData.itemTypes.add(new ItemType(gameData,{
+        id: "activationResetItem",
+        name: "activationResetItem",
+        className: "ProductivityUpgrade",
+        blocks: {
+            Feature: [
+                {
+                    stack: [
+                        {activatePerClick: {targetType: "self", range: Infinity}},
+                        {getParentObj: {}},
+                        {addToProp: {
+                            vars: ["maxHealthPoints"],
+                            blocks: ["UserObject"],
+                            operator: ["plus"],
+                            values: ["50"]
+                        }
+                        },
+                        {wait: { waitingTime : 10000 }},
+                        {clear: { effectIdx: 0}},
+                        {deactivate:{}},
+                        {goToExecutionIndex: {index : 0}}
+                    ]
+                },
+                {
+                    stack: [
+                        {getParentObj: {}},
+                        {
+                            addToProp: {
+                                vars: ["maxHealthPoints", "points"],
+                                blocks: ["UserObject", "UserObject"],
+                                operator: ["plus", "times"],
+                                values: ["20", "3"]
+                            }
+                        }
+                    ]
+                }
+            ],
+            FeatureManager: {
+
+            }
+        },
+        allowOnMapTypeId: "moonMap01",
+        iconSpritesheetId: "itemSprite",
+        iconSpriteFrame: 5,
         buildMenuTooltip: "this is awesome",
         buildTime: [10000,10000,10000,10000,10000]
 
