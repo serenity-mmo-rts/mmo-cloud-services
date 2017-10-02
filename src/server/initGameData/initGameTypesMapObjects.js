@@ -637,7 +637,7 @@ if (node) {
             blocks: {
                 ResourceStorageManager: {
                     ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [5]
+                    ressourceCapacity: [1800]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -645,7 +645,7 @@ if (node) {
                 },
                 SoilPuller: {
                     ressourceTypeIds: ["oxygen"],
-                    ressourceMaxInPerSec: [5]
+                    ressourceMaxInPerHour: [7200] // two per second
                 },
                 UpgradeProduction: {
                     numSlots: 10,
@@ -678,12 +678,12 @@ if (node) {
             blocks: {
                 ResourceStorageManager: {
                     ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [5]
+                    ressourceCapacity: [1800]
                 },
                 FeatureManager: {},
                 SoilPuller: {
                     ressourceTypeIds: ["oxygen"],
-                    ressourceMaxInPerSec: [5]
+                    ressourceMaxInPerHour: [3600] // one per second
                 },
                 HubConnectivity: {
                     numPorts: 1

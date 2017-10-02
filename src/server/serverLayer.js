@@ -130,7 +130,8 @@ asyncSocket.on('getMap',function(msgData, reply) {
                 initMap: mapData.save(),
                 initMapObjects: mapData.mapData.mapObjects.save(),
                 initMapEvents: mapData.eventScheduler.events.save(),
-                initItems: mapData.mapData.items.save()
+                initItems: mapData.mapData.items.save(),
+                currentTime: mapData.currentTime
             };
             reply(sendMap);
         }

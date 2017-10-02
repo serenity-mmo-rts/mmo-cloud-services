@@ -79,6 +79,7 @@ if (node) {
             mapGeneratorParams: [1,10000,18,2,50,20]
         });
         gameData.layers.add(cityMap); // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
+        cityMap.currentTime = Date.now();
 
         var cityMap2 = new Layer(gameData,{
             id: "cityMap02",
@@ -93,6 +94,7 @@ if (node) {
 
         });
         gameData.layers.add(cityMap2);
+        cityMap2.currentTime = Date.now();
 
 // Sublayer Map Objects
         var sun = new MapObject(gameData,{
@@ -250,6 +252,18 @@ if (node) {
             state: State.NORMAL
         }));
 
+        var testPlantation = cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
+            id: "testPlantation",
+            mapId: cityMap2.id(),
+            x: 200,
+            y: 0,
+            objTypeId: "plantation2",
+            userId: 0,
+            state: State.NORMAL
+        }));
+        testPlantation.setPointers(); // this will call setPointer() on all mapObjects and items
+        testPlantation.embedded(true);
+        testPlantation.blocks.SoilPuller.resetSoilProduction();
 
     }
 
