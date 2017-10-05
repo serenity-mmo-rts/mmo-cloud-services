@@ -17,23 +17,28 @@ if (node) {
 }
 
 (function (exports) {
-    var gameData = new GameData();
 
-    initGameSprites(gameData);
+    function initGameData() {
+        var gameData = new GameData();
 
-    initGameTypes(gameData);
+        initGameSprites(gameData);
 
-    initGameInstances(gameData);
+        initGameTypes(gameData);
 
-    gameData.initialize();
+        initGameInstances(gameData);
+
+        gameData.initialize();
+
+        return gameData;
+    }
 
 
     var gameVars = {
-        rootMapId: gameData.layers.get("cityMap02").id()
-        //rootMapId: gameData.layers.get("galaxyMap01").id()
+        rootMapId: "cityMap02"
+        //rootMapId: "galaxyMap01"
     };
 
-    exports.gameData = gameData;
+    exports.initGameData = initGameData;
     exports.gameVars = gameVars;
 
 })(node ? exports : window);
