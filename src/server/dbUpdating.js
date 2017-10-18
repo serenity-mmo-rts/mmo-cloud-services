@@ -17,21 +17,21 @@ var callbacksAfterCurrent = {};
 exports.reflectLayerToDb = function (gameData, layer, callback) {
 
     if (callback) {
-        if (!callbacksAfterNextSave.hasOwnProperty(layer.id)){
-            callbacksAfterNextSave[layer.id] = [];
+        if (!callbacksAfterNextSave.hasOwnProperty(layer.id())){
+            callbacksAfterNextSave[layer.id()] = [];
         }
-        callbacksAfterNextSave[layer.id].push(callback);
+        callbacksAfterNextSave[layer.id()].push(callback);
     }
 
-    if (lockedLayers.hasOwnProperty(layer.id)) {
+    if (lockedLayers.hasOwnProperty(layer.id())) {
         console.log("This map layer is write locked in the db. Cannot reflect to db at the moment! add db changes to queue...");
-        resaveLayers[layer.id] = true;
+        resaveLayers[layer.id()] = true;
     }
     else {
-        if (callbacksAfterNextSave.hasOwnProperty(layer.id)) {
-            callbacksAfterCurrent[layer.id] = callbacksAfterNextSave[layer.id];
+        if (callbacksAfterNextSave.hasOwnProperty(layer.id())) {
+            callbacksAfterCurrent[layer.id()] = callbacksAfterNextSave[layer.id()];
         }
-        callbacksAfterNextSave[layer.id] = [];
+        callbacksAfterNextSave[layer.id()] = [];
         startSaving(gameData, layer);
     }
 
@@ -40,7 +40,7 @@ exports.reflectLayerToDb = function (gameData, layer, callback) {
 
 function startSaving(gameData, layer) {
 
-    lockedLayers[layer.id] = true;
+    lockedLayers[layer.id()] = true;
 
     if (dbConn.isConnected()) {
         saveLayerToDb(gameData, layer);
@@ -137,21 +137,21 @@ function reflectGameListToDb(collectionName,gameList,callback) {
 function finishSaving(gameData, layer) {
 
     // call callbacks:
-    if (callbacksAfterCurrent.hasOwnProperty(layer.id)){
-        for (var k= callbacksAfterCurrent[layer.id].length - 1; k>=0; k--) {
-            console.log("call callbacksAfterCurrent")
-            callbacksAfterCurrent[layer.id][k]();
+    if (callbacksAfterCurrent.hasOwnProperty(layer.id())){
+        for (var k= callbacksAfterCurrent[layer.id()].length - 1; k>=0; k--) {
+            console.log("call callbacksAfterCurrent");
+            callbacksAfterCurrent[layer.id()][k]();
         }
-        callbacksAfterCurrent[layer.id] = [];
+        callbacksAfterCurrent[layer.id()] = [];
     }
 
     // finish:
 
-    delete lockedLayers[layer.id];
+    delete lockedLayers[layer.id()];
     console.log("saving is finished");
     // if in the mean time a new change request came in, then we start the saving from the beginning.
-    if (resaveLayers.hasOwnProperty(layer.id)) {
-        delete resaveLayers[layer.id];
+    if (resaveLayers.hasOwnProperty(layer.id())) {
+        delete resaveLayers[layer.id()];
         console.log("start saving again, because there were some new changes in the meantime");
         startSaving(gameData, layer);
     }
