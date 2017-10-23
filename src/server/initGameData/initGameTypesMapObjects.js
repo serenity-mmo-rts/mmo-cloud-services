@@ -23,7 +23,7 @@ if (node) {
 
 
         var redDwarf = new ObjectType(gameData, {
-            id: "redDwarf",
+            _id: "redDwarf",
             blocks: {
                 Sublayer: {},
                 HubConnectivity: {
@@ -61,7 +61,7 @@ if (node) {
 
 
         var normalStar = gameData.objectTypes.add(new ObjectType(gameData, {
-            id: "normalStar",
+            _id: "normalStar",
             blocks: {
                 Sublayer: {},
                 HubConnectivity: {
@@ -97,7 +97,7 @@ if (node) {
         }));
 
         var doubleSystem = new ObjectType(gameData, {
-            id: "doubleSystem",
+            _id: "doubleSystem",
             blocks: {
                 Sublayer: {},
                 HubConnectivity: {
@@ -135,7 +135,7 @@ if (node) {
 
 
         var neutronStar = new ObjectType(gameData, {
-            id: "neutronStar",
+            _id: "neutronStar",
             blocks: {
                 Sublayer: {},
                 HubConnectivity: {
@@ -172,7 +172,7 @@ if (node) {
         gameData.objectTypes.add(neutronStar);
 
         var blackHole = new ObjectType(gameData, {
-            id: "blackHole",
+            _id: "blackHole",
             blocks: {
                 Sublayer: {},
                 HubConnectivity: {
@@ -209,7 +209,7 @@ if (node) {
         gameData.objectTypes.add(blackHole);
 
         var crater01 = new ObjectType(gameData, {
-            id: "crater01",
+            _id: "crater01",
             blocks: {
                 Environment: {}
             },
@@ -227,7 +227,7 @@ if (node) {
         gameData.objectTypes.add(crater01);
 
         var rock01 = new ObjectType(gameData, {
-            id: "rock01",
+            _id: "rock01",
             blocks: {
                 Environment: {}
             },
@@ -245,7 +245,7 @@ if (node) {
         gameData.objectTypes.add(rock01);
 
         var rock02 = new ObjectType(gameData, {
-            id: "rock02",
+            _id: "rock02",
             blocks: {
                 Environment: {}
             },
@@ -263,7 +263,7 @@ if (node) {
         gameData.objectTypes.add(rock02);
 
         var factory = new ObjectType(gameData, {
-            id: "Factory1",
+            _id: "Factory1",
             blocks: {
                 HubConnectivity: {},
                 ResourceProduction: {},
@@ -296,7 +296,7 @@ if (node) {
         gameData.objectTypes.add(factory);
 
         var robotFactory = new ObjectType(gameData, {
-            id: "robotFactory1",
+            _id: "robotFactory1",
             blocks: {
                 HubConnectivity: {},
                 ResourceProduction: {},
@@ -330,7 +330,7 @@ if (node) {
         gameData.objectTypes.add(robotFactory);
 
         var researchFacility = new ObjectType(gameData, {
-            id: "researchFacility1",
+            _id: "researchFacility1",
             blocks: {
                 HubConnectivity: {},
                 ResourceProduction: {},
@@ -364,7 +364,7 @@ if (node) {
         gameData.objectTypes.add(researchFacility);
 
         var hub = new ObjectType(gameData, {
-            id: "Hub",
+            _id: "Hub",
             blocks: {
                 HubNode: {
                     canBuildConnectionTypeId: "connection",
@@ -405,7 +405,7 @@ if (node) {
         gameData.objectTypes.add(hub);
 
         var planethub = new ObjectType(gameData, {
-            id: "PlanetHub",
+            _id: "PlanetHub",
             blocks: {
                 HubNode: {
                     canBuildConnectionTypeId: "planetConnection",
@@ -446,7 +446,7 @@ if (node) {
         gameData.objectTypes.add(planethub);
 
         var sciencecenter = new ObjectType(gameData, {
-            id: "ScienceCenter",
+            _id: "ScienceCenter",
             blocks: {
                 TechProduction: {
                     producableTechnologies: ["wormholeTech"]
@@ -485,7 +485,7 @@ if (node) {
         gameData.objectTypes.add(sciencecenter);
 
         var reactor = new ObjectType(gameData, {
-            id: "reactor",
+            _id: "reactor",
             blocks: {
                 TechProduction: {
                     producableTechnologies: ["wormholeTech"]
@@ -524,7 +524,7 @@ if (node) {
         gameData.objectTypes.add(reactor);
 
         var furnitureFactory = new ObjectType(gameData, {
-            id: "furnitureFactory",
+            _id: "furnitureFactory",
             blocks: {
                 ResourceProduction: {},
                 HubConnectivity: {},
@@ -558,7 +558,7 @@ if (node) {
         gameData.objectTypes.add(furnitureFactory);
 
         var mineralStorage = new ObjectType(gameData, {
-            id: "mineralStorage",
+            _id: "mineralStorage",
             blocks: {
                 ResourceStorageManager: {
                     ressourceTypeIds: ["iron", "carbon"],
@@ -595,7 +595,7 @@ if (node) {
         gameData.objectTypes.add(mineralStorage);
 
         var liquidStorage = new ObjectType(gameData, {
-            id: "liquidStorage",
+            _id: "liquidStorage",
             blocks: {
                 ResourceStorageManager: {
                     ressourceTypeIds: ["oxygen"],
@@ -633,7 +633,7 @@ if (node) {
         gameData.objectTypes.add(liquidStorage);
 
         var plantation1 = new ObjectType(gameData, {
-            id: "plantation1",
+            _id: "plantation1",
             blocks: {
                 ResourceStorageManager: {
                     ressourceTypeIds: ["oxygen"],
@@ -674,7 +674,7 @@ if (node) {
         gameData.objectTypes.add(plantation1);
 
         var plantation2 = new ObjectType(gameData, {
-            id: "plantation2",
+            _id: "plantation2",
             blocks: {
                 ResourceStorageManager: {
                     ressourceTypeIds: ["oxygen"],
@@ -715,7 +715,7 @@ if (node) {
         gameData.objectTypes.add(plantation2);
 
         var defenseTower = new ObjectType(gameData, {
-            id: "defenseTower",
+            _id: "defenseTower",
             blocks: {
                 Tower: {},
                 FeatureManager: {},
@@ -743,7 +743,7 @@ if (node) {
         gameData.objectTypes.add(defenseTower);
 
         var subObject = new ObjectType(gameData, {
-            id: "subObject",
+            _id: "subObject",
             blocks: {
                 Unit: {
                     itemTypeId: "unitItem1",
@@ -774,7 +774,7 @@ if (node) {
         gameData.objectTypes.add(subObject);
 
         gameData.itemTypes.add(new ItemType(gameData, {
-            id: "unitItem1",
+            _id: "unitItem1",
             name: "excavator",
             className: "unitItem",
             blocks: {
@@ -798,7 +798,7 @@ if (node) {
 
 
         var spacecraftUnitObject = new ObjectType(gameData, {
-            id: "spacecraftUnitObject01",
+            _id: "spacecraftUnitObject01",
             blocks: {
                 Unit: {},
                 FeatureManager: {},
@@ -828,7 +828,7 @@ if (node) {
         gameData.objectTypes.add(spacecraftUnitObject);
 
         var connection = gameData.objectTypes.add(new ObjectType(gameData, {
-            id: "connection",
+            _id: "connection",
             blocks: {
                 Connection: {},
                 UpgradeProduction: {}
@@ -846,7 +846,7 @@ if (node) {
         }));
 
         var planetConnection = gameData.objectTypes.add(new ObjectType(gameData, {
-            id: "planetConnection",
+            _id: "planetConnection",
             blocks: {
                 Connection: {},
                 UpgradeProduction: {}
@@ -864,7 +864,7 @@ if (node) {
         }));
 
         var constructionSite = new ObjectType(gameData, {
-            id: "constructionSite",
+            _id: "constructionSite",
             blocks: {
                 ConstructionSite: {},
                 HubConnectivity: {},
@@ -891,7 +891,7 @@ if (node) {
         gameData.objectTypes.add(constructionSite);
 
         var dome = gameData.objectTypes.add(new ObjectType(gameData, {
-            id: "dome",
+            _id: "dome",
             blocks: {
                 Sublayer: {},
                 HubNode: {
@@ -925,7 +925,7 @@ if (node) {
 
 
         var sunPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
-            id: "sunPlanet",
+            _id: "sunPlanet",
             blocks: {
                 Environment: {}
             },
@@ -942,7 +942,7 @@ if (node) {
         }));
 
         var earthPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
-            id: "earthPlanet",
+            _id: "earthPlanet",
             blocks: {
                 Sublayer: {},
                 HubConnectivity: {
@@ -971,7 +971,7 @@ if (node) {
 
 
         var marsPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
-            id: "marsPlanet",
+            _id: "marsPlanet",
             blocks: {
                 Sublayer: {},
                 HubConnectivity: {

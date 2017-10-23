@@ -21,7 +21,7 @@ if (node) {
 
 
         var carbon = new RessourceType(gameData,{
-            id: "carbon",
+            _id: "carbon",
             name: "carbon",
             iconSpritesheetId: "ressourceSprite01",
             iconSpriteFrame: 0,
@@ -30,7 +30,7 @@ if (node) {
         });
         gameData.ressourceTypes.add(carbon);
         var iron = new RessourceType(gameData,{
-            id: "iron",
+            _id: "iron",
             name: "iron",
             iconSpritesheetId: "ressourceSprite01",
             iconSpriteFrame: 3,
@@ -39,7 +39,7 @@ if (node) {
         });
         gameData.ressourceTypes.add(iron);
         var oxygen = new RessourceType(gameData,{
-            id: "oxygen",
+            _id: "oxygen",
             name: "oxygen",
             iconSpritesheetId: "ressourceSprite01",
             iconSpriteFrame: 1,

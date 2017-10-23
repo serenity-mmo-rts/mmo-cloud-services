@@ -20,7 +20,7 @@ if (node) {
     function initGameTypesUsers(gameData) {
 
         var user = gameData.userTypes.add(new UserType(gameData,{
-            id: "normalUser",
+            _id: "normalUser",
             blocks: {
                 Skills: {},
                 Technologies: {}

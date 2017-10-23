@@ -3,11 +3,11 @@ var child_process = require('child_process');
 
 var debugPortIterator = 5283;
 
-function startSocketioProxy(id) {
+function startSocketioProxy(_id) {
     debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/testAsyncReplRouterClient.js',
-        [id],
+        [_id],
         {
             //execArgv: ['--debug']
             execArgv: ['--debug-brk='+debugPortIterator]
@@ -15,11 +15,11 @@ function startSocketioProxy(id) {
     )
 }
 
-function startProxyRouter(id) {
+function startProxyRouter(_id) {
     debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/testAsyncReplRouterProxy.js',
-        [id],
+        [_id],
         {
             //execArgv: ['--debug']
             execArgv: ['--debug-brk='+debugPortIterator]

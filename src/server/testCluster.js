@@ -18,9 +18,9 @@ if (cluster.isMaster) {
 
 
 } else if (cluster.isWorker) {
-    console.log('I am worker #' + cluster.worker.id);
+    console.log('I am worker #' + cluster.worker._id);
     setTimeout(function() {
-        console.log('testing after 1.5 sec worker #' + cluster.worker.id)
+        console.log('testing after 1.5 sec worker #' + cluster.worker._id)
     }, 1500);
 }
 

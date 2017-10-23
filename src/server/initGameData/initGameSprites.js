@@ -22,7 +22,7 @@ if (node) {
     function initGameSprites(gameData) {
 
         var forestSprite = new Spritesheet(gameData, {
-            id: 'forestSprite01',
+            _id: 'forestSprite01',
             images: ["resources/forest.png"],
             frames: [
                 // x, y, width, height, imageIndex, regX, regY
@@ -33,7 +33,7 @@ if (node) {
         gameData.spritesheets.add(forestSprite);
 
         var moonSprite = new Spritesheet(gameData, {
-            id: 'moonSprite01',
+            _id: 'moonSprite01',
             images: ["resources/objects/crater.png", "resources/objects/dome.png", "resources/objects/domeIcon.png"],
             frames: [
                 // x, y, width, height, imageIndex, regX, regY
@@ -45,7 +45,7 @@ if (node) {
         gameData.spritesheets.add(moonSprite);
 
         var citySprite = new Spritesheet(gameData, {
-            id: 'cityBuildingsSprite01',
+            _id: 'cityBuildingsSprite01',
             images: ["resources/CityBuildings.png", "resources/CityBuildingsIcons.png"],
             frames: [
                 // x, y, width, height, imageIndex, regX, regY
@@ -69,7 +69,7 @@ if (node) {
         gameData.spritesheets.add(citySprite);
 
         var objectsSprite = new Spritesheet(gameData, {
-            id: 'objectsSprite',
+            _id: 'objectsSprite',
             images: ["resources/objects/defenseTower.png", "resources/objects/defenseTowerIcon.png",
                 "resources/objects/furnitureFactory.png", "resources/objects/furnitureFactoryIcon.png",
                 "resources/objects/spacecraft.png", "resources/objects/spacecraftIcon.png",
@@ -115,7 +115,7 @@ if (node) {
         gameData.spritesheets.add(objectsSprite);
 
         var planetConnectionSprite = new Spritesheet(gameData, {
-            id: 'planetConnectionSprite',
+            _id: 'planetConnectionSprite',
             images: [
                 "resources/objects/planetPipe.ori/Image0000.png",
                 "resources/objects/planetPipe.ori/Image0001.png",
@@ -139,7 +139,7 @@ if (node) {
         gameData.spritesheets.add(planetConnectionSprite);
 
         var robotFactorySprite = new Spritesheet(gameData, {
-            id: 'robotFactorySprite',
+            _id: 'robotFactorySprite',
             images: [
                 "resources/objects/RobotFactory/Image0000.png",
                 "resources/objects/RobotFactory/Image0020.png",
@@ -168,7 +168,7 @@ if (node) {
         gameData.spritesheets.add(robotFactorySprite);
 
         var researchFacilitySprite = new Spritesheet(gameData, {
-            id: 'researchFacilitySprite',
+            _id: 'researchFacilitySprite',
             images: [
                 "resources/objects/ResearchFacility/Image0001.png",
                 "resources/objects/ResearchFacility/Image0002.png",
@@ -195,7 +195,7 @@ if (node) {
         gameData.spritesheets.add(researchFacilitySprite);
 
         var mineralStorageSprite = new Spritesheet(gameData, {
-            id: 'mineralStorageSprite',
+            _id: 'mineralStorageSprite',
             images: [
                 "resources/objects/mineralStorage/Image0001.png",
                 "resources/objects/mineralStorage/Image0002.png",
@@ -233,7 +233,7 @@ if (node) {
 
 
         var ressourceSprite = new Spritesheet(gameData, {
-            id: 'ressourceSprite01',
+            _id: 'ressourceSprite01',
             images: ["resources/RessourceIcons.png"],
             frames: [
                 // x, y, width, height, imageIndex, regX, regY
@@ -249,7 +249,7 @@ if (node) {
         gameData.spritesheets.add(ressourceSprite);
 
         var itemSprite = new Spritesheet(gameData, {
-            id: 'itemSprite',
+            _id: 'itemSprite',
             images: ["resources/own_icons/connectionSlot.png", "resources/own_icons/engineerDepartment.png", "resources/own_icons/excavator.png",
                 "resources/own_icons/itDepartment.png", "resources/own_icons/officePlace.png", "resources/own_icons/robotArm.png",
                 "resources/own_icons/slotMachine.png", "resources/own_icons/telescope.png", "resources/own_icons/warehouseStorage.png"],
@@ -272,7 +272,7 @@ if (node) {
 
 
         var planetSprite = new Spritesheet(gameData, {
-            id: 'planetSprite',
+            _id: 'planetSprite',
             images: [
                 "resources/objects/planets/Earth.png",
                 "resources/objects/planets/Mars.png",

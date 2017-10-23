@@ -148,7 +148,7 @@ asyncSocket.on('getUserData',function(msgData, reply) {
     if (userId != null){
         dbConn.get('users', function (err, collUsers) {
             if (err) throw err;
-            collUsers.find({id: userId}).toArray(function (err, documents) {
+            collUsers.find({_id: userId}).toArray(function (err, documents) {
                 if (err) throw err;
                 if (documents != null) {
 
@@ -192,7 +192,7 @@ asyncSocket.on('serverNotify',function(msgData) {
                     if (msgData.itemIds.length>0) {
                         dbConn.get('mapObjects', function (err, collMapObjects) {
                             if (err) throw err;
-                            collMapObjects.find({ id: { $in: msgData.objectIds } }).toArray(function (err, documents) {
+                            collMapObjects.find({ _id: { $in: msgData.objectIds } }).toArray(function (err, documents) {
                                 //documentsObjects = documents;
                                 callback(null, documents);
                             });
@@ -206,7 +206,7 @@ asyncSocket.on('serverNotify',function(msgData) {
                     if (msgData.itemIds.length>0) {
                         dbConn.get('items', function (err, collItems) {
                             if (err) throw err;
-                            collItems.find({ id: { $in: msgData.itemIds } }).toArray(function (err, documents) {
+                            collItems.find({ _id: { $in: msgData.itemIds } }).toArray(function (err, documents) {
                                 //documentsItems = documents;
                                 callback(null, documents);
                             });
@@ -277,8 +277,8 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
         // check if event is valid:
         if (gameEvent.isValid()) {
 
-            gameEvent.oldId = gameEvent.id;
-            gameEvent.id = (new mongodb.ObjectID()).toHexString();
+            gameEvent.oldId = gameEvent._id;
+            gameEvent._id = (new mongodb.ObjectID()).toHexString();
             gameEvent.isFinished = false;
             gameData.layers.get(mapId).eventScheduler.addEvent(gameEvent);
 
@@ -319,7 +319,7 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
                 collMapEvents.save(serializedGameEvent, {safe:true}, function(err,docs) {
                     if (err) throw err;
                     else {
-                        console.log("saved event "+serializedGameEvent.id+" to db");
+                        console.log("saved event "+serializedGameEvent._id+" to db");
                     }
                 });
             });
@@ -353,7 +353,7 @@ console.log("server of layer " + serverMapId + " is on listening on host " + hos
 //
 //    collLayerServers.save(
 //        {
-//            id: serverMapId,
+//            _id: serverMapId,
 //            hostname: hostname,
 //            port: port
 //        },

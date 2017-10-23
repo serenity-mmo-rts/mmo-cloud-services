@@ -17,21 +17,21 @@ var callbacksAfterCurrent = {};
 exports.reflectLayerToDb = function (gameData, layer, callback) {
 
     if (callback) {
-        if (!callbacksAfterNextSave.hasOwnProperty(layer.id())){
-            callbacksAfterNextSave[layer.id()] = [];
+        if (!callbacksAfterNextSave.hasOwnProperty(layer._id())){
+            callbacksAfterNextSave[layer._id()] = [];
         }
-        callbacksAfterNextSave[layer.id()].push(callback);
+        callbacksAfterNextSave[layer._id()].push(callback);
     }
 
-    if (lockedLayers.hasOwnProperty(layer.id())) {
+    if (lockedLayers.hasOwnProperty(layer._id())) {
         console.log("This map layer is write locked in the db. Cannot reflect to db at the moment! add db changes to queue...");
-        resaveLayers[layer.id()] = true;
+        resaveLayers[layer._id()] = true;
     }
     else {
-        if (callbacksAfterNextSave.hasOwnProperty(layer.id())) {
-            callbacksAfterCurrent[layer.id()] = callbacksAfterNextSave[layer.id()];
+        if (callbacksAfterNextSave.hasOwnProperty(layer._id())) {
+            callbacksAfterCurrent[layer._id()] = callbacksAfterNextSave[layer._id()];
         }
-        callbacksAfterNextSave[layer.id()] = [];
+        callbacksAfterNextSave[layer._id()] = [];
         startSaving(gameData, layer);
     }
 
@@ -40,7 +40,7 @@ exports.reflectLayerToDb = function (gameData, layer, callback) {
 
 function startSaving(gameData, layer) {
 
-    lockedLayers[layer.id()] = true;
+    lockedLayers[layer._id()] = true;
 
     if (dbConn.isConnected()) {
         saveLayerToDb(gameData, layer);
@@ -116,7 +116,7 @@ function reflectGameListToDb(collectionName,gameList,callback) {
                     collItems.save(serializedObjArr[ii], {w: 1}, function (err, docs) {
                         if (err) {
                             // add the state changes again so that it will eventually be saved later...
-                            gameList.notifyStateChange(serializedObjArr[ii].id);
+                            gameList.notifyStateChange(serializedObjArr[ii]._id);
                             console.log(err);
                         }
                         //console.log('test: finished saving number '+ii+' in collection '+collectionName);
@@ -137,21 +137,21 @@ function reflectGameListToDb(collectionName,gameList,callback) {
 function finishSaving(gameData, layer) {
 
     // call callbacks:
-    if (callbacksAfterCurrent.hasOwnProperty(layer.id())){
-        for (var k= callbacksAfterCurrent[layer.id()].length - 1; k>=0; k--) {
+    if (callbacksAfterCurrent.hasOwnProperty(layer._id())){
+        for (var k= callbacksAfterCurrent[layer._id()].length - 1; k>=0; k--) {
             console.log("call callbacksAfterCurrent");
-            callbacksAfterCurrent[layer.id()][k]();
+            callbacksAfterCurrent[layer._id()][k]();
         }
-        callbacksAfterCurrent[layer.id()] = [];
+        callbacksAfterCurrent[layer._id()] = [];
     }
 
     // finish:
 
-    delete lockedLayers[layer.id()];
+    delete lockedLayers[layer._id()];
     console.log("saving is finished");
     // if in the mean time a new change request came in, then we start the saving from the beginning.
-    if (resaveLayers.hasOwnProperty(layer.id())) {
-        delete resaveLayers[layer.id()];
+    if (resaveLayers.hasOwnProperty(layer._id())) {
+        delete resaveLayers[layer._id()];
         console.log("start saving again, because there were some new changes in the meantime");
         startSaving(gameData, layer);
     }

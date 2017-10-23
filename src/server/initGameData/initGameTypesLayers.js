@@ -20,7 +20,7 @@ if (node) {
     function initGameTypesLayers(gameData) {
 
         var cityMapType = new LayerType(gameData,{
-            id: "cityMapType01",
+            _id: "cityMapType01",
             name: "City",
             scale: 1,
             ratioWidthHeight: 2,
@@ -39,7 +39,7 @@ if (node) {
         gameData.layerTypes.add(cityMapType);
 
         var moonMapType = new LayerType(gameData,{
-            id: "moonMapType01",
+            _id: "moonMapType01",
             name: "Moon",
             scale: 1,
             ratioWidthHeight: 2,
@@ -56,7 +56,7 @@ if (node) {
         gameData.layerTypes.add(moonMapType);
 
         var solarMapType = new LayerType(gameData,{
-            id: "solarMapType01",
+            _id: "solarMapType01",
             name: "Solar",
             scale: 1,
             ratioWidthHeight: 2,
@@ -69,7 +69,7 @@ if (node) {
 
 
         var galaxyMapType = new LayerType(gameData,{
-            id: "galaxyMapType01",
+            _id: "galaxyMapType01",
             name: "Galaxy",
             scale: 1,
             ratioWidthHeight: 2,

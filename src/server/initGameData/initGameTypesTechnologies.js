@@ -21,7 +21,7 @@ if (node) {
 
 
         gameData.technologyTypes.add(new TechnologyType(gameData,{
-            id: "wormholeTech",
+            _id: "wormholeTech",
             name: "Wormhole Technology",
             iconSpritesheetId: "itemSprite",
             iconSpriteFrame: 0,

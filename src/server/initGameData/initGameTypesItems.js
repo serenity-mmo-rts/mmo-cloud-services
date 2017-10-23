@@ -20,7 +20,7 @@ if (node) {
     function initGameTypesItems(gameData) {
 
         gameData.itemTypes.add(new ItemType(gameData,{
-            id: "engineerDept",
+            _id: "engineerDept",
             name: "Engineering Department",
             className: "ProductivityUpgrade",
             blocks: {
@@ -69,7 +69,7 @@ if (node) {
         }));
 
         gameData.itemTypes.add(new ItemType(gameData,{
-            id: "solarPanel",
+            _id: "solarPanel",
             name: "Solar Panels",
             className: "ProductivityUpgrade",
             blocks: {
@@ -118,7 +118,7 @@ if (node) {
 
 
         gameData.itemTypes.add(new ItemType(gameData,{
-            id: "activationItem",
+            _id: "activationItem",
             name: "activationItem",
             className: "ProductivityUpgrade",
             blocks: {
@@ -170,7 +170,7 @@ if (node) {
 
 
         gameData.itemTypes.add(new ItemType(gameData,{
-            id: "activationResetItem",
+            _id: "activationResetItem",
             name: "activationResetItem",
             className: "ProductivityUpgrade",
             blocks: {
@@ -219,7 +219,7 @@ if (node) {
         }));
 
         gameData.itemTypes.add(new ItemType(gameData,{
-            id: "targetSelectionItem",
+            _id: "targetSelectionItem",
             name: "targetSelectionItem",
             className: "ProductivityUpgrade",
             blocks: {

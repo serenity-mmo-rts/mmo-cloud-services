@@ -190,7 +190,7 @@ exports.getMapById = function(gameData, mapId, cb) {
     dbConn.get('layers', function (err, collMaps) {
         if (err) throw err;
 
-        collMaps.findOne({id: mapId}, function(err, doc) {
+        collMaps.findOne({_id: mapId}, function(err, doc) {
             if (err) throw err;
             if (doc != null) {
                 var currentMapData = gameData.layers.add(new Layer(gameData, doc));
@@ -225,10 +225,10 @@ exports.getMapById = function(gameData, mapId, cb) {
 }
 
 function getMapObjects(gameData, currentMapData, cb) {
-    console.log("load mapObjects of map "+currentMapData.id()+" from db");
+    console.log("load mapObjects of map "+currentMapData._id()+" from db");
     dbConn.get('mapObjects', function (err, collMapObjects) {
         if (err) throw err;
-        collMapObjects.find({$or: [ {mapId: currentMapData.id()}, {targetMapId: currentMapData.id()} ]}).toArray(function(err, documents) {
+        collMapObjects.find({$or: [ {mapId: currentMapData._id()}, {targetMapId: currentMapData._id()} ]}).toArray(function(err, documents) {
             if (err) throw err;
             if (documents != null) {
 
@@ -251,10 +251,10 @@ function getMapObjects(gameData, currentMapData, cb) {
 }
 
 function getItems(gameData, currentMapData, cb) {
-    console.log("load items of map "+currentMapData.id()+" from db");
+    console.log("load items of map "+currentMapData._id()+" from db");
     dbConn.get('items', function (err, collItems) {
         if (err) throw err;
-        collItems.find({$or: [ {mapId: currentMapData.id()}, {targetMapId: currentMapData.id()} ]} ).toArray(function(err, documents) {
+        collItems.find({$or: [ {mapId: currentMapData._id()}, {targetMapId: currentMapData._id()} ]} ).toArray(function(err, documents) {
             if (err) throw err;
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {
@@ -272,11 +272,11 @@ function getItems(gameData, currentMapData, cb) {
 }
 
 function getMapEvents(gameData, currentMapData, cb) {
-    console.log("load events of map "+currentMapData.id()+" from db");
+    console.log("load events of map "+currentMapData._id()+" from db");
     dbConn.get('mapEvents', function (err, collMapEvents) {
         if (err) throw err;
 
-        collMapEvents.find({mapId: currentMapData.id()}).toArray(function(err, documents) {
+        collMapEvents.find({mapId: currentMapData._id()}).toArray(function(err, documents) {
             if (err) throw err;
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {

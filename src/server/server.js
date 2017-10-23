@@ -2,11 +2,11 @@ var child_process = require('child_process');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var debugPortIterator = 5873;
 
-function startProxyRouter(id) {
+function startProxyRouter(_id) {
     debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverProxyRouter.js',
-        [id],
+        [_id],
         {
             //execArgv: ['--debug']
             execArgv: ['--debug-brk='+debugPortIterator]
@@ -14,11 +14,11 @@ function startProxyRouter(id) {
     )
 }
 
-function startPubSubForwarder(id) {
+function startPubSubForwarder(_id) {
     debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverPubsubForwarder.js',
-        [id],
+        [_id],
         {
             //execArgv: ['--debug']
             execArgv: ['--debug-brk='+debugPortIterator]
@@ -42,11 +42,11 @@ function startLayerServerById(mapId, cb) {
     });
 }
 
-function startSocketioProxy(id) {
+function startSocketioProxy(_id) {
     debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverSocketio.js',
-        [id],
+        [_id],
         {
             execArgv: ['--debug-brk='+debugPortIterator]
         }
@@ -55,25 +55,25 @@ function startSocketioProxy(id) {
 
 
 
-var id = "master";
+var _id = "master";
 var targetProxy = 'proxy1';
-console.log('started server: ' + id);
+console.log('started server: ' + _id);
 var asyncSocket = new AsyncSocket('router');
-asyncSocket.identity = id;
+asyncSocket.identity = _id;
 var registeredAtProxy = false;
 function registerToProxy() {
     asyncSocket.sendReq(
         targetProxy,
         'register',
-        id,
+        _id,
         function(success, err) {
             if (success) {
                 registeredAtProxy = true;
-                console.log(id + ': registered at proxy!');
+                console.log(_id + ': registered at proxy!');
             }
             else {
                 console.log(err);
-                console.log(id + ': registration at proxy failed!');
+                console.log(_id + ': registration at proxy failed!');
 
                 //retry:
                 registerToProxy();
