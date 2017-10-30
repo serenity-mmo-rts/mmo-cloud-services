@@ -174,12 +174,10 @@ if (node) {
                 mapId: moonMap._id(),
                 x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01.initWidth / 2)),
                 y: Math.floor((Math.random() - 0.5) * (moonMap.height - crater01.initWidth.initHeight / 2)),
-                objTypeId: crater01.initWidth._id,
+                objTypeId: crater01._id,
                 userId: 0
             }));
         }
-
-
         for (var i = 1; i < 200; i++) {
             moonMap2.mapData.mapObjects.add(new MapObject(gameData,{
                 _id: "Moon2crater01inst" + i,
