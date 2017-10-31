@@ -231,6 +231,13 @@ asyncSocket.on('serverNotify',function(msgData) {
                     if (documentsObjects != null) {
                         for (var i = 0; i < documentsObjects.length; i++) {
                             var mapObj = new MapObject(gameData, documentsObjects[i]);
+
+                            // if it already exists, then first delete the old object:
+                            var existing = gameData.layers.get(serverMapId).mapData.mapObjects.get(mapObj._id());
+                            if (existing) {
+                                gameData.layers.get(serverMapId).mapData.removeObject(existing);
+                            }
+
                             gameData.layers.get(serverMapId).mapData.addObject(mapObj);
                             mapObj.setPointers();
                         }
@@ -240,6 +247,13 @@ asyncSocket.on('serverNotify',function(msgData) {
                     if (documentsItems != null) {
                         for (var i=0; i<documentsItems.length; i++) {
                             var item = new Item(gameData, documentsItems[i]);
+
+                            // if it already exists, then first delete the old object:
+                            var existing = gameData.layers.get(serverMapId).mapData.items.get(item._id());
+                            if (existing) {
+                                gameData.layers.get(serverMapId).mapData.removeItem(existing);
+                            }
+
                             gameData.layers.get(serverMapId).mapData.addItem(item);
                             item.setPointers();
                         }
