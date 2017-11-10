@@ -225,20 +225,21 @@ asyncSocket.on('serverNotify',function(msgData) {
                 // wait for mapdata to be fully loaded:
                 whenMapLoaded(function(){
 
+                    var mapData = gameData.layers.get(serverMapId).mapData;
                     // now add objects and items to mapData:
 
                     var documentsObjects = results[0];
                     if (documentsObjects != null) {
                         for (var i = 0; i < documentsObjects.length; i++) {
-                            var mapObj = new MapObject(gameData, documentsObjects[i]);
+                            var mapObj = new MapObject(mapData.mapObjects, documentsObjects[i]);
 
                             // if it already exists, then first delete the old object:
-                            var existing = gameData.layers.get(serverMapId).mapData.mapObjects.get(mapObj._id());
+                            var existing = mapData.mapObjects.get(mapObj._id());
                             if (existing) {
-                                gameData.layers.get(serverMapId).mapData.removeObject(existing);
+                                mapData.removeObject(existing);
                             }
 
-                            gameData.layers.get(serverMapId).mapData.addObject(mapObj);
+                            mapData.addObject(mapObj);
                             mapObj.setPointers();
                         }
                     }
@@ -246,15 +247,15 @@ asyncSocket.on('serverNotify',function(msgData) {
                     var documentsItems = results[1];
                     if (documentsItems != null) {
                         for (var i=0; i<documentsItems.length; i++) {
-                            var item = new Item(gameData, documentsItems[i]);
+                            var item = new Item(mapData.items, documentsItems[i]);
 
                             // if it already exists, then first delete the old object:
-                            var existing = gameData.layers.get(serverMapId).mapData.items.get(item._id());
+                            var existing = mapData.items.get(item._id());
                             if (existing) {
-                                gameData.layers.get(serverMapId).mapData.removeItem(existing);
+                                mapData.removeItem(existing);
                             }
 
-                            gameData.layers.get(serverMapId).mapData.addItem(item);
+                            mapData.addItem(item);
                             item.setPointers();
                         }
                     }
@@ -282,7 +283,7 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
         // update world:
         var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(currentTime);
 
-        var gameEvent = EventFactory(gameData,msgData.data[1]);
+        var gameEvent = EventFactory(gameData.layers.get(mapId).eventScheduler.events,msgData.data[1]);
         gameEvent.userId = msgData.session.userId;
         gameEvent.mapId = mapId;
         gameEvent.setPointers();

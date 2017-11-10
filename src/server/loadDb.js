@@ -193,7 +193,7 @@ exports.getMapById = function(gameData, mapId, cb) {
         collMaps.findOne({_id: mapId}, function(err, doc) {
             if (err) throw err;
             if (doc != null) {
-                var currentMapData = gameData.layers.add(new Layer(gameData, doc));
+                var currentMapData = gameData.layers.add(new Layer(gameData.layers, doc));
                 async.series([
                         function(cb){ getMapObjects(gameData, currentMapData, cb); },
                         function(cb){ getItems(gameData, currentMapData, cb); },
@@ -231,14 +231,8 @@ function getMapObjects(gameData, currentMapData, cb) {
         collMapObjects.find({$or: [ {mapId: currentMapData._id()}, {targetMapId: currentMapData._id()} ]}).toArray(function(err, documents) {
             if (err) throw err;
             if (documents != null) {
-
                 currentMapData.mapData.mapObjects.load(documents);
                 currentMapData.mapData.rebuildQuadTree();
-                /*
-                for (var i=0; i<documents.length; i++) {
-                    var mapObj = new MapObject(gameData, documents[i]);
-                    currentMapData.mapData.addObject(mapObj);
-                }*/
             }
 
             // reset the state changes, because we just added all objects from db:
@@ -258,8 +252,9 @@ function getItems(gameData, currentMapData, cb) {
             if (err) throw err;
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {
-                    var item = new Item(gameData, documents[i]);
-                    currentMapData.mapData.addItem(item);
+                    currentMapData.mapData.items.load(documents);
+                    //var item = new Item(gameData, documents[i]);
+                    //currentMapData.mapData.addItem(item);
                 }
             }
 
@@ -280,7 +275,7 @@ function getMapEvents(gameData, currentMapData, cb) {
             if (err) throw err;
             if (documents != null) {
                 for (var i=0; i<documents.length; i++) {
-                    var mapEvent = EventFactory(gameData, documents[i]);
+                    var mapEvent = EventFactory(currentMapData.eventScheduler.events, documents[i]);
                     currentMapData.eventScheduler.addEvent(mapEvent);
                 }
             }

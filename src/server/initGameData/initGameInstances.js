@@ -19,7 +19,7 @@ if (node) {
 
     function initGameInstances(gameData) {
 
-        var galaxyMap = new Layer(gameData,{
+        var galaxyMap = new Layer(gameData.layers,{
             _id: "galaxyMap01",
             parentObjId: null,
             width: 5000,              // pixelsize / 4
@@ -32,7 +32,7 @@ if (node) {
         gameData.layers.add(galaxyMap);
 
 
-        var solarMap = new Layer(gameData,{
+        var solarMap = new Layer(gameData.layers,{
             _id: "solarMap01",
             parentObjId: "solarSystem01",
             width: 20000,              // pixelsize / 4
@@ -44,7 +44,7 @@ if (node) {
         gameData.layers.add(solarMap);
 
 
-        var moonMap = new Layer(gameData,{
+        var moonMap = new Layer(gameData.layers,{
             _id: "moonMap01",
             parentObjId: "firstPlanet",
             width: 20000,              // pixelsize / 4
@@ -56,7 +56,7 @@ if (node) {
         gameData.layers.add(moonMap);
 
 
-        var moonMap2 = new Layer(gameData,{
+        var moonMap2 = new Layer(gameData.layers,{
             _id: "moonMap02",
             parentObjId: "secondPlanet",
             width: 20000,              // pixelsize / 4
@@ -67,7 +67,7 @@ if (node) {
         });
         gameData.layers.add(moonMap2);
 
-        var cityMap = new Layer(gameData,{
+        var cityMap = new Layer(gameData.layers,{
             _id: "cityMap01",
             parentObjId: "firstCity",
             width: 10000,
@@ -81,7 +81,7 @@ if (node) {
         gameData.layers.add(cityMap); // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
         cityMap.currentTime = Date.now();
 
-        var cityMap2 = new Layer(gameData,{
+        var cityMap2 = new Layer(gameData.layers,{
             _id: "cityMap02",
             parentObjId: "secondCity",
             width: 10000,
@@ -97,7 +97,7 @@ if (node) {
         cityMap2.currentTime = Date.now();
 
 // Sublayer Map Objects
-        var sun = new MapObject(gameData,{
+        var sun = new MapObject(solarMap.mapData.mapObjects,{
             _id: "sun01",
             objTypeId: "sunPlanet",
             sublayerId: null,
@@ -108,7 +108,7 @@ if (node) {
         });
         solarMap.mapData.mapObjects.add(sun);
 
-        var planet1 = new MapObject(gameData,{
+        var planet1 = new MapObject(solarMap.mapData.mapObjects,{
             _id: "firstPlanet",
             objTypeId: "earthPlanet",
             sublayerId: "moonMap01",
@@ -119,7 +119,7 @@ if (node) {
         });
         solarMap.mapData.mapObjects.add(planet1);
 
-        var planet2 = new MapObject(gameData,{
+        var planet2 = new MapObject(solarMap.mapData.mapObjects,{
             _id: "secondPlanet",
             objTypeId: "marsPlanet",
             sublayerId: "moonMap02",
@@ -130,7 +130,7 @@ if (node) {
         });
         solarMap.mapData.mapObjects.add(planet2);
 
-        var city1 = new MapObject(gameData,{
+        var city1 = new MapObject(moonMap.mapData.mapObjects,{
             _id: "firstCity",
             objTypeId: "dome",
             sublayerId: "cityMap01",
@@ -141,7 +141,7 @@ if (node) {
         });
         moonMap.mapData.mapObjects.add(city1);
 
-        moonMap.mapData.mapObjects.add(new MapObject(gameData,{
+        moonMap.mapData.mapObjects.add(new MapObject(moonMap.mapData.mapObjects,{
             _id: "secondCity",
             objTypeId: "dome",
             sublayerId: "cityMap02",
@@ -153,7 +153,7 @@ if (node) {
 
 
 
-        var solarSystem1 = new MapObject(gameData,{
+        var solarSystem1 = new MapObject(galaxyMap.mapData.mapObjects,{
             _id: "solarSystem01",
             objTypeId: "normalStar",
             sublayerId: "solarMap01",
@@ -169,7 +169,7 @@ if (node) {
 
         var crater01 = gameData.objectTypes.get("crater01");
         for (var i = 1; i < 200; i++) {
-            moonMap.mapData.mapObjects.add(new MapObject(gameData,{
+            moonMap.mapData.mapObjects.add(new MapObject(moonMap.mapData.mapObjects,{
                 _id: "Moon1crater01inst" + i,
                 mapId: moonMap._id(),
                 x: Math.floor((Math.random() - 0.5) * (moonMap.width - crater01.initWidth / 2)),
@@ -179,7 +179,7 @@ if (node) {
             }));
         }
         for (var i = 1; i < 200; i++) {
-            moonMap2.mapData.mapObjects.add(new MapObject(gameData,{
+            moonMap2.mapData.mapObjects.add(new MapObject(moonMap2.mapData.mapObjects,{
                 _id: "Moon2crater01inst" + i,
                 mapId: moonMap2._id(),
                 x: Math.floor((Math.random() - 0.5) * (moonMap2.width - crater01.initWidth / 2)),
@@ -194,7 +194,7 @@ if (node) {
 
         var rock01 = gameData.objectTypes.get("rock01");
         for (var i = 1; i < 100; i++) {
-            cityMap.mapData.mapObjects.add(new MapObject(gameData,{
+            cityMap.mapData.mapObjects.add(new MapObject(cityMap.mapData.mapObjects,{
                 _id: "rock01inst" + i,
                 mapId: cityMap._id(),
                 x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock01.initWidth / 2)),
@@ -206,7 +206,7 @@ if (node) {
 
         var rock02 = gameData.objectTypes.get("rock02");
         for (var i = 1; i < 100; i++) {
-            cityMap.mapData.mapObjects.add(new MapObject(gameData,{
+            cityMap.mapData.mapObjects.add(new MapObject(cityMap.mapData.mapObjects,{
                 _id: "rock02inst" + i,
                 mapId: cityMap._id(),
                 x: Math.floor((Math.random() - 0.5) * (cityMap.width - rock02.initWidth / 2)),
@@ -217,7 +217,7 @@ if (node) {
         }
 
         // Add Start Building
-        cityMap.mapData.mapObjects.add(new MapObject(gameData,{
+        cityMap.mapData.mapObjects.add(new MapObject(cityMap.mapData.mapObjects,{
             _id: "furnitureFactory01",
             mapId: cityMap._id(),
             x: 0,
@@ -229,7 +229,7 @@ if (node) {
 
 
         // Add Start Building
-        cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
+        cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "furnitureFactory02",
             mapId: cityMap2._id(),
             x: 0,
@@ -240,7 +240,7 @@ if (node) {
         }));
 
         // Add Start Building
-        cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
+        cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "furnitureFactory03",
             mapId: cityMap2._id(),
             x: 500,
@@ -250,7 +250,7 @@ if (node) {
             state: State.NORMAL
         }));
 
-        var testPlantation = cityMap2.mapData.mapObjects.add(new MapObject(gameData,{
+        var testPlantation = cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "testPlantation",
             mapId: cityMap2._id(),
             x: 200,
