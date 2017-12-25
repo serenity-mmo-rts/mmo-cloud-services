@@ -238,9 +238,7 @@ asyncSocket.on('serverNotify',function(msgData) {
                             if (existing) {
                                 mapData.removeObject(existing);
                             }
-
                             mapData.addObject(mapObj);
-                            mapObj.setPointers();
                         }
                     }
 
@@ -254,11 +252,23 @@ asyncSocket.on('serverNotify',function(msgData) {
                             if (existing) {
                                 mapData.removeItem(existing);
                             }
-
                             mapData.addItem(item);
-                            item.setPointers();
                         }
                     }
+
+
+                    // Now set all pointers:
+                    if (documentsObjects != null) {
+                        for (var i = 0; i < documentsObjects.length; i++) {
+                            mapData.mapObjects.get(documentsObjects[i]._id).setPointers();
+                        }
+                    }
+                    if (documentsItems != null) {
+                        for (var i = 0; i < documentsItems.length; i++) {
+                            mapData.items.get(documentsItems[i]._id).setPointers();
+                        }
+                    }
+
 
                 });
 
