@@ -250,6 +250,17 @@ if (node) {
             state: State.NORMAL
         }));
 
+        var testPlaceObject = cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
+            _id: "testPlaceObject",
+            mapId: cityMap2._id(),
+            x: 500,
+            y: 500,
+            objTypeId: "reactor",
+            userId: 0,
+            state: State.HIDDEN,
+            needsTobePlaced: true
+        }));
+
         var testPlantation = cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "testPlantation",
             mapId: cityMap2._id(),
@@ -262,6 +273,10 @@ if (node) {
         testPlantation.setPointers(); // this will call setPointer() on all mapObjects and items
         testPlantation.embedded(true);
         testPlantation.blocks.SoilPuller.resetSoilProduction();
+
+
+
+
 
     }
 
