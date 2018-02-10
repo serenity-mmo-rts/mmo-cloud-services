@@ -11,6 +11,7 @@ var ObjectType = require('../game/types/ObjectType').ObjectType;
 var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var User = require('../game/User').User;
 var AbstractEvent = require('../game/events/AbstractEvent').AbstractEvent;
+var LoadEntitiesEvent = require('../game/events/LoadEntitiesEvent').LoadEntitiesEvent;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
 var mongodb = require('mongodb');
 var dbConn = require('./dbConnection');
@@ -185,7 +186,41 @@ function notifyServer(msgData) {
 
 asyncSocket.on('serverNotify',function(msgData) {
     console.log(serverName+" received serverNotify event "+msgData.event);
-    if (msgData.event == "loadFromDb") {
+
+    if (msgData.event == "executeEvent") {
+
+        whenMapLoaded(function() {
+            dbConn.get('mapEvents', function (err, collEvents) {
+                if (err) throw err;
+                collEvents.findOne({_id: msgData.eventId}, function (err, document) {
+
+                    var eventScheduler = gameData.layers.get(msgData.targetMapId).eventScheduler;
+
+                    // create the event:
+                    var gameEvent = EventFactory(eventScheduler.events, document);
+
+                    // set some properties of events:
+                    gameEvent.isInServerNotify = true;
+
+                    // if it already exists, then first delete the old event:
+                    var existing = eventScheduler.events.get(gameEvent._id());
+                    if (existing) {
+                        eventScheduler.removeEvent(existing);
+                    }
+
+                    // now execute and broadcast to clients:
+                    var err = executeGameEvent(gameEvent, msgData.targetMapId);
+
+                    if (err) {
+                        console.log(err);
+                    }
+
+                });
+            });
+        });
+
+    }
+    else if (msgData.event == "loadFromDb") {
 
         async.parallel([
                 function(callback){
@@ -215,6 +250,20 @@ asyncSocket.on('serverNotify',function(msgData) {
                     else {
                         callback(null, []);
                     }
+                },
+                function(callback){
+                    if (msgData.eventIds.length>0) {
+                        dbConn.get('mapEvents', function (err, collEvents) {
+                            if (err) throw err;
+                            collEvents.find({ _id: { $in: msgData.eventIds } }).toArray(function (err, documents) {
+                                //documentsItems = documents;
+                                callback(null, documents);
+                            });
+                        });
+                    }
+                    else {
+                        callback(null, []);
+                    }
                 }
             ],
             function(err, results){
@@ -226,9 +275,11 @@ asyncSocket.on('serverNotify',function(msgData) {
                 whenMapLoaded(function(){
 
                     var mapData = gameData.layers.get(serverMapId).mapData;
+                    var eventScheduler = gameData.layers.get(serverMapId).eventScheduler;
                     // now add objects and items to mapData:
 
                     var documentsObjects = results[0];
+                    var mapObjects = [];
                     if (documentsObjects != null) {
                         for (var i = 0; i < documentsObjects.length; i++) {
                             var mapObj = new MapObject(mapData.mapObjects, documentsObjects[i]);
@@ -238,11 +289,12 @@ asyncSocket.on('serverNotify',function(msgData) {
                             if (existing) {
                                 mapData.removeObject(existing);
                             }
-                            mapData.addObject(mapObj);
+                            mapObjects.push(mapObj);
                         }
                     }
 
                     var documentsItems = results[1];
+                    var items = [];
                     if (documentsItems != null) {
                         for (var i=0; i<documentsItems.length; i++) {
                             var item = new Item(mapData.items, documentsItems[i]);
@@ -252,23 +304,33 @@ asyncSocket.on('serverNotify',function(msgData) {
                             if (existing) {
                                 mapData.removeItem(existing);
                             }
-                            mapData.addItem(item);
+                            items.push(item);
+                        }
+                    }
+
+                    var documentsEvents = results[2];
+                    var events = [];
+                    if (documentsEvents != null) {
+                        for (var i=0; i<documentsEvents.length; i++) {
+                            var event = EventFactory(eventScheduler.events, documentsEvents[i]);
+
+                            // if it already exists, then first delete the old object:
+                            var existing = eventScheduler.events.get(event._id());
+                            if (existing) {
+                                eventScheduler.removeEvent(existing);
+                            }
+                            events.push(event);
                         }
                     }
 
 
-                    // Now set all pointers:
-                    if (documentsObjects != null) {
-                        for (var i = 0; i < documentsObjects.length; i++) {
-                            mapData.mapObjects.get(documentsObjects[i]._id).setPointers();
-                        }
-                    }
-                    if (documentsItems != null) {
-                        for (var i = 0; i < documentsItems.length; i++) {
-                            mapData.items.get(documentsItems[i]._id).setPointers();
-                        }
-                    }
+                    // now broadcast:
+                    var loadEntititesEvent = new LoadEntitiesEvent(eventScheduler.events);
+                    loadEntititesEvent.mapId = msgData.targetMapId;
+                    loadEntititesEvent.mapObjects = mapObjects;
+                    loadEntititesEvent.items = items;
 
+                    executeGameEvent(loadEntititesEvent, msgData.targetMapId);
 
                 });
 
@@ -280,90 +342,105 @@ asyncSocket.on('serverNotify',function(msgData) {
 });
 
 
+function executeGameEvent(gameEvent, mapId) {
+
+    var currentTime = Date.now();
+    var eventScheduler = gameData.layers.get(mapId).eventScheduler;
+
+    // update world:
+    var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(currentTime);
+
+    gameEvent.setPointers();
+    gameEvent.startedTime = currentTime;
+
+    // check if event is valid:
+    if (gameEvent.isValid()) {
+
+
+        gameEvent.oldId = gameEvent._id;
+        gameEvent._id = (new mongodb.ObjectID()).toHexString();
+        gameEvent.isFinished = false;
+
+        // add the new event:
+        eventScheduler.addEvent(gameEvent);
+
+        gameData.layers.currentTime = currentTime;
+
+        // execute event locally on server:
+        gameEvent.executeOnServer();
+        var notifyMsg = gameEvent.notifyServer();
+        var callbackAfterSave = null;
+        if (notifyMsg) {
+            callbackAfterSave = function () {
+                console.log("callbackAfterSave");
+                notifyServer(notifyMsg);
+            }
+        }
+
+        dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId), callbackAfterSave);
+        console.log("event was successfully executed. Now broadcast to clients...");
+
+        var serializedGameEvent = gameEvent.save();
+
+        // the following broadcast goes to all clients:
+        var msgData = {
+            evt: 'newGameEvent',
+            map: mapId,
+            dat: serializedGameEvent
+        };
+        pubSock.send(['map_' + mapId, BSON.serialize(msgData, false, true, false)]);
+        return 0;
+    }
+    else {
+        if (numEventsFinished > 0) {
+            dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
+        }
+        console.log("event is not valid!");
+        return "event is not valid!";
+    }
+
+}
+
 
 asyncSocket.on('newGameEvent',function(msgData, reply) {
 
     // check if correct login:
     if (msgData.session.loggedIn) {
+
         console.log("new event from user " + msgData.session.username);
         var mapId = msgData.data[0];
+        var eventScheduler = gameData.layers.get(mapId).eventScheduler;
 
-        var currentTime = Date.now();
+        // create the event:
+        var gameEvent = EventFactory(eventScheduler.events,msgData.data[1]);
 
-        // update world:
-        var numEventsFinished = gameData.layers.get(mapId).timeScheduler.finishAllTillTime(currentTime);
-
-        var gameEvent = EventFactory(gameData.layers.get(mapId).eventScheduler.events,msgData.data[1]);
+        // set some properties of events:
+        gameEvent.isInServerNotify = false;
         gameEvent.userId = msgData.session.userId;
         gameEvent.mapId = mapId;
-        gameEvent.setPointers();
-        gameEvent.startedTime = currentTime;
 
-        // check if event is valid:
-        if (gameEvent.isValid()) {
+        var err = executeGameEvent(gameEvent, mapId);
 
-            gameEvent.oldId = gameEvent._id;
-            gameEvent._id = (new mongodb.ObjectID()).toHexString();
-            gameEvent.isFinished = false;
-            gameData.layers.get(mapId).eventScheduler.addEvent(gameEvent);
-
-            gameData.layers.currentTime = currentTime;
-
-            // execute event locally on server:
-            gameEvent.executeOnServer();
-            var notifyMsg = gameEvent.notifyServer();
-            var callbackAfterSave = null;
-            if (notifyMsg) {
-                callbackAfterSave = function() {
-                    console.log("callbackAfterSave");
-                    notifyServer(notifyMsg);
-                }
-            }
-
-            dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId), callbackAfterSave);
-            console.log("event was successfully executed. Now broadcast to clients...");
-
-            var serializedGameEvent = gameEvent.save();
-            // the following broadcast goes to the client who created the event:
+        if (err) {
             reply({
-                success: true//,
-                //updatedEvent: serializedGameEvent
+                success: false,
+                msg: err
             });
-
-            // the following broadcast goes to all clients:
-            var msgData = {
-                evt: 'newGameEvent',
-                map: mapId,
-                dat: serializedGameEvent
-            }
-            pubSock.send(['map_' + mapId, BSON.serialize(msgData,false,true,false)]);
-
-            // save to  db
-            dbConn.get('mapEvents', function (err, collMapEvents) {
-                if (err) throw err;
-                collMapEvents.save(serializedGameEvent, {safe:true}, function(err,docs) {
-                    if (err) throw err;
-                    else {
-                        console.log("saved event "+serializedGameEvent._id+" to db");
-                    }
-                });
-            });
-
         }
-        else {
-            console.log("event is not valid!!");
-            if (numEventsFinished > 0) {
-                dbUpdating.reflectLayerToDb(gameData, gameData.layers.get(mapId));
-            }
-            reply({success: false});
-        }
+
+        // the following broadcast goes to the client who created the event:
+        reply({
+            success: true
+        });
+
     }
     else {
         reply({
-            success: false
+            success: false,
+            msg: "not logged in!"
         });
     }
-})
+});
 
 app.listen(0);
 
