@@ -255,7 +255,7 @@ if (node) {
             mapId: cityMap2._id(),
             x: 500,
             y: 500,
-            objTypeId: "reactor",
+            objTypeId: "subObject",
             userId: 0,
             state: State.HIDDEN,
             needsTobePlaced: true
