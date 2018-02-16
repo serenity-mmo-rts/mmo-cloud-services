@@ -2,6 +2,10 @@ var child_process = require('child_process');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var debugPortIterator = 5873;
 
+
+
+var currentlyStartingMapIds = {};
+
 function startProxyRouter(_id) {
     debugPortIterator++;
     var forker = child_process.fork(
@@ -39,6 +43,9 @@ function startLayerServerById(mapId, cb) {
 
     forker.on('message', function(m) {
         if (cb) cb(m);
+
+
+
     });
 }
 
@@ -93,14 +100,51 @@ asyncSocket.connect('tcp://127.0.0.1:5001');
 asyncSocket.on('startLayerServer',function(msgData, callback) {
 
     console.log("master: starting layer server "+msgData.mapId+"...");
-    startLayerServerById(msgData.mapId, function(m) {
 
-        callback({
-            success: true
+    if (currentlyStartingMapIds[msgData.mapId]) {
+        var startingDate = currentlyStartingMapIds[msgData.mapId].date;
+        var timeDiff = Date.now()-startingDate;
+
+        if (currentlyStartingMapIds[msgData.mapId].started) {
+            console.log("master: server "+msgData.mapId+" is now started...")
+            callback({
+                success: true
+            });
+        }
+        else {
+            console.log("master: server "+msgData.mapId+" is already starting up...")
+            currentlyStartingMapIds[msgData.mapId].callbacks.push(
+                function() {
+                    callback({
+                        success: true
+                    });
+                }
+            );
+        }
+
+    }
+    else {
+        console.log("master: start layer server "+msgData.mapId+"...");
+        currentlyStartingMapIds[msgData.mapId] = {
+            date: Date.now(),
+            started: false,
+            callbacks: [
+                function() {
+                    callback({
+                        success: true
+                    });
+                }
+            ]
+        };
+        startLayerServerById(msgData.mapId, function(m) {
+            console.log("master: layer "+msgData.mapId+" started and registered at proxy...");
+            var cbs = currentlyStartingMapIds[msgData.mapId].callbacks;
+            for (var i= 0, len=cbs.length; i<len; i++) {
+                cbs[i]();
+            }
         });
-        console.log("master: layer "+msgData.mapId+" started and registered at proxy...");
+    }
 
-    });
 
 });
 
