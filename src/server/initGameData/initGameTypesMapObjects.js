@@ -784,7 +784,8 @@ if (node) {
                 Movable: {
                     movementSpeed: 0.1,  // per sec
                     maxRange: 500,
-                    movingUpTime: 3000
+                    movingUpTime: 3000,
+                    movingDownTime: 5000
                 },
                 FeatureManager: {}
             },

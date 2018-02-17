@@ -91,10 +91,25 @@ if (node) {
             mapTypeId: "cityMapType01",
             parentMapId: "moonMap01",
             mapGeneratorParams: [1,10000,18,2,50,20] // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
-
         });
         gameData.layers.add(cityMap2);
         cityMap2.currentTime = Date.now();
+
+
+        var cityMap3 = new Layer(gameData.layers,{
+            _id: "cityMap03",
+            parentObjId: "thirdCity",
+            width: 10000,
+            height: 10000,
+            xPos: 30000,
+            yPos: 30000,
+            mapTypeId: "cityMapType01",
+            parentMapId: "moonMap01",
+            mapGeneratorParams: [1,10000,18,2,50,20] // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
+        });
+        gameData.layers.add(cityMap3);
+        cityMap3.currentTime = Date.now();
+
 
 // Sublayer Map Objects
         var sun = new MapObject(solarMap.mapData.mapObjects,{
@@ -151,6 +166,15 @@ if (node) {
             y: 0
         }));
 
+        moonMap.mapData.mapObjects.add(new MapObject(moonMap.mapData.mapObjects,{
+            _id: "thirdCity",
+            objTypeId: "dome",
+            sublayerId: "cityMap03",
+            mapId: moonMap._id(),
+            userId: 0,
+            x: 300,
+            y: 800
+        }));
 
 
         var solarSystem1 = new MapObject(galaxyMap.mapData.mapObjects,{
@@ -250,6 +274,7 @@ if (node) {
             state: State.NORMAL
         }));
 
+        /**
         var testPlaceObject = cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "testPlaceObject",
             mapId: cityMap2._id(),
@@ -260,6 +285,7 @@ if (node) {
             state: State.HIDDEN,
             needsTobePlaced: true
         }));
+         **/
 
         var testPlantation = cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "testPlantation",
