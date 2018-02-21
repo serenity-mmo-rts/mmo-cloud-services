@@ -747,7 +747,7 @@ if (node) {
             blocks: {
                 Unit: {
                     itemTypeId: "unitItem1",
-                    deployTime: 20000
+                    deployTime: 3000
                 },
                 FeatureManager: {},
                 HubConnectivity: {},

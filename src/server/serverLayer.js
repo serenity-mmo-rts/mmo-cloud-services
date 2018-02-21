@@ -287,7 +287,7 @@ asyncSocket.on('serverNotify',function(msgData) {
                             // if it already exists, then first delete the old object:
                             var existing = mapData.mapObjects.get(mapObj._id());
                             if (existing) {
-                                mapData.removeObject(existing);
+                                mapData.removeObjectAndUnembedd(existing);
                             }
                             mapObjects.push(mapObj);
                         }
@@ -302,12 +302,13 @@ asyncSocket.on('serverNotify',function(msgData) {
                             // if it already exists, then first delete the old object:
                             var existing = mapData.items.get(item._id());
                             if (existing) {
-                                mapData.removeItem(existing);
+                                mapData.removeItemAndUnembedd(existing);
                             }
                             items.push(item);
                         }
                     }
 
+                    /**
                     var documentsEvents = results[2];
                     var events = [];
                     if (documentsEvents != null) {
@@ -322,6 +323,7 @@ asyncSocket.on('serverNotify',function(msgData) {
                             events.push(event);
                         }
                     }
+                     **/
 
 
                     // now broadcast:

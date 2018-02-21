@@ -111,6 +111,8 @@ if (node) {
         cityMap3.currentTime = Date.now();
 
 
+
+
 // Sublayer Map Objects
         var sun = new MapObject(solarMap.mapData.mapObjects,{
             _id: "sun01",
@@ -296,11 +298,15 @@ if (node) {
             userId: 0,
             state: State.NORMAL
         }));
-        testPlantation.setPointers(); // this will call setPointer() on all mapObjects and items
-        testPlantation.embedded(true);
+
+        galaxyMap.initialize();
+        solarMap.initialize();
+        moonMap.initialize();
+        moonMap2.initialize();
+        cityMap.initialize();
+        cityMap2.initialize();
+        cityMap3.initialize();
         testPlantation.blocks.SoilPuller.resetSoilProduction();
-
-
 
 
 
