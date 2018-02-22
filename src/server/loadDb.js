@@ -232,7 +232,6 @@ function getMapObjects(gameData, currentMapData, cb) {
             if (err) throw err;
             if (documents != null) {
                 currentMapData.mapData.mapObjects.load(documents);
-                currentMapData.mapData.rebuildQuadTree();
             }
 
             // reset the state changes, because we just added all objects from db:
