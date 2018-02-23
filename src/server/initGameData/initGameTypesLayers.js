@@ -33,7 +33,7 @@ if (node) {
                 {name: 'Military', objectTypeIds: ["ScienceCenter", "researchFacility1", "defenseTower", "subObject"]}
             ],
             blocks: {
-                HubSystem: {}
+                HubSystemManager: {}
             }
         });
         gameData.layerTypes.add(cityMapType);
@@ -50,7 +50,7 @@ if (node) {
                 {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01", "PlanetHub"]}
             ],
             blocks: {
-                HubSystem: {}
+                HubSystemManager: {}
             }
         });
         gameData.layerTypes.add(moonMapType);
@@ -63,7 +63,10 @@ if (node) {
             bgColor: 000000,
             groundImage: "resources/background/starBackground.jpg",
             groundImageScaling: 0.1,
-            groundDragScaling: 0.1
+            groundDragScaling: 0.1,
+            blocks: {
+                HubSystemManager: {}
+            }
         });
         gameData.layerTypes.add(solarMapType);
 
