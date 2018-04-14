@@ -400,7 +400,7 @@ if (node) {
             spriteFrame: 6,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 7,
-            buildTime: 12000
+            buildTime: 4000
         });
         gameData.objectTypes.add(hub);
 
@@ -637,7 +637,7 @@ if (node) {
             blocks: {
                 ResourceManager: {
                     ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [1800]
+                    ressourceCapacity: [0]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -678,7 +678,7 @@ if (node) {
             blocks: {
                 ResourceManager: {
                     ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [1800]
+                    ressourceCapacity: [30]
                 },
                 FeatureManager: {},
                 SoilPuller: {
