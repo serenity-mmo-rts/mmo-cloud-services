@@ -562,10 +562,12 @@ if (node) {
             blocks: {
                 ResourceManager: {
                     ressourceTypeIds: ["iron", "carbon"],
-                    ressourceCapacity: [100, 200]
+                    ressourceCapacity: [1000, 1000]
                 },
                 FeatureManager: {},
-                HubConnectivity: {},
+                HubConnectivity: {
+                    numPorts: 1
+                },
                 UpgradeProduction: {
                     numSlots: 10,
                     itemTypeIds: ["engineerDept", "solarPanel"]
@@ -599,7 +601,7 @@ if (node) {
             blocks: {
                 ResourceManager: {
                     ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [100]
+                    ressourceCapacity: [1000]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -631,6 +633,47 @@ if (node) {
             buildTime: 1000
         });
         gameData.objectTypes.add(liquidStorage);
+
+        var miningPlant = new ObjectType(gameData, {
+            _id: "miningPlant",
+            blocks: {
+                ResourceManager: {
+                    ressourceTypeIds: ["carbon", "iron"],
+                    ressourceCapacity: [0, 0]
+                },
+                FeatureManager: {},
+                HubConnectivity: {
+                    numPorts: 1
+                },
+                SoilPuller: {
+                    ressourceTypeIds: ["carbon", "iron"],
+                    ressourceMaxInPerHour: [7200, 10000]
+                },
+                UpgradeProduction: {
+                    numSlots: 10,
+                    itemTypeIds: ["engineerDept", "solarPanel"]
+                },
+                WorkingPlace: {
+                    requiredSkills: 0
+                },
+                ProductivityCalculator: {},
+                UserObject: {
+                    maxHealthPoints: 10,
+                    points: 5
+                }
+            },
+            className: "miningPlant",
+            initWidth: 160,
+            initHeight: 160,
+            allowOnMapTypeId: "cityMapType01",
+            name: "mining Plant",
+            spritesheetId: "miningSprite",
+            spriteFrame: 0,
+            iconSpritesheetId: "miningSprite",
+            iconSpriteFrame: 0,
+            buildTime: 10000
+        });
+        gameData.objectTypes.add(miningPlant);
 
         var plantation1 = new ObjectType(gameData, {
             _id: "plantation1",

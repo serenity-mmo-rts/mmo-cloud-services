@@ -28,7 +28,7 @@ if (node) {
             groundImage: "resources/ground.png",
             groundImageScaling: 1,
             buildCategories: [
-                {name: 'Resources', objectTypeIds: ["Hub", "reactor", "mineralStorage", "liquidStorage", "plantation1", "plantation2"]},
+                {name: 'Resources', objectTypeIds: ["Hub", "reactor", "mineralStorage", "liquidStorage", "plantation1", "plantation2", "miningPlant"]},
                 {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory", "robotFactory1"]},
                 {name: 'Military', objectTypeIds: ["ScienceCenter", "researchFacility1", "defenseTower", "subObject"]}
             ],

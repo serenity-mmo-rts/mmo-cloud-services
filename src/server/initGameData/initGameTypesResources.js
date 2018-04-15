@@ -37,6 +37,7 @@ if (node) {
             buildMenuTooltip:"iron is great",
             buildTime: 2000
         });
+
         gameData.ressourceTypes.add(iron);
         var oxygen = new RessourceType(gameData,{
             _id: "oxygen",

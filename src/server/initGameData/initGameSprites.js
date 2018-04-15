@@ -232,6 +232,21 @@ if (node) {
         gameData.spritesheets.add(mineralStorageSprite);
 
 
+        var miningSprite = new Spritesheet(gameData, {
+            _id: 'miningSprite',
+            images: [
+                "resources/objects/miningPlant/Image0001.png"
+            ],
+            frames: [
+                // x, y, width, height, imageIndex, regX, regY
+                [0, 0, 800, 465, 0, 400, 232]
+            ]
+        });
+        gameData.spritesheets.add(miningSprite);
+
+
+
+
         var ressourceSprite = new Spritesheet(gameData, {
             _id: 'ressourceSprite01',
             images: ["resources/RessourceIcons.png"],
