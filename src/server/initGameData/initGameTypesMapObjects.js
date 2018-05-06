@@ -1041,6 +1041,34 @@ if (node) {
         }));
 
 
+        var moonPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
+            _id: "moonPlanet",
+            blocks: {
+                Sublayer: {},
+                HubConnectivity: {
+                    numPorts: 12
+                },
+                UserObject: {
+                    maxHealthPoints: 100,
+                    points: 50
+                },
+                UpgradeProduction: {
+                    numSlots: 0,
+                    itemTypeIds: []
+                }
+            },
+            className: "sublayer",
+            initWidth: 255,
+            initHeight: 255,
+            allowOnMapTypeId: "solarMapType01",
+            name: "Moon",
+            spritesheetId: 'planetSprite',
+            spriteFrame: 2,
+            iconSpritesheetId: 'planetSprite',
+            iconSpriteFrame: 2,
+            buildTime: 15000
+        }));
+
     }
 
     exports.initGameTypesMapObjects = initGameTypesMapObjects;
