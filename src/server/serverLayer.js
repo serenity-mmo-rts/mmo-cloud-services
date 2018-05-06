@@ -2,7 +2,6 @@
 var net = require('net');
 var JsonSocket = require('json-socket');
 var bcrypt = require('bcrypt');
-var express = require('express.io')
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
@@ -77,8 +76,6 @@ asyncSocket.connect('tcp://127.0.0.1:5001');
 
 
 var salt = bcrypt.genSaltSync(10);
-
-app = express().http().io();
 
 var gameData = new GameData();
 var gameVars = {};
@@ -444,11 +441,8 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
     }
 });
 
-app.listen(0);
-
 var os = require("os");
 var hostname = os.hostname();
-var port = app.server.address().port;
 console.log("server of layer " + serverMapId + " is on listening on host " + hostname + " on port " + port);
 
 //

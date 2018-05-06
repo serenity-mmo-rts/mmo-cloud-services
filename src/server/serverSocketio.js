@@ -2,7 +2,14 @@
 var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 
-express = require('express.io')
+//express = require('express.io')
+var express = require('express');
+const expressSession = require('express-session');
+const MongoStore = require('connect-mongo')(expressSession);
+var app = express();
+var server  = require("http").createServer(app);
+var io = require("socket.io")(server);
+
 
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
@@ -24,8 +31,6 @@ var BSON = new bson.BSONPure.BSON();
 // subscribe to map events
 var subSock = zmq.socket('sub');
 subSock.connect('tcp://127.0.0.1:3000');
-
-
 
 // start asyncSocket for request-response communication:
 var asyncSocket = new AsyncSocket('router');
@@ -72,7 +77,7 @@ var fs = require('fs');
 window = {};
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');
 
-app = express().http().io();
+//app = express().http().io();
 
 var gameData = new GameData();
 var gameVars = {};
@@ -90,19 +95,24 @@ loadDb.getGameData(gameData,gameVars,function() {
 });
 
 // Setup sessions
-app.use(express.cookieParser())
+//app.use(express.cookieParser())
 var db = dbConn.getDb();
 
-var MongoStore = require('connect-mongo')(express);
-
 dbConn.connect(function() {
+    console.log("setting up sessions and connecting them to express and socket.io");
 
-    app.use(express.session({secret: 'thisIsAnAwesomeGame',
-        store: new MongoStore({db: db})}))
-})
+    var session = expressSession({
+        secret: "thisIsAnAwesomeGame",
+        resave: true,
+        saveUninitialized: true,
+        store: new MongoStore({db: db})
+    });
+    var sharedsession = require("express-socket.io-session");
+    app.use(session);
 
-
-
+    // Share session with io sockets
+    io.use(sharedsession(session));
+});
 
 app.use(express.static('../client'));
 app.use('/game', express.static('../game'));
@@ -110,164 +120,274 @@ app.use('/ntpClient', express.static('node_modules/socket-ntp/client'));
 
 // Session is automatically setup on initial request.
 app.get('/', function (req, res) {
-    req.session.lastActive = new Date().toString()
+    //req.session.lastActive = new Date().toString()
     res.sendfile('../client/index.html')
-})
+});
 
-app.io.route('login', function (req) {
-    var sid = req.sessionID;
-    var username = req.data.name;
-    var password = req.data.password;
 
-    dbConn.get('logins',function(err,collLogins){
-        if (err) throw err;
-        collLogins.findOne({name: username}, function (err, doc) {
+io.on("connection", function(socket) {
+
+    var socketId = socket._id;
+
+    // Accept a login event with user's data
+    socket.on("login", function(userdata) {
+
+        var sid = socket.handshake.session.sessionID;
+        var username = userdata.name;
+        var password = userdata.password;
+
+        dbConn.get('logins',function(err,collLogins){
             if (err) throw err;
-            if (doc == null) {
-                req.io.emit('loginError', {msg: "username does not exist!"});
-            }
-            else {
-                bcrypt.compare(password, doc.pw, function (err, res) {
-                    if (res) {
-                        if (doc.sid != sid) {
-                            collLogins.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
-                                if (err) throw err;
-                                req.session.username = doc.name;
-                                req.session.loginId = doc._id;
-                                req.session.userId = doc.userId;
-                                req.session.loggedIn = true;
-                                //console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
-                                //req.io.emit('loggedIn', {userId: doc1.userId, userName: doc.name});
-                                userLoggedIn(req);
-                            });
+            collLogins.findOne({name: username}, function (err, doc) {
+                if (err) throw err;
+                if (doc == null) {
+                    socket.emit('loginError', {msg: "username does not exist!"});
+                }
+                else {
+                    bcrypt.compare(password, doc.pw, function (err, res) {
+                        if (res) {
+                            if (doc.sid != sid) {
+                                collLogins.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
+                                    if (err) throw err;
+                                    socket.handshake.session.username = doc.name;
+                                    socket.handshake.session.loginId = doc._id;
+                                    socket.handshake.session.userId = doc.userId;
+                                    socket.handshake.session.loggedIn = true;
+                                    socket.handshake.session.save();
+                                    //console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
+                                    //socket.emit('loggedIn', {userId: doc1.userId, userName: doc.name});
+                                    userLoggedIn(socket);
+                                });
+                            }
                         }
-                    }
-                    else {
-                        req.io.emit('loginError', {msg: "wrong password!"});
-                        console.log('loginError of userId: ' + doc._id + ' username: ' + doc.name);
-                    }
-                });
-            }
+                        else {
+                            socket.emit('loginError', {msg: "wrong password!"});
+                            console.log('loginError of userId: ' + doc._id + ' username: ' + doc.name);
+                        }
+                    });
+                }
 
-        })
+            })
+        });
     });
 
-})
+    socket.on("logout", function(userdata) {
+        if (socket.handshake.session.userdata) {
+            delete socket.handshake.session.userdata;
+            socket.handshake.session.save();
+        }
+    });
 
-app.io.route('register', function (req) {
+    socket.on('register', function (data) {
 
-    var sid = req.sessionID;
-    var username = req.data.name;
-    var password = req.data.password;
-    var email = req.data.email;
+        var sid = socket.handshake.session.sessionID;
+        var username = data.name;
+        var password = data.password;
+        var email = data.email;
 
-    dbConn.get('logins',function(err,collLogins){
-        if (err) throw err;
-        collLogins.findOne({$or: [
-            {name: username},
-            {email: email}
-        ]}, function (err, doc) {
+        dbConn.get('logins',function(err,collLogins){
             if (err) throw err;
-            if (doc == null) {
+            collLogins.findOne({$or: [
+                {name: username},
+                {email: email}
+            ]}, function (err, doc) {
+                if (err) throw err;
+                if (doc == null) {
 
-                // Hash the password with the salt
-                var pwhash = bcrypt.hashSync(password, salt);
-                var loginId = (new mongodb.ObjectID()).toHexString();
-                var userId = (new mongodb.ObjectID()).toHexString();
+                    // Hash the password with the salt
+                    var pwhash = bcrypt.hashSync(password, salt);
+                    var loginId = (new mongodb.ObjectID()).toHexString();
+                    var userId = (new mongodb.ObjectID()).toHexString();
 
-                var userLogin = {_id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
-                var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: username, loginId: loginId});
+                    var userLogin = {_id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
+                    var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: username, loginId: loginId});
 
-                collLogins.insert(userLogin, {w: 1 }, function (err) {
-                    if (err) throw err;
-                    console.log("inserted loginId=" + userLogin._id);
-                    dbConn.get('users',function(err,collUsers) {
+                    collLogins.insert(userLogin, {w: 1 }, function (err) {
                         if (err) throw err;
-                        collUsers.insert(userObject.save(), {w: 1 }, function (err) {
+                        console.log("inserted loginId=" + userLogin._id);
+                        dbConn.get('users',function(err,collUsers) {
                             if (err) throw err;
-                            console.log("inserted userId=" + userId);
-                            req.session.username = username;
-                            req.session.loginId = loginId;
-                            req.session.userId = userId;
-                            req.session.loggedIn = true;
-                            req.io.emit('registerFeedback', {
-                                success: true
+                            collUsers.insert(userObject.save(), {w: 1 }, function (err) {
+                                if (err) throw err;
+                                console.log("inserted userId=" + userId);
+                                socket.handshake.session.username = username;
+                                socket.handshake.session.loginId = loginId;
+                                socket.handshake.session.userId = userId;
+                                socket.handshake.session.loggedIn = true;
+                                socket.emit('registerFeedback', {
+                                    success: true
+                                });
+                                //socket.emit('loggedIn', {userId: userId, userName: username});
+                                userLoggedIn(socket);
                             });
-                            //req.io.emit('loggedIn', {userId: userId, userName: username});
-                            userLoggedIn(req);
                         });
+
                     });
 
-                });
-
-            } else {
-                var errormessage = "";
-                if (doc.name == username) {
-                    errormessage = "username already exists!";
+                } else {
+                    var errormessage = "";
+                    if (doc.name == username) {
+                        errormessage = "username already exists!";
+                    }
+                    if (doc.email == email) {
+                        errormessage = "email already exists!";
+                    }
+                    socket.emit('registerFeedback', {
+                        success: false,
+                        errormessage: errormessage
+                    })
                 }
-                if (doc.email == email) {
-                    errormessage = "email already exists!";
-                }
-                req.io.emit('registerFeedback', {
-                    success: false,
-                    errormessage: errormessage
-                })
-            }
+            });
         });
+
     });
 
-})
+    socket.on('ready', function (data) {
+        ntp.sync(socket);
 
-app.io.route('ready', function (req) {
-    ntp.sync(req.io.socket);
-
-    var sid = req.sessionID;
-    console.log("sid=" + sid);
-    // check if logged in:
-    dbConn.get('logins',function(err,collLogins){
-        if (err) throw err;
-        collLogins.findOne({sid: sid}, function (err, doc) {
+        var sid = socket.handshake.session.sessionID;
+        console.log("sid=" + sid);
+        // check if logged in:
+        dbConn.get('logins',function(err,collLogins){
             if (err) throw err;
-            if (doc == null) {
-                req.session.loggedIn = false;
-                req.io.emit('loginPrompt');
-            }
-            else {
-                req.session.username = doc.name;
-                req.session.loginId = doc._id;
-                req.session.userId = doc.userId;
-                req.session.loggedIn = true;
-                //console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
-                //req.io.emit('loggedIn', {userId: doc._id,userName: doc.name });
-                userLoggedIn(req);
-            }
+            collLogins.findOne({sid: sid}, function (err, doc) {
+                if (err) throw err;
+                if (doc == null) {
+                    socket.handshake.session.loggedIn = false;
+                    socket.emit('loginPrompt');
+                }
+                else {
+                    socket.handshake.session.username = doc.name;
+                    socket.handshake.session.loginId = doc._id;
+                    socket.handshake.session.userId = doc.userId;
+                    socket.handshake.session.loggedIn = true;
+                    //console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
+                    //socket.emit('loggedIn', {userId: doc._id,userName: doc.name });
+                    userLoggedIn(socket);
+                }
+            });
         });
+
+        // send map data anyway:
+        var initGameData = {
+            spritesheets: gameData.spritesheets.save(),
+            layerTypes: gameData.layerTypes.save(),
+
+            objectTypes: gameData.objectTypes.save(),
+            ressourceTypes: gameData.ressourceTypes.save(),
+            technologyTypes: gameData.technologyTypes.save(),
+            itemTypes: gameData.itemTypes.save(),
+            userTypes: gameData.userTypes.save(),
+            //featureTypes: gameData. featureTypes.save(),
+            initMapId: gameVars.rootMapId
+
+        };
+        socket.emit('initGameData', initGameData);
     });
 
-    // send map data anyway:
-    var initGameData = {
-        spritesheets: gameData.spritesheets.save(),
-        layerTypes: gameData.layerTypes.save(),
 
-        objectTypes: gameData.objectTypes.save(),
-        ressourceTypes: gameData.ressourceTypes.save(),
-        technologyTypes: gameData.technologyTypes.save(),
-        itemTypes: gameData.itemTypes.save(),
-        userTypes: gameData.userTypes.save(),
-        //featureTypes: gameData. featureTypes.save(),
-        initMapId: gameVars.rootMapId
 
-    };
-    req.io.emit('initGameData', initGameData);
-})
+    socket.on('getMap', function (data, replyFcn) {
+        var requestedMapId = data.mapId;
+        console.log("serverSocketio: getMap: "+requestedMapId);
+        if (requestedMapId==0) {
+            console.log("error: the client is requesting MapId=0 !!!!!!!!!!!")
+            return;
+        }
+        asyncSocket.sendReq(
+            [targetProxy, 'layer_'+requestedMapId],
+            'getMap',
+            {
+                mapId: requestedMapId
+                //userId: socket.handshake.session.userId
+            },
+            function (mapData) {
+                socket.handshake.session.mapId = requestedMapId;
+                replyFcn(mapData);
+                var socketId = socket._id;
+
+                // remove old association between client and map:
+                removeClientFromMap(socketId, socket);
+
+                // add new association between client and map:
+                addClientToMap(socketId, requestedMapId, socket);
+            }
+        );
+    });
+
+
+    socket.on('getUserData', function (data, replyFcn) {
+        var clientConnectedToMapId = socket.handshake.session.mapId;
+        if (!clientConnectedToMapId) {
+            console.log(serverName+': ERROR: getUserData without a valid mapId!!!');
+            replyFcn(null);
+            return;
+        }
+        asyncSocket.sendReq(
+            [targetProxy, 'layer_'+clientConnectedToMapId],
+            'getUserData',
+            {
+                userId: socket.handshake.session.userId
+            },
+            function (userData) {
+                replyFcn(userData);
+            }
+        );
+    });
+
+    // and attach the disconnect event
+    socket.on('disconnect', function() {
+        removeClientFromMap(socketId);
+    });
+
+    socket.on('newGameEvent', function (data, replyFcn) {
+
+        // check if correct login:
+        if (socket.handshake.session.loggedIn) {
+            console.log("socket.io proxy receives new event from user " + socket.handshake.session.username);
+            var mapId = data[0];
+
+            var msgData = {
+                session: {
+                    username: socket.handshake.session.username,
+                    loggedIn: socket.handshake.session.loggedIn,
+                    userId: socket.handshake.session.userId
+                },
+                data: data
+            };
+
+            // forward to corresponding serverLayer.js
+            asyncSocket.sendReq(
+                [targetProxy, 'layer_'+mapId],
+                'newGameEvent',
+                msgData,
+                function (answer) {
+                    replyFcn(answer);
+                }
+            );
+        }
+        else {
+            replyFcn({
+                success: false
+            });
+            socket.emit('loginPrompt');
+        }
+    })
+
+
+});
+
+
 
 var clientsInMapIds = {}; // key: client, val: mapId
 var mapIdsWithClients = {}; // key: mapId, val: {clientIds...}
 
-function removeClientFromMap(socketId, req) {
+function removeClientFromMap(socketId, socket) {
     if (clientsInMapIds.hasOwnProperty(socketId)) {
         var oldMapId = clientsInMapIds[socketId];
-        if (req) req.io.leave(oldMapId);
+        if (socket) {
+            socket.leave(oldMapId);
+        }
         delete mapIdsWithClients[oldMapId][socketId];
         if (mapIdsWithClients[oldMapId].length === 0) {
             subSock.unsubscribe('map_' + oldMapId);
@@ -276,79 +396,26 @@ function removeClientFromMap(socketId, req) {
     // TODO: notify old map server that this client left, so that the server may shutdown after some time...
 }
 
-function addClientToMap(socketId, mapId, req){
-    if (req) req.io.join(mapId)
+function addClientToMap(socketId, mapId, socket){
+    if (socket) {
+        socket.join(mapId);
+    }
+
     if (!mapIdsWithClients.hasOwnProperty(mapId)) {
         mapIdsWithClients[mapId] = {};
     }
-    req.session.mapId = mapId;
+    socket.handshake.session.mapId = mapId;
     mapIdsWithClients[mapId][socketId] = true;
     clientsInMapIds[socketId] = mapId;
     subSock.subscribe('map_' + mapId);
 }
 
 
-function userLoggedIn(req) {
-    console.log("user " + req.session.username + " is back! (userId=" + req.session.userId + ")");
-    req.io.emit('loggedIn', {userId: req.session.userId, userName: req.session.username });
+function userLoggedIn(socket) {
+    console.log("user " + socket.handshake.session.username + " is back! (userId=" + socket.handshake.session.userId + ")");
+    socket.emit('loggedIn', {userId: socket.handshake.session.userId, userName: socket.handshake.session.username });
 }
 
-app.io.route('getMap', function (req) {
-    var requestedMapId = req.data.mapId;
-    console.log("serverSocketio: getMap: "+requestedMapId);
-    if (requestedMapId==0) {
-        console.log("error: the client is requesting MapId=0 !!!!!!!!!!!")
-        return;
-    }
-    asyncSocket.sendReq(
-        [targetProxy, 'layer_'+requestedMapId],
-        'getMap',
-        {
-            mapId: requestedMapId
-            //userId: req.session.userId
-        },
-        function (mapData) {
-            req.session.mapId = requestedMapId;
-            req.io.respond(mapData);
-            var socketId = req.socket._id;
-
-            // remove old association between client and map:
-            removeClientFromMap(socketId, req);
-
-            // add new association between client and map:
-            addClientToMap(socketId, requestedMapId, req);
-        }
-    );
-});
-
-
-app.io.route('getUserData', function (req) {
-    var clientConnectedToMapId = req.session.mapId;
-    if (!clientConnectedToMapId) {
-        console.log(serverName+': ERROR: getUserData without a valid mapId!!!');
-        req.io.respond(null);
-        return;
-    }
-    asyncSocket.sendReq(
-        [targetProxy, 'layer_'+clientConnectedToMapId],
-        'getUserData',
-        {
-            userId: req.session.userId
-        },
-        function (userData) {
-            req.io.respond(userData);
-        }
-    );
-});
-
-
-app.io.sockets.on('connection', function(socket) {
-    var socketId = socket._id;
-    // and attach the disconnect event
-    socket.on('disconnect', function() {
-        removeClientFromMap(socketId);
-    });
-});
 
 subSock.on('message', function(topic, msgData) {
     msgData = BSON.deserialize(msgData);
@@ -359,42 +426,8 @@ subSock.on('message', function(topic, msgData) {
 
 });
 
-app.io.route('newGameEvent', function (req) {
-
-    // check if correct login:
-    if (req.session.loggedIn) {
-        console.log("socket.io proxy receives new event from user " + req.session.username);
-        var mapId = req.data[0];
-
-        var msgData = {
-            session: {
-                username: req.session.username,
-                loggedIn: req.session.loggedIn,
-                userId: req.session.userId
-            },
-            data: req.data
-        };
-
-        // forward to corresponding serverLayer.js
-        asyncSocket.sendReq(
-            [targetProxy, 'layer_'+mapId],
-            'newGameEvent',
-            msgData,
-            function (answer) {
-                req.io.respond(answer);
-            }
-        );
-    }
-    else {
-        req.io.respond({
-            success: false
-        });
-        req.io.emit('loginPrompt');
-    }
-})
 
 
 
-
-app.listen(8080)
+server.listen(8080);
 
