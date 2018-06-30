@@ -1,6 +1,7 @@
 // Load the bcrypt module
 var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
+var path = require('path');
 
 //express = require('express.io')
 var express = require('express');
@@ -95,9 +96,7 @@ loadDb.getGameData(gameData,gameVars,function() {
 });
 
 // Setup sessions
-//app.use(express.cookieParser())
 var db = dbConn.getDb();
-
 dbConn.connect(function() {
     console.log("setting up sessions and connecting them to express and socket.io");
 
@@ -112,322 +111,323 @@ dbConn.connect(function() {
 
     // Share session with io sockets
     io.use(sharedsession(session));
-});
 
-app.use(express.static('../client'));
-app.use('/game', express.static('../game'));
-app.use('/ntpClient', express.static('node_modules/socket-ntp/client'));
-
-// Session is automatically setup on initial request.
-app.get('/', function (req, res) {
-    //req.session.lastActive = new Date().toString()
-    res.sendfile('../client/index.html')
-});
+    // Session is automatically setup on initial request.
+    app.get('/', function (req, res) {
+        req.session.lastActive = new Date().toString();
+        req.session.cookie.maxAge = 3600000 * 24;
+        res.sendFile(path.resolve(__dirname + '/../client/index.html'));
+    });
 
 
-io.on("connection", function(socket) {
 
-    var socketId = socket._id;
+    app.use(express.static('../client'));
+    app.use('/game', express.static('../game'));
+    app.use('/ntpClient', express.static('node_modules/socket-ntp/client'));
 
-    // Accept a login event with user's data
-    socket.on("login", function(userdata) {
+    io.on("connection", function(socket) {
 
-        var sid = socket.handshake.session.sessionID;
-        var username = userdata.name;
-        var password = userdata.password;
+        var socketId = socket._id;
 
-        dbConn.get('logins',function(err,collLogins){
-            if (err) throw err;
-            collLogins.findOne({name: username}, function (err, doc) {
+        // Accept a login event with user's data
+        socket.on("login", function(userdata) {
+
+            var sid = socket.handshake.session.id;
+            var username = userdata.name;
+            var password = userdata.password;
+
+            dbConn.get('logins',function(err,collLogins){
                 if (err) throw err;
-                if (doc == null) {
-                    socket.emit('loginError', {msg: "username does not exist!"});
-                }
-                else {
-                    bcrypt.compare(password, doc.pw, function (err, res) {
-                        if (res) {
-                            if (doc.sid != sid) {
-                                collLogins.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
+                collLogins.findOne({name: username}, function (err, doc) {
+                    if (err) throw err;
+                    if (doc == null) {
+                        socket.emit('loginError', {msg: "username does not exist!"});
+                    }
+                    else {
+                        bcrypt.compare(password, doc.pw, function (err, res) {
+                            if (res) {
+
+                                socket.handshake.session.userdata = {};
+                                socket.handshake.session.userdata.username = doc.name;
+                                socket.handshake.session.userdata.loginId = doc._id;
+                                socket.handshake.session.userdata.userId = doc.userId;
+                                socket.handshake.session.save();
+                                userLoggedIn(socket);
+
+                                if (doc.sid != sid) {
+                                    collLogins.findAndModify({_id: doc._id }, [], {$set: {sid: sid}}, {new: true}, function (err, doc1) {
+                                        if (err) throw err;
+                                    });
+                                }
+                            }
+                            else {
+                                socket.emit('loginError', {msg: "wrong password!"});
+                                console.log('loginError of userId: ' + doc._id + ' username: ' + doc.name);
+                            }
+                        });
+                    }
+
+                })
+            });
+        });
+
+        socket.on("logout", function() {
+            if (socket.handshake.session.userdata) {
+                delete socket.handshake.session.userdata;
+                socket.handshake.session.save();
+            }
+            socket.emit("loggedOut");
+        });
+
+        socket.on('register', function (data) {
+
+            var sid = socket.handshake.session.id;
+            var username = data.name;
+            var password = data.password;
+            var email = data.email;
+
+            dbConn.get('logins',function(err,collLogins){
+                if (err) throw err;
+                collLogins.findOne({$or: [
+                    {name: username},
+                    {email: email}
+                ]}, function (err, doc) {
+                    if (err) throw err;
+                    if (doc == null) {
+
+                        // Hash the password with the salt
+                        var pwhash = bcrypt.hashSync(password, salt);
+                        var loginId = (new mongodb.ObjectID()).toHexString();
+                        var userId = (new mongodb.ObjectID()).toHexString();
+
+                        var userLogin = {_id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
+                        var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: username, loginId: loginId});
+
+                        collLogins.insert(userLogin, {w: 1 }, function (err) {
+                            if (err) throw err;
+                            console.log("inserted loginId=" + userLogin._id);
+                            dbConn.get('users',function(err,collUsers) {
+                                if (err) throw err;
+                                collUsers.insert(userObject.save(), {w: 1 }, function (err) {
                                     if (err) throw err;
-                                    socket.handshake.session.username = doc.name;
-                                    socket.handshake.session.loginId = doc._id;
-                                    socket.handshake.session.userId = doc.userId;
-                                    socket.handshake.session.loggedIn = true;
+                                    console.log("inserted userId=" + userId);
+                                    socket.handshake.session.userdata = {};
+                                    socket.handshake.session.userdata.username = username;
+                                    socket.handshake.session.userdata.loginId = loginId;
+                                    socket.handshake.session.userdata.userId = userId;
                                     socket.handshake.session.save();
-                                    //console.log('login of userId: ' + doc1._id + ' username: ' + doc1.name);
-                                    //socket.emit('loggedIn', {userId: doc1.userId, userName: doc.name});
+                                    socket.emit('registerFeedback', {
+                                        success: true
+                                    });
                                     userLoggedIn(socket);
                                 });
-                            }
-                        }
-                        else {
-                            socket.emit('loginError', {msg: "wrong password!"});
-                            console.log('loginError of userId: ' + doc._id + ' username: ' + doc.name);
-                        }
-                    });
-                }
-
-            })
-        });
-    });
-
-    socket.on("logout", function(userdata) {
-        if (socket.handshake.session.userdata) {
-            delete socket.handshake.session.userdata;
-            socket.handshake.session.save();
-        }
-    });
-
-    socket.on('register', function (data) {
-
-        var sid = socket.handshake.session.sessionID;
-        var username = data.name;
-        var password = data.password;
-        var email = data.email;
-
-        dbConn.get('logins',function(err,collLogins){
-            if (err) throw err;
-            collLogins.findOne({$or: [
-                {name: username},
-                {email: email}
-            ]}, function (err, doc) {
-                if (err) throw err;
-                if (doc == null) {
-
-                    // Hash the password with the salt
-                    var pwhash = bcrypt.hashSync(password, salt);
-                    var loginId = (new mongodb.ObjectID()).toHexString();
-                    var userId = (new mongodb.ObjectID()).toHexString();
-
-                    var userLogin = {_id: loginId, userId: userId, name: username, email: email, pw: pwhash, sid: sid};
-                    var userObject = new User(gameData,{_id: userId, userTypeId: "normalUser" , name: username, loginId: loginId});
-
-                    collLogins.insert(userLogin, {w: 1 }, function (err) {
-                        if (err) throw err;
-                        console.log("inserted loginId=" + userLogin._id);
-                        dbConn.get('users',function(err,collUsers) {
-                            if (err) throw err;
-                            collUsers.insert(userObject.save(), {w: 1 }, function (err) {
-                                if (err) throw err;
-                                console.log("inserted userId=" + userId);
-                                socket.handshake.session.username = username;
-                                socket.handshake.session.loginId = loginId;
-                                socket.handshake.session.userId = userId;
-                                socket.handshake.session.loggedIn = true;
-                                socket.emit('registerFeedback', {
-                                    success: true
-                                });
-                                //socket.emit('loggedIn', {userId: userId, userName: username});
-                                userLoggedIn(socket);
                             });
+
                         });
 
-                    });
-
-                } else {
-                    var errormessage = "";
-                    if (doc.name == username) {
-                        errormessage = "username already exists!";
+                    } else {
+                        var errormessage = "";
+                        if (doc.name == username) {
+                            errormessage = "username already exists!";
+                        }
+                        if (doc.email == email) {
+                            errormessage = "email already exists!";
+                        }
+                        socket.emit('registerFeedback', {
+                            success: false,
+                            errormessage: errormessage
+                        })
                     }
-                    if (doc.email == email) {
-                        errormessage = "email already exists!";
-                    }
-                    socket.emit('registerFeedback', {
-                        success: false,
-                        errormessage: errormessage
-                    })
-                }
+                });
             });
+
         });
 
-    });
+        socket.on('ready', function (data) {
+            ntp.sync(socket);
 
-    socket.on('ready', function (data) {
-        ntp.sync(socket);
+            var sid = socket.handshake.session.id;
+            console.log("sid=" + sid);
 
-        var sid = socket.handshake.session.sessionID;
-        console.log("sid=" + sid);
-        // check if logged in:
-        dbConn.get('logins',function(err,collLogins){
-            if (err) throw err;
-            collLogins.findOne({sid: sid}, function (err, doc) {
-                if (err) throw err;
-                if (doc == null) {
-                    socket.handshake.session.loggedIn = false;
-                    socket.emit('loginPrompt');
-                }
-                else {
-                    socket.handshake.session.username = doc.name;
-                    socket.handshake.session.loginId = doc._id;
-                    socket.handshake.session.userId = doc.userId;
-                    socket.handshake.session.loggedIn = true;
-                    //console.log("user " + doc.name + " is back! (userId=" + doc._id + ")");
-                    //socket.emit('loggedIn', {userId: doc._id,userName: doc.name });
-                    userLoggedIn(socket);
-                }
-            });
-        });
-
-        // send map data anyway:
-        var initGameData = {
-            spritesheets: gameData.spritesheets.save(),
-            layerTypes: gameData.layerTypes.save(),
-
-            objectTypes: gameData.objectTypes.save(),
-            ressourceTypes: gameData.ressourceTypes.save(),
-            technologyTypes: gameData.technologyTypes.save(),
-            itemTypes: gameData.itemTypes.save(),
-            userTypes: gameData.userTypes.save(),
-            //featureTypes: gameData. featureTypes.save(),
-            initMapId: gameVars.rootMapId
-
-        };
-        socket.emit('initGameData', initGameData);
-    });
-
-
-
-    socket.on('getMap', function (data, replyFcn) {
-        var requestedMapId = data.mapId;
-        console.log("serverSocketio: getMap: "+requestedMapId);
-        if (requestedMapId==0) {
-            console.log("error: the client is requesting MapId=0 !!!!!!!!!!!")
-            return;
-        }
-        asyncSocket.sendReq(
-            [targetProxy, 'layer_'+requestedMapId],
-            'getMap',
-            {
-                mapId: requestedMapId
-                //userId: socket.handshake.session.userId
-            },
-            function (mapData) {
-                socket.handshake.session.mapId = requestedMapId;
-                replyFcn(mapData);
-                var socketId = socket._id;
-
-                // remove old association between client and map:
-                removeClientFromMap(socketId, socket);
-
-                // add new association between client and map:
-                addClientToMap(socketId, requestedMapId, socket);
+            // check if logged in:
+            if (socket.handshake.session.userdata) {
+                console.log("user is already logged in");
+                userLoggedIn(socket);
             }
-        );
-    });
-
-
-    socket.on('getUserData', function (data, replyFcn) {
-        var clientConnectedToMapId = socket.handshake.session.mapId;
-        if (!clientConnectedToMapId) {
-            console.log(serverName+': ERROR: getUserData without a valid mapId!!!');
-            replyFcn(null);
-            return;
-        }
-        asyncSocket.sendReq(
-            [targetProxy, 'layer_'+clientConnectedToMapId],
-            'getUserData',
-            {
-                userId: socket.handshake.session.userId
-            },
-            function (userData) {
-                replyFcn(userData);
+            else {
+                console.log("user is not logged in");
+                socket.emit('loginPrompt');
             }
-        );
-    });
 
-    // and attach the disconnect event
-    socket.on('disconnect', function() {
-        removeClientFromMap(socketId);
-    });
+            // send map data anyway:
+            var initGameData = {
+                spritesheets: gameData.spritesheets.save(),
+                layerTypes: gameData.layerTypes.save(),
 
-    socket.on('newGameEvent', function (data, replyFcn) {
+                objectTypes: gameData.objectTypes.save(),
+                ressourceTypes: gameData.ressourceTypes.save(),
+                technologyTypes: gameData.technologyTypes.save(),
+                itemTypes: gameData.itemTypes.save(),
+                userTypes: gameData.userTypes.save(),
+                //featureTypes: gameData. featureTypes.save(),
+                initMapId: gameVars.rootMapId
 
-        // check if correct login:
-        if (socket.handshake.session.loggedIn) {
-            console.log("socket.io proxy receives new event from user " + socket.handshake.session.username);
-            var mapId = data[0];
-
-            var msgData = {
-                session: {
-                    username: socket.handshake.session.username,
-                    loggedIn: socket.handshake.session.loggedIn,
-                    userId: socket.handshake.session.userId
-                },
-                data: data
             };
+            socket.emit('initGameData', initGameData);
+        });
 
-            // forward to corresponding serverLayer.js
+
+
+        socket.on('getMap', function (data, replyFcn) {
+            var requestedMapId = data.mapId;
+            console.log("serverSocketio: getMap: "+requestedMapId);
+            if (requestedMapId==0) {
+                console.log("error: the client is requesting MapId=0 !!!!!!!!!!!")
+                return;
+            }
             asyncSocket.sendReq(
-                [targetProxy, 'layer_'+mapId],
-                'newGameEvent',
-                msgData,
-                function (answer) {
-                    replyFcn(answer);
+                [targetProxy, 'layer_'+requestedMapId],
+                'getMap',
+                {
+                    mapId: requestedMapId
+                    //userId: socket.handshake.session.userdata.userId
+                },
+                function (mapData) {
+                    socket.handshake.session.mapId = requestedMapId;
+                    socket.handshake.session.save();
+                    replyFcn(mapData);
+                    var socketId = socket._id;
+
+                    // remove old association between client and map:
+                    removeClientFromMap(socketId, socket);
+
+                    // add new association between client and map:
+                    addClientToMap(socketId, requestedMapId, socket);
                 }
             );
+        });
+
+
+        socket.on('getUserData', function (data, replyFcn) {
+            var clientConnectedToMapId = socket.handshake.session.mapId;
+            if (!clientConnectedToMapId) {
+                console.log(serverName+': ERROR: getUserData without a valid mapId!!!');
+                replyFcn(null);
+                return;
+            }
+            if (!socket.handshake.session.userdata) {
+                console.log(serverName+': ERROR: cannot getUserData, because user is not logged in!');
+                replyFcn(null);
+                return;
+            }
+            asyncSocket.sendReq(
+                [targetProxy, 'layer_'+clientConnectedToMapId],
+                'getUserData',
+                {
+                    userId: socket.handshake.session.userdata.userId
+                },
+                function (userData) {
+                    replyFcn(userData);
+                }
+            );
+        });
+
+        // and attach the disconnect event
+        socket.on('disconnect', function() {
+            removeClientFromMap(socketId);
+        });
+
+        socket.on('newGameEvent', function (data, replyFcn) {
+
+            // check if correct login:
+            if (socket.handshake.session.userdata) {
+                console.log("socket.io proxy receives new event from user " + socket.handshake.session.userdata.username);
+                var mapId = data[0];
+
+                var msgData = {
+                    session: {
+                        username: socket.handshake.session.userdata.username,
+                        loggedIn: true,
+                        userId: socket.handshake.session.userdata.userId
+                    },
+                    data: data
+                };
+
+                // forward to corresponding serverLayer.js
+                asyncSocket.sendReq(
+                    [targetProxy, 'layer_'+mapId],
+                    'newGameEvent',
+                    msgData,
+                    function (answer) {
+                        replyFcn(answer);
+                    }
+                );
+            }
+            else {
+                replyFcn({
+                    success: false
+                });
+                socket.emit('loginPrompt');
+            }
+        })
+
+
+    });
+
+
+
+    var clientsInMapIds = {}; // key: client, val: mapId
+    var mapIdsWithClients = {}; // key: mapId, val: {clientIds...}
+
+    function removeClientFromMap(socketId, socket) {
+        if (clientsInMapIds.hasOwnProperty(socketId)) {
+            var oldMapId = clientsInMapIds[socketId];
+            if (socket) {
+                socket.leave(oldMapId);
+            }
+            delete mapIdsWithClients[oldMapId][socketId];
+            if (mapIdsWithClients[oldMapId].length === 0) {
+                subSock.unsubscribe('map_' + oldMapId);
+            }
         }
-        else {
-            replyFcn({
-                success: false
-            });
-            socket.emit('loginPrompt');
-        }
-    })
+        // TODO: notify old map server that this client left, so that the server may shutdown after some time...
+    }
 
-
-});
-
-
-
-var clientsInMapIds = {}; // key: client, val: mapId
-var mapIdsWithClients = {}; // key: mapId, val: {clientIds...}
-
-function removeClientFromMap(socketId, socket) {
-    if (clientsInMapIds.hasOwnProperty(socketId)) {
-        var oldMapId = clientsInMapIds[socketId];
+    function addClientToMap(socketId, mapId, socket){
         if (socket) {
-            socket.leave(oldMapId);
+            socket.join(mapId);
         }
-        delete mapIdsWithClients[oldMapId][socketId];
-        if (mapIdsWithClients[oldMapId].length === 0) {
-            subSock.unsubscribe('map_' + oldMapId);
+
+        if (!mapIdsWithClients.hasOwnProperty(mapId)) {
+            mapIdsWithClients[mapId] = {};
         }
-    }
-    // TODO: notify old map server that this client left, so that the server may shutdown after some time...
-}
-
-function addClientToMap(socketId, mapId, socket){
-    if (socket) {
-        socket.join(mapId);
+        mapIdsWithClients[mapId][socketId] = true;
+        clientsInMapIds[socketId] = mapId;
+        subSock.subscribe('map_' + mapId);
     }
 
-    if (!mapIdsWithClients.hasOwnProperty(mapId)) {
-        mapIdsWithClients[mapId] = {};
+
+    function userLoggedIn(socket) {
+        console.log("user " + socket.handshake.session.userdata.username + " is back! (userId=" + socket.handshake.session.userdata.userId + ")");
+        socket.emit('loggedIn', {userId: socket.handshake.session.userdata.userId, userName: socket.handshake.session.userdata.username });
     }
-    socket.handshake.session.mapId = mapId;
-    mapIdsWithClients[mapId][socketId] = true;
-    clientsInMapIds[socketId] = mapId;
-    subSock.subscribe('map_' + mapId);
-}
 
 
-function userLoggedIn(socket) {
-    console.log("user " + socket.handshake.session.username + " is back! (userId=" + socket.handshake.session.userId + ")");
-    socket.emit('loggedIn', {userId: socket.handshake.session.userId, userName: socket.handshake.session.username });
-}
+    subSock.on('message', function(topic, msgData) {
+        msgData = BSON.deserialize(msgData);
+        //console.log('received a message related to:', topic, 'containing message:', msgData);
+        io.to(msgData.map).emit(msgData.evt, msgData.dat);
+
+        // TODO: hold broadcasts in memory for clients that are just connecting to this layer... send them this message delayed so that they don't miss any updates...
+
+    });
 
 
-subSock.on('message', function(topic, msgData) {
-    msgData = BSON.deserialize(msgData);
-    //console.log('received a message related to:', topic, 'containing message:', msgData);
-    app.io.room(msgData.map).broadcast(msgData.evt, msgData.dat);
 
-    // TODO: hold broadcasts in memory for clients that are just connecting to this layer... send them this message delayed so that they don't miss any updates...
+
+    server.listen(8080);
+
+
 
 });
-
-
-
-
-server.listen(8080);
 
