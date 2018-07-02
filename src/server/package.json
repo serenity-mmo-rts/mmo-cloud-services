@@ -19,6 +19,6 @@
     "socket.io": "*",
     "socket.io-client": "*",
     "socket.io-redis": "*",
-    "zmq": "*"
+    "zeromq": "*"
   }
 }

@@ -11,7 +11,7 @@ var gameData = initGameData.initGameData();
 
 
 var mongoClient = require('mongodb').MongoClient;
-mongoClient.connect('mongodb://localhost:27017/serenity', {db: {native_parser: true}}, function(err, db) {
+mongoClient.connect('mongodb://localhost:27017/serenity', {native_parser: true}, function(err, db) {
     if(!err) {
         console.log("We are connected");
     }
