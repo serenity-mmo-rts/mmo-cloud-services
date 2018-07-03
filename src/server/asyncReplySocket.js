@@ -2,11 +2,11 @@
 
 var zeromq = require('zeromq');
 var uuid = require('node-uuid');
-var bson = require('bson');
+var BSON = require('bson');
 var util = require('util');
 
 //var BSON = bson.BSONPure.BSON;
-var BSON = new bson.BSONPure.BSON();
+var BSON = new BSON();
 var Socket = zeromq.Socket;
 
 
