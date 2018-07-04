@@ -16,13 +16,10 @@ var mongodb = require('mongodb');
 var dbConn = require('./dbConnection');
 var loadDb = require('./loadDb');
 var dbUpdating = require('./dbUpdating');
-var zmq = require('zmq');
+var zmq = require('zeromq');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
-var bson = require('bson');
 var async = require('async');
-
-//var BSON = bson.BSONPure.BSON;
-var BSON = new bson.BSONPure.BSON();
+var BSON = new require('bson')();
 var fs = require('fs');
 window = {};
 eval(fs.readFileSync('../client/lib/QuadTree.js') + '');

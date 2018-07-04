@@ -57,7 +57,7 @@ function fillGameData(gameData, gameVars, cb) {
 function getGameVars(gameVars, cb) {
     dbConn.get('gameVars', function (err, collGameVars) {
         if (err) throw err;
-        collGameVars.findOne([], function (err, doc) {
+        collGameVars.findOne({}, function (err, doc) {
             if (err) throw err;
             gameVars.rootMapId = doc.rootMapId;
         });

@@ -151,16 +151,16 @@ asyncSocket.on('startLayerServer',function(msgData, callback) {
 
 
 
-setTimeout(startProxyRouter("1"),200);
-setTimeout(startPubSubForwarder("1"),400);
-setTimeout(startSocketioProxy("1"),600);
+setTimeout(function() {startProxyRouter("1")},200);
+setTimeout(function() {startPubSubForwarder("1")},400);
+setTimeout(function() {startSocketioProxy("1")},600);
 
 //startLayerServerById("galaxyMap01");
 //startLayerServerById("solarMap01");
 //setTimeout(startLayerServerById("moonMap01"),1000);
 //startLayerServerById("moonMap01");
 //setTimeout(startLayerServerById("cityMap01"),1000);
-setTimeout(startLayerServerById("cityMap02"),1000);
+setTimeout(function() {startLayerServerById("cityMap02")},1000);
 
 
 

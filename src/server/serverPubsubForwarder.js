@@ -1,5 +1,5 @@
 // pubber.js
-var zmq = require('zmq');
+var zmq = require('zeromq');
 var subSock = zmq.socket('sub');
 var pubSock = zmq.socket('pub');
 

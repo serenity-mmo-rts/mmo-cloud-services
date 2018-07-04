@@ -20,14 +20,13 @@ var Spritesheet = require('../game/Spritesheet').Spritesheet;
 var User = require('../game/User').User;
 var AbstractEvent = require('../game/events/AbstractEvent').AbstractEvent;
 var EventFactory = require('../game/events/EventFactory').EventFactory;
-var zmq = require('zmq');
+var zmq = require('zeromq');
 var socketioClient = require('socket.io-client');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
-var bson = require('bson');
-var serverName = "socketioProxy"+process.argv[2];
+var BSON = new require('bson')();
 
-//var BSON = bson.BSONPure.BSON;
-var BSON = new bson.BSONPure.BSON();
+
+var serverName = "socketioProxy"+process.argv[2];
 
 // subscribe to map events
 var subSock = zmq.socket('sub');
