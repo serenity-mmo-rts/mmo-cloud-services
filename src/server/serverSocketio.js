@@ -23,7 +23,8 @@ var EventFactory = require('../game/events/EventFactory').EventFactory;
 var zmq = require('zeromq');
 var socketioClient = require('socket.io-client');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
-var BSON = new require('bson')();
+var bsonlib = require('bson');
+var BSON = new bsonlib();
 
 
 var serverName = "socketioProxy"+process.argv[2];
