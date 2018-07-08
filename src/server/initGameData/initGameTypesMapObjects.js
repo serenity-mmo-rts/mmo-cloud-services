@@ -276,6 +276,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             },
 
@@ -289,7 +293,10 @@ if (node) {
             spriteFrame: 0,
             iconSpritesheetId: "cityBuildingsSprite01",
             iconSpriteFrame: 6,
-            buildTime: 20000
+            buildTime: 20000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
+
         });
         gameData.objectTypes.add(factory);
 
@@ -309,6 +316,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             },
 
@@ -323,7 +334,9 @@ if (node) {
             spriteAnimation: "working",
             iconSpritesheetId: "robotFactorySprite",
             iconSpriteFrame: 0,
-            buildTime: 2000
+            buildTime: 2000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(robotFactory);
 
@@ -343,6 +356,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             },
 
@@ -357,7 +374,9 @@ if (node) {
             spriteAnimation: "working",
             iconSpritesheetId: "researchFacilitySprite",
             iconSpriteFrame: 0,
-            buildTime: 2000
+            buildTime: 2000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(researchFacility);
 
@@ -387,6 +406,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             },
             className: "hub",
@@ -399,6 +422,8 @@ if (node) {
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 7,
             buildTime: 4000
+         //   requiredResourceIds:["granulateMaterial"],
+         //   requiredResourceAmount: [500]
         });
         gameData.objectTypes.add(hub);
 
@@ -428,6 +453,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             },
             className: "hub",
@@ -439,7 +468,9 @@ if (node) {
             spriteFrame: 16,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 16,
-            buildTime: 12000
+            buildTime: 12000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(planethub);
 
@@ -466,6 +497,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
 
             },
@@ -478,7 +513,9 @@ if (node) {
             spriteFrame: 2,
             iconSpritesheetId: "cityBuildingsSprite01",
             iconSpriteFrame: 8,
-            buildTime: 10000
+            buildTime: 10000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(sciencecenter);
 
@@ -505,6 +542,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
 
             },
@@ -517,7 +558,9 @@ if (node) {
             spriteFrame: 17,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 17,
-            buildTime: 3000
+            buildTime: 3000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(reactor);
 
@@ -539,6 +582,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
 
             },
@@ -551,7 +598,9 @@ if (node) {
             spriteFrame: 2,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 3,
-            buildTime: 1000
+            buildTime: 1000,
+            requiredResourceIds:["oxygen"],
+            requiredResourceAmount: [30]
         });
         gameData.objectTypes.add(furnitureFactory);
 
@@ -559,10 +608,15 @@ if (node) {
             _id: "mineralStorage",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["iron", "carbon"],
-                    ressourceCapacity: [1000, 1000]
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [1000,1000,1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
                 },
                 FeatureManager: {},
+                HubNode: {
+                    canBuildConnectionTypeId: "connection",
+                    maxRange: 1000,
+                    connBuildTimePerDist: 1
+                },
                 HubConnectivity: {
                     numPorts: 1
                 },
@@ -590,7 +644,9 @@ if (node) {
             spriteAnimation: "working",
             iconSpritesheetId: "mineralStorageSprite",
             iconSpriteFrame: 0,
-            buildTime: 1000
+            buildTime: 10000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(mineralStorage);
 
@@ -598,8 +654,8 @@ if (node) {
             _id: "liquidStorage",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [1000]
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [1000,1000,0, 0, 0, 0, 0, 0, 0, 0, 0]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -628,7 +684,9 @@ if (node) {
             spriteFrame: 8,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 9,
-            buildTime: 1000
+            buildTime: 10000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(liquidStorage);
 
@@ -636,8 +694,8 @@ if (node) {
             _id: "miningPlant",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["carbon", "iron"],
-                    ressourceCapacity: [0, 0]
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -669,7 +727,9 @@ if (node) {
             spriteFrame: 0,
             iconSpritesheetId: "miningSprite",
             iconSpriteFrame: 0,
-            buildTime: 10000
+            buildTime: 10000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(miningPlant);
 
@@ -677,8 +737,8 @@ if (node) {
             _id: "plantation1",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [0]
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -718,8 +778,8 @@ if (node) {
             _id: "plantation2",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["oxygen"],
-                    ressourceCapacity: [30]
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 },
                 FeatureManager: {},
                 SoilPuller: {
@@ -768,6 +828,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             },
             className: "tower",
@@ -779,7 +843,9 @@ if (node) {
             spriteFrame: 0,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 1,
-            buildTime: 5000
+            buildTime: 5000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(defenseTower);
 
@@ -799,6 +865,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 20,
                     points: 15
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             },
             className: "subObject",
@@ -810,7 +880,9 @@ if (node) {
             spriteFrame: 0,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 1,
-            buildTime: 5000
+            buildTime: 5000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(subObject);
 
@@ -854,6 +926,10 @@ if (node) {
                 UserObject: {
                     maxHealthPoints: 10,
                     points: 5
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000]
                 }
             },
             className: "spacecraft",
@@ -865,7 +941,9 @@ if (node) {
             spriteFrame: 4,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 5,
-            buildTime: 5000
+            buildTime: 5000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [500,300]
         });
         gameData.objectTypes.add(spacecraftUnitObject);
 
@@ -951,6 +1029,10 @@ if (node) {
                 UpgradeProduction: {
                     numSlots: 0,
                     itemTypeIds: []
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000]
                 }
             },
             className: "sublayer",
@@ -962,7 +1044,9 @@ if (node) {
             spriteFrame: 1,
             iconSpritesheetId: 'moonSprite01',
             iconSpriteFrame: 2,
-            buildTime: 2000
+            buildTime: 20000,
+            requiredResourceIds:["granulateMaterial","carbonFiber"],
+            requiredResourceAmount: [5000,3000]
         }));
 
 

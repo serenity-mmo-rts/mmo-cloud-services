@@ -258,17 +258,18 @@ if (node) {
         }
 
         // Add Start Building
-        cityMap.mapData.mapObjects.add(new MapObject(cityMap.mapData.mapObjects,{
-            _id: "furnitureFactory01",
-            mapId: cityMap._id(),
+        var startObject = cityMap.mapData.mapObjects.add(new MapObject(cityMap.mapData.mapObjects,{
+            _id: "start_building",
+            mapId: cityMap2._id(),
             x: 0,
             y: 0,
-            objTypeId: "furnitureFactory",
+            objTypeId: "mineralStorage",
             userId: 0,
             state: State.NORMAL
         }));
 
 
+        /**
         // Add Start Building
         cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "furnitureFactory02",
@@ -302,7 +303,7 @@ if (node) {
             state: State.HIDDEN,
             needsTobePlaced: true
         }));
-         **/
+
 
         var testPlantation = cityMap2.mapData.mapObjects.add(new MapObject(cityMap2.mapData.mapObjects,{
             _id: "testPlantation",
@@ -313,6 +314,7 @@ if (node) {
             userId: 0,
             state: State.NORMAL
         }));
+         **/
 
         galaxyMap.initialize();
         solarMap.initialize();
@@ -321,10 +323,13 @@ if (node) {
         cityMap.initialize();
         cityMap2.initialize();
         cityMap3.initialize();
-        testPlantation.blocks.SoilPuller.resetSoilProduction();
-
-
-
+       // startObject.blocks.SoilPuller.resetSoilProduction();
+        var startResources = ["granulateMaterial","biomass","carbonFiber"];
+        var startAmount = [1000,1000,1000];
+        for (var i = 0; i<startResources.length; i++){
+            var resStorage = startObject.blocks.ResourceManager.resList.get(startResources[i]);
+            resStorage.storedAmount(startAmount[i]);
+        }
     }
 
     exports.initGameInstances = initGameInstances;
