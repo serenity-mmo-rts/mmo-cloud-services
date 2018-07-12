@@ -6,19 +6,19 @@
     "bcrypt": "*",
     "bson": "*",
     "connect-mongo": "*",
-    "express": "*",
-    "express-session": "*",
-    "express-socket.io-session": "*",
+    "express": "4.16.2",
+    "express-session": "1.15.6",
+    "express-socket.io-session": "1.3.2",
     "freeport": "*",
     "http-proxy": "*",
     "json-socket": "*",
-    "mongodb": "*",
+    "mongodb": "2.2.33",
     "node-uuid": "*",
     "redis": "*",
     "socket-ntp": "*",
-    "socket.io": "*",
+    "socket.io": "2.0.3",
     "socket.io-client": "*",
     "socket.io-redis": "*",
-    "zeromq": "*"
+    "zeromq": "4.6.0"
   }
 }
