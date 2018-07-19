@@ -2,61 +2,56 @@ var child_process = require('child_process');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var debugPortIterator = 5873;
 
-
+function getDebugArgs() {
+    debugPortIterator++;
+    if (typeof v8debug === 'object') {
+        return {
+            //execArgv: ['--debug']
+            execArgv: ['--debug-brk=' + debugPortIterator]
+        };
+    }
+    else {
+        return {};
+    }
+}
 
 var currentlyStartingMapIds = {};
 
 function startProxyRouter(_id) {
-    debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverProxyRouter.js',
         [_id],
-        {
-            //execArgv: ['--debug']
-            execArgv: ['--debug-brk='+debugPortIterator]
-        }
+        getDebugArgs()
     )
 }
 
 function startPubSubForwarder(_id) {
-    debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverPubsubForwarder.js',
         [_id],
-        {
-            //execArgv: ['--debug']
-            execArgv: ['--debug-brk='+debugPortIterator]
-        }
+        getDebugArgs()
     )
 }
 
 
 function startLayerServerById(mapId, cb) {
-    debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverLayer.js',
         [mapId],
-        {
-            execArgv: ['--debug-brk='+debugPortIterator]
-        }
+        getDebugArgs()
     )
 
     forker.on('message', function(m) {
         if (cb) cb(m);
 
-
-
     });
 }
 
 function startSocketioProxy(_id) {
-    debugPortIterator++;
     var forker = child_process.fork(
         __dirname + '/serverSocketio.js',
         [_id],
-        {
-            execArgv: ['--debug-brk='+debugPortIterator]
-        }
+        getDebugArgs()
     )
 }
 

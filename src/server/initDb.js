@@ -249,12 +249,21 @@ var child_process = require('child_process');
 var debugPortIterator = 5872;
 
 function startServer() {
+
+    var debug_args = {
+
+    };
+    var debug = typeof v8debug === 'object';
+    if (debug) {
+        var debug_args = {
+            //execArgv: ['--debug']
+            execArgv: ['--debug-brk='+debugPortIterator]
+        };
+    }
+
     var forker = child_process.fork(
         __dirname + '/server.js',
         [1],
-        {
-            //execArgv: ['--debug']
-            execArgv: ['--debug-brk='+debugPortIterator]
-        }
+        debug_args
     )
 }
