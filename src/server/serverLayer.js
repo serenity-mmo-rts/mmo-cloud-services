@@ -146,22 +146,22 @@ asyncSocket.on('getUserData',function(msgData, reply) {
             if (err) throw err;
             collUsers.find({_id: userId}).toArray(function (err, documents) {
                 if (err) throw err;
-                if (documents != null) {
-
+                if (documents != null && documents.length > 0) {
                     var user = new User(gameData, documents[0]);
                     gameData.users.add(user);
-
-                    if (user) {
-                        var data = {
-                            internal: user.save()
-                        };
-                        reply(data);
-                    }
-                    else {
-                        reply(null, new Error("error: user was not found!"));
-                    }
                 }
 
+                if (user) {
+                    reply({
+                        success: true,
+                        internal: user.save()
+                    });
+                }
+                else {
+                    reply({
+                        success: false
+                    });
+                }
 
             });
         });

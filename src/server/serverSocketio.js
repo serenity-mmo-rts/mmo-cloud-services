@@ -318,6 +318,7 @@ dbConn.connect(function() {
             if (!socket.handshake.session.userdata) {
                 console.log(serverName+': ERROR: cannot getUserData, because user is not logged in!');
                 replyFcn(null);
+                socket.emit("loggedOut");
                 return;
             }
             asyncSocket.sendReq(
@@ -327,7 +328,14 @@ dbConn.connect(function() {
                     userId: socket.handshake.session.userdata.userId
                 },
                 function (userData) {
-                    replyFcn(userData);
+                    if (!userData.success) {
+                        console.log(serverName+': ERROR: cannot getUserData, because user is not logged in!');
+                        replyFcn(null);
+                        socket.emit("loggedOut");
+                    }
+                    else {
+                        replyFcn(userData);
+                    }
                 }
             );
         });
