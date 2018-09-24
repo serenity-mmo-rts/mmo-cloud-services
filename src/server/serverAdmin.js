@@ -112,6 +112,36 @@ dbConn.connect(function() {
         }
     );
 
+
+    app.get(
+        '/admin/getLogTail',
+        function(req, res, next) {
+            var numBytes = 200000;
+            var logFilePath = "/home/node/.pm2/logs/server-combined.outerr.log";
+            fs.stat(logFilePath, function(err, stats) {
+                if (err) {
+                    res.send("Error no log file found!");
+                    return;
+                }
+                var fileSize = stats.size;
+                if (numBytes > fileSize) {
+                    numBytes = fileSize;
+                }
+                fs.open(logFilePath, 'r', function(e, fd) {
+                    if (e) {
+                        return;
+                    }
+                    var endOfLogFile = new Buffer(numBytes);
+                    fs.read(fd, endOfLogFile, 0, numBytes, fileSize-numBytes, function(e, bytesRead, data) {
+                        if (e)
+                            throw e;
+                        res.send(data.toString('ascii'));
+                    });
+                });
+            });
+        }
+    );
+
     server.listen(9080, "0.0.0.0");
 
 });
