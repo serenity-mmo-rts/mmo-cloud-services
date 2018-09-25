@@ -7,6 +7,7 @@ var server  = require("http").createServer(app);
 var io = require("socket.io")(server);
 
 var path = require('path');
+var path = require('fs');
 var initDb = require('./initDb').initDb;
 
 var child_process = require('child_process');
