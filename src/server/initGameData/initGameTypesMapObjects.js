@@ -544,8 +544,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial","carbonFiber"],
+                    ressourceCapacity: [0, 0]
                 }
 
             },
@@ -608,8 +608,8 @@ if (node) {
             _id: "mineralStorage",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [1000,1000,1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+                    ressourceTypeIds: ["granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
                 },
                 FeatureManager: {},
                 HubNode: {
@@ -654,8 +654,8 @@ if (node) {
             _id: "liquidStorage",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [1000,1000,0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["hydrogen","oxygen"],
+                    ressourceCapacity: [1000,1000]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -684,9 +684,7 @@ if (node) {
             spriteFrame: 8,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 9,
-            buildTime: 10000,
-            requiredResourceIds:["granulateMaterial","carbonFiber"],
-            requiredResourceAmount: [500,300]
+            buildTime: 10000
         });
         gameData.objectTypes.add(liquidStorage);
 
@@ -694,16 +692,16 @@ if (node) {
             _id: "miningPlant",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
                     numPorts: 1
                 },
                 SoilPuller: {
-                    ressourceTypeIds: ["carbon", "iron"],
-                    ressourceMaxInPerHour: [7200, 10000]
+                    ressourceTypeIds: ["iron","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceMaxInPerHour: [10000, 1000, 100, 10, 10, 10, 10]
                 },
                 UpgradeProduction: {
                     numSlots: 10,
@@ -727,9 +725,7 @@ if (node) {
             spriteFrame: 0,
             iconSpritesheetId: "miningSprite",
             iconSpriteFrame: 0,
-            buildTime: 10000,
-            requiredResourceIds:["granulateMaterial","carbonFiber"],
-            requiredResourceAmount: [500,300]
+            buildTime: 10000
         });
         gameData.objectTypes.add(miningPlant);
 
@@ -737,8 +733,8 @@ if (node) {
             _id: "plantation1",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["oxygen"],
+                    ressourceCapacity: [0]
                 },
                 FeatureManager: {},
                 HubConnectivity: {
@@ -778,13 +774,13 @@ if (node) {
             _id: "plantation2",
             blocks: {
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["oxygen","biomass","carbonFiber"],
+                    ressourceCapacity: [30, 30, 100]
                 },
                 FeatureManager: {},
                 SoilPuller: {
-                    ressourceTypeIds: ["oxygen"],
-                    ressourceMaxInPerHour: [3600] // one per second
+                    ressourceTypeIds: ["oxygen","biomass","carbonFiber"],
+                    ressourceMaxInPerHour: [3600, 3600, 3600] // one per second
                 },
                 HubConnectivity: {
                     numPorts: 1
@@ -830,8 +826,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial","carbonFiber"],
+                    ressourceCapacity: [0, 0]
                 }
             },
             className: "tower",
@@ -867,8 +863,8 @@ if (node) {
                     points: 15
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial","carbonFiber"],
+                    ressourceCapacity: [0, 0]
                 }
             },
             className: "subObject",
