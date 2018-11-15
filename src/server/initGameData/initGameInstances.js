@@ -207,7 +207,7 @@ if (node) {
 
 
 
-
+/*
         var crater01 = gameData.objectTypes.get("crater01");
         for (var i = 1; i < 200; i++) {
             moonMap.mapData.mapObjects.add(new MapObject(moonMap.mapData.mapObjects,{
@@ -229,10 +229,10 @@ if (node) {
                 userId: 0
             }));
         }
-
+*/
 
 // Now start adding example objects to our example cityMap01
-
+/*
         var rock01 = gameData.objectTypes.get("rock01");
         for (var i = 1; i < 100; i++) {
             cityMap.mapData.mapObjects.add(new MapObject(cityMap.mapData.mapObjects,{
@@ -256,7 +256,8 @@ if (node) {
                 userId: 0
             }));
         }
-
+*/
+        /*
         // Add Start Building
         var startObject = cityMap.mapData.mapObjects.add(new MapObject(cityMap.mapData.mapObjects,{
             _id: "start_building",
@@ -267,7 +268,7 @@ if (node) {
             userId: 0,
             state: State.NORMAL
         }));
-
+*/
 
         /**
         // Add Start Building
@@ -324,12 +325,14 @@ if (node) {
         cityMap2.initialize();
         cityMap3.initialize();
        // startObject.blocks.SoilPuller.resetSoilProduction();
+        /*
         var startResources = ["granulateMaterial","biomass","carbonFiber"];
         var startAmount = [1000,1000,1000];
         for (var i = 0; i<startResources.length; i++){
             var resStorage = startObject.blocks.ResourceManager.resList.get(startResources[i]);
             resStorage.storedAmount(startAmount[i]);
         }
+        */
     }
 
     exports.initGameInstances = initGameInstances;

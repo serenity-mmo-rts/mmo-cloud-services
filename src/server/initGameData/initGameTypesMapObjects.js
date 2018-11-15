@@ -684,7 +684,7 @@ if (node) {
             spriteFrame: 8,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 9,
-            buildTime: 10000
+            buildTime: 40000
         });
         gameData.objectTypes.add(liquidStorage);
 

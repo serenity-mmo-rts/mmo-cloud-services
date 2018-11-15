@@ -12,9 +12,10 @@ if (node) {
             name: "City",
             scale: 1,
             ratioWidthHeight: 2,
-            bgColor: 000000,
+            bgColor: 0,
             groundImage: "resources/ground.png",
             groundImageScaling: 1,
+            isPeriodic: true,
             buildCategories: [
                 {name: 'Resources', objectTypeIds: ["Hub", "reactor", "mineralStorage", "liquidStorage", "plantation1", "plantation2", "miningPlant"]},
                 {name: 'Production', objectTypeIds: ["Factory1", "furnitureFactory", "robotFactory1"]},
@@ -31,9 +32,10 @@ if (node) {
             name: "Moon",
             scale: 1,
             ratioWidthHeight: 2,
-            bgColor: 000000,
+            bgColor: 0,
             groundImage: "resources/moonGround.png",
             groundImageScaling: 1,
+            isPeriodic: true,
             buildCategories: [
                 {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01", "PlanetHub"]}
             ],
@@ -48,9 +50,10 @@ if (node) {
             name: "Solar",
             scale: 1,
             ratioWidthHeight: 2,
-            bgColor: 000000,
+            bgColor: 0,
             groundImage: "resources/background/starBackground.jpg",
             groundImageScaling: 0.1,
+            isPeriodic: false,
             groundDragScaling: 0.1,
             blocks: {
                 HubSystemManager: {}
@@ -64,9 +67,10 @@ if (node) {
             name: "Galaxy",
             scale: 1,
             ratioWidthHeight: 2,
-            bgColor: 000000,
+            bgColor: 0,
             groundImage: "resources/background/starBackgroundBlack.jpg",
             groundImageScaling: 1,
+            isPeriodic: false,
             groundDragScaling: 0.1
         });
         gameData.layerTypes.add(galaxyMapType);
