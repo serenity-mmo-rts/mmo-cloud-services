@@ -30,6 +30,9 @@ var serverMapId = process.argv[2];
 var serverName = 'layer_'+serverMapId;
 console.log('starting new layer server with mapId ' + serverMapId);
 
+require('console-stamp')(console, {
+    metadata: '[' + serverName + ']'
+});
 
 // start publishing socket for broadcasts to all connected clients:
 var pubSock = zmq.socket('pub');
@@ -148,6 +151,10 @@ asyncSocket.on('getUserData',function(msgData, reply) {
                 if (err) throw err;
                 if (documents != null && documents.length > 0) {
                     var user = new User(gameData, documents[0]);
+                    var tmp = gameData.users.get(user._id());
+                    if (tmp) {
+                        gameData.users.deleteById(user._id());
+                    }
                     gameData.users.add(user);
                 }
 

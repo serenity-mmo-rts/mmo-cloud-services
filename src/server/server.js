@@ -1,6 +1,7 @@
 var child_process = require('child_process');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var debugPortIterator = 5873;
+require('console-stamp')(console);
 
 function getDebugArgs() {
     debugPortIterator++;

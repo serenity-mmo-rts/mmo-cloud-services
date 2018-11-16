@@ -278,8 +278,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial"],
+                    ressourceCapacity: [0, 0]
                 }
             },
 
@@ -318,8 +318,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial","carbonFiber"],
+                    ressourceCapacity: [0, 0]
                 }
             },
 
@@ -358,8 +358,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial","carbonFiber"],
+                    ressourceCapacity: [0, 0]
                 }
             },
 
@@ -408,8 +408,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["granulateMaterial"],
+                    ressourceCapacity: [0]
                 }
             },
             className: "hub",
@@ -455,8 +455,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: [],
+                    ressourceCapacity: []
                 }
             },
             className: "hub",
@@ -468,9 +468,7 @@ if (node) {
             spriteFrame: 16,
             iconSpritesheetId: "objectsSprite",
             iconSpriteFrame: 16,
-            buildTime: 12000,
-            requiredResourceIds:["granulateMaterial","carbonFiber"],
-            requiredResourceAmount: [500,300]
+            buildTime: 12000
         });
         gameData.objectTypes.add(planethub);
 
@@ -584,8 +582,8 @@ if (node) {
                     points: 5
                 },
                 ResourceManager: {
-                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
-                    ressourceCapacity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ressourceTypeIds: ["oxygen"],
+                    ressourceCapacity: [100]
                 }
 
             },
@@ -644,9 +642,9 @@ if (node) {
             spriteAnimation: "working",
             iconSpritesheetId: "mineralStorageSprite",
             iconSpriteFrame: 0,
-            buildTime: 10000,
-            requiredResourceIds:["granulateMaterial","carbonFiber"],
-            requiredResourceAmount: [500,300]
+            buildTime: 50000,
+            requiredResourceIds:["carbonFiber"],
+            requiredResourceAmount: [60]
         });
         gameData.objectTypes.add(mineralStorage);
 

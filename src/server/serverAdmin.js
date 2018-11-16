@@ -13,6 +13,7 @@ var initDb = require('./initDb').initDb;
 var child_process = require('child_process');
 var dbConn = require('./dbConnection');
 
+require('console-stamp')(console);
 // Setup sessions
 var db = dbConn.getDb();
 dbConn.connect(function() {

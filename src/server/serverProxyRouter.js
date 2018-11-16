@@ -5,6 +5,9 @@ console.log('started proxy server: ' + serverName);
 var port = 'tcp://127.0.0.1:500'+process.argv[2];
 var asyncSocket = new AsyncSocket('router');
 asyncSocket.identity = serverName;
+require('console-stamp')(console, {
+    metadata: '[' + serverName + ']'
+});
 
 asyncSocket.bind(port, function(err) {
     if (err) throw err;

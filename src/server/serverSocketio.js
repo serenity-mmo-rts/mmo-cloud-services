@@ -11,7 +11,6 @@ var app = express();
 var server  = require("http").createServer(app);
 var io = require("socket.io")(server);
 
-
 var GameList = require('../game/GameList').GameList;
 var GameData = require('../game/GameData').GameData;
 var MapObject = require('../game/MapObject').MapObject;
@@ -28,6 +27,10 @@ var BSON = new bsonlib();
 
 
 var serverName = "socketioProxy"+process.argv[2];
+
+require('console-stamp')(console, {
+    metadata: '[' + serverName + ']'
+});
 
 // subscribe to map events
 var subSock = zmq.socket('sub');
