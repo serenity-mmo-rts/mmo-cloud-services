@@ -31,6 +31,7 @@ var serverName = 'layer_'+serverMapId;
 console.log('starting new layer server with mapId ' + serverMapId);
 
 require('console-stamp')(console, {
+    pattern: 'HH:MM:ss.l',
     metadata: '[' + serverName + ']'
 });
 
@@ -449,6 +450,16 @@ asyncSocket.on('newGameEvent',function(msgData, reply) {
 var os = require("os");
 var hostname = os.hostname();
 console.log("server of layer " + serverMapId + " is on listening on host " + hostname + " on port " + port);
+
+setInterval(function() {
+    whenMapLoaded(function() {
+        var mapData = gameData.layers.get(serverMapId);
+        if (mapData) {
+            // update world:
+            mapData.timeScheduler.finishAllTillTime(Date.now());
+        }
+    });
+}, 200);
 
 //
 //dbConn.get('layerServers', function (err, collLayerServers) {

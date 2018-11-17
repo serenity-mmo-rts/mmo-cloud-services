@@ -34,7 +34,7 @@ if (node) {
 
 
     var gameVars = {
-        rootMapId: "cityMap02"
+        rootMapId: "moonMap01"
         //rootMapId: "galaxyMap01"
     };
 

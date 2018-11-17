@@ -1,7 +1,11 @@
 var child_process = require('child_process');
 var AsyncSocket = require('./asyncReplySocket').AsyncRouter;
 var debugPortIterator = 5873;
-require('console-stamp')(console);
+
+require('console-stamp')(console, {
+    pattern: 'HH:MM:ss.l',
+    metadata: '[server]'
+});
 
 function getDebugArgs() {
     debugPortIterator++;
@@ -17,6 +21,7 @@ function getDebugArgs() {
 }
 
 var currentlyStartingMapIds = {};
+var allChild_processes = [];
 
 function startProxyRouter(_id) {
     var forker = child_process.fork(
@@ -24,6 +29,7 @@ function startProxyRouter(_id) {
         [_id],
         getDebugArgs()
     )
+    allChild_processes.push(forker);
 }
 
 function startPubSubForwarder(_id) {
@@ -32,6 +38,7 @@ function startPubSubForwarder(_id) {
         [_id],
         getDebugArgs()
     )
+    allChild_processes.push(forker);
 }
 
 
@@ -46,6 +53,7 @@ function startLayerServerById(mapId, cb) {
         if (cb) cb(m);
 
     });
+    allChild_processes.push(forker);
 }
 
 function startSocketioProxy(_id) {
@@ -54,6 +62,7 @@ function startSocketioProxy(_id) {
         [_id],
         getDebugArgs()
     )
+    allChild_processes.push(forker);
 }
 
 
@@ -156,8 +165,12 @@ setTimeout(function() {startSocketioProxy("1")},600);
 //setTimeout(startLayerServerById("moonMap01"),1000);
 //startLayerServerById("moonMap01");
 //setTimeout(startLayerServerById("cityMap01"),1000);
-setTimeout(function() {startLayerServerById("cityMap02")},1000);
+setTimeout(function() {startLayerServerById("moonMap01")},1000);
 
 
-
-
+process.on("exit", function() {
+    for (var i = 0; i< allChild_processes.lenght; i++) {
+        console.log("kill child process "+i);
+        allChild_processes[i].kill();
+    }
+});

@@ -2,7 +2,11 @@
 var zmq = require('zeromq');
 var subSock = zmq.socket('sub');
 var pubSock = zmq.socket('pub');
-require('console-stamp')(console);
+
+require('console-stamp')(console, {
+    pattern: 'HH:MM:ss.l',
+    metadata: '[pubSubForwarder]'
+});
 
 subSock.bindSync('tcp://127.0.0.1:3001');
 pubSock.bindSync('tcp://127.0.0.1:3000');

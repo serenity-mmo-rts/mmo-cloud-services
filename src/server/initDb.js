@@ -269,6 +269,12 @@ function startServer() {
         [1],
         debug_args
     )
+
+
+    process.on("exit", function() {
+        forker.kill();
+    });
+
 }
 
 if (require.main === module) {

@@ -60,8 +60,10 @@ var AsyncSocket = exports.AsyncSocket = function (type) {
             if (!self.replCallbacks.hasOwnProperty(msgId)){
                 console.log(self.identity + ": error: cannot find callback for this reply with msgId=" + msgId)
             }
-            self.replCallbacks[msgId](msgData);
-            delete self.replCallbacks[msgId];
+            if (self.replCallbacks[msgId]) {
+                self.replCallbacks[msgId](msgData);
+                delete self.replCallbacks[msgId];
+            }
         }
         else if (flags & msgFlags.IS_NOTIFY) {
             self.emit(

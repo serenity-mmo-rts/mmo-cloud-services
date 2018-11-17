@@ -9,6 +9,34 @@ if (node) {
 
 (function (exports) {
 
+    function create_city(moonMap, cityId, cityType, cityX, cityY, gameData) {
+        var city1 = new MapObject(moonMap.mapData.mapObjects, {
+            _id: cityId,
+            objTypeId: cityType,
+            sublayerId: cityId + "Map",
+            mapId: moonMap._id(),
+            userId: 0,
+            x: cityX,
+            y: cityY
+        });
+        moonMap.mapData.mapObjects.add(city1);
+
+        var cityMap = new Layer(gameData.layers, {
+            _id: cityId + "Map",
+            parentObjId: cityId,
+            width: 10000,
+            height: 10000,
+            xPos: cityX,
+            yPos: cityY,
+            mapTypeId: "cityMapType01",
+            parentMapId: "moonMap01",
+            mapGeneratorParams: [170000001, 10000, 14, 0.3, 70, gameData.objectTypes.get(cityType).initHeight]
+        });
+        gameData.layers.add(cityMap); // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
+        cityMap.currentTime = Date.now();
+        return cityMap;
+    }
+
     function initGameInstances(gameData) {
 
         var galaxyMap = new Layer(gameData.layers,{
@@ -71,50 +99,6 @@ if (node) {
         gameData.layers.add(moonMap3);
 
 
-        var cityMap = new Layer(gameData.layers,{
-            _id: "cityMap01",
-            parentObjId: "firstCity",
-            width: 10000,
-            height: 10000,
-            xPos: 10000,
-            yPos: 10000,
-            mapTypeId: "cityMapType01",
-            parentMapId: "moonMap01",
-            mapGeneratorParams: [170000001,10000,14,0.3,70]
-        });
-        gameData.layers.add(cityMap); // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
-        cityMap.currentTime = Date.now();
-
-        var cityMap2 = new Layer(gameData.layers,{
-            _id: "cityMap02",
-            parentObjId: "secondCity",
-            width: 10000,
-            height: 10000,
-            xPos: 30000,
-            yPos: 30000,
-            mapTypeId: "cityMapType01",
-            parentMapId: "moonMap01",
-            mapGeneratorParams: [170000001,10000,14,0.3,70] // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
-        });
-        gameData.layers.add(cityMap2);
-        cityMap2.currentTime = Date.now();
-
-
-        var cityMap3 = new Layer(gameData.layers,{
-            _id: "cityMap03",
-            parentObjId: "thirdCity",
-            width: 10000,
-            height: 10000,
-            xPos: 30000,
-            yPos: 30000,
-            mapTypeId: "cityMapType01",
-            parentMapId: "moonMap01",
-            mapGeneratorParams: [170000001,10000,14,0.3,70] // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
-        });
-        gameData.layers.add(cityMap3);
-        cityMap3.currentTime = Date.now();
-
-
 
 
 // Sublayer Map Objects
@@ -162,37 +146,11 @@ if (node) {
         });
         solarMap.mapData.mapObjects.add(planet3);
 
-        var city1 = new MapObject(moonMap.mapData.mapObjects,{
-            _id: "firstCity",
-            objTypeId: "dome",
-            sublayerId: "cityMap01",
-            mapId: moonMap._id(),
-            userId: 0,
-            x: 0,
-            y: 0
-        });
-        moonMap.mapData.mapObjects.add(city1);
-
-        moonMap.mapData.mapObjects.add(new MapObject(moonMap.mapData.mapObjects,{
-            _id: "secondCity",
-            objTypeId: "dome",
-            sublayerId: "cityMap02",
-            mapId: moonMap._id(),
-            userId: 0,
-            x: 300,
-            y: 0
-        }));
-
-        moonMap.mapData.mapObjects.add(new MapObject(moonMap.mapData.mapObjects,{
-            _id: "thirdCity",
-            objTypeId: "dome",
-            sublayerId: "cityMap03",
-            mapId: moonMap._id(),
-            userId: 0,
-            x: 300,
-            y: 800
-        }));
-
+        var cityX = -250;
+        var cityY = -250;
+        var cityType = "bigDome";
+        var cityId = "firstCity";
+        var cityMap = create_city(moonMap, cityId, cityType, cityX, cityY, gameData);
 
         var solarSystem1 = new MapObject(galaxyMap.mapData.mapObjects,{
             _id: "solarSystem01",
@@ -322,8 +280,6 @@ if (node) {
         moonMap.initialize();
         moonMap2.initialize();
         cityMap.initialize();
-        cityMap2.initialize();
-        cityMap3.initialize();
        // startObject.blocks.SoilPuller.resetSoilProduction();
         /*
         var startResources = ["granulateMaterial","biomass","carbonFiber"];

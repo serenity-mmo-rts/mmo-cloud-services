@@ -29,6 +29,7 @@ var BSON = new bsonlib();
 var serverName = "socketioProxy"+process.argv[2];
 
 require('console-stamp')(console, {
+    pattern: 'HH:MM:ss.l',
     metadata: '[' + serverName + ']'
 });
 
@@ -295,7 +296,11 @@ dbConn.connect(function() {
                     mapId: requestedMapId
                     //userId: socket.handshake.session.userdata.userId
                 },
-                function (mapData) {
+                function (mapData, err) {
+                    if (err) {
+                        console.error("map is not reachable!");
+                        return;
+                    }
                     socket.handshake.session.mapId = requestedMapId;
                     socket.handshake.session.save();
                     replyFcn(mapData);
@@ -306,7 +311,8 @@ dbConn.connect(function() {
 
                     // add new association between client and map:
                     addClientToMap(socketId, requestedMapId, socket);
-                }
+                },
+                2000
             );
         });
 
@@ -319,7 +325,7 @@ dbConn.connect(function() {
                 return;
             }
             if (!socket.handshake.session.userdata) {
-                console.log(serverName+': ERROR: cannot getUserData, because user is not logged in!');
+                console.log(serverName+': cannot getUserData, because user is not logged in!');
                 replyFcn(null);
                 socket.emit("loggedOut");
                 return;
@@ -332,7 +338,7 @@ dbConn.connect(function() {
                 },
                 function (userData) {
                     if (!userData.success) {
-                        console.log(serverName+': ERROR: cannot getUserData, because user is not logged in!');
+                        console.log(serverName+': cannot getUserData, because user is not logged in!');
                         replyFcn(null);
                         socket.emit("loggedOut");
                     }

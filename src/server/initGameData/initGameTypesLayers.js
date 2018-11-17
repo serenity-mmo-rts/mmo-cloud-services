@@ -37,7 +37,7 @@ if (node) {
             groundImageScaling: 1,
             isPeriodic: true,
             buildCategories: [
-                {name: 'Habitat', objectTypeIds: ["dome", "spacecraftUnitObject01", "PlanetHub"]}
+                {name: 'Habitat', objectTypeIds: ["dome", "bigDome", "spacecraftUnitObject01", "PlanetHub"]}
             ],
             blocks: {
                 HubSystemManager: {}

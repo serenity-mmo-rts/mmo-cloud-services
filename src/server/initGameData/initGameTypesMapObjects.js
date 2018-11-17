@@ -1044,6 +1044,47 @@ if (node) {
         }));
 
 
+        var bigDome = gameData.objectTypes.add(new ObjectType(gameData, {
+            _id: "bigDome",
+            blocks: {
+                Sublayer: {
+                    subLayerType: "cityMapType01"
+                },
+                HubNode: {
+                    minRange: 400,
+                    maxRange: 3000,
+                    connBuildTimePerDist: 1
+                },
+                HubConnectivity: {
+                    numPorts: 12
+                },
+                UserObject: {
+                    maxHealthPoints: 100,
+                    points: 50
+                },
+                UpgradeProduction: {
+                    numSlots: 0,
+                    itemTypeIds: []
+                },
+                ResourceManager: {
+                    ressourceTypeIds: ["hydrogen","oxygen","granulateMaterial","biomass","carbonFiber","silicon","copper","iron","titanium","iridium","palladium"],
+                    ressourceCapacity: [5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000]
+                }
+            },
+            className: "sublayer",
+            initWidth: 500,
+            initHeight: 500,
+            allowOnMapTypeId: "moonMapType01",
+            name: "Big Dome",
+            spritesheetId: 'moonSprite01',
+            spriteFrame: 1,
+            spriteScaling: 10,
+            iconSpritesheetId: 'moonSprite01',
+            iconSpriteFrame: 2,
+            buildTime: 20000
+        }));
+
+
         var sunPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
             _id: "sunPlanet",
             blocks: {
