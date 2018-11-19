@@ -21,15 +21,17 @@ if (node) {
         });
         moonMap.mapData.mapObjects.add(city1);
 
+        moonMap.mapGeneratorParams()
+
         var cityMap = new Layer(gameData.layers, {
             _id: cityId + "Map",
             parentObjId: cityId,
-            width: 10000,
-            height: 10000,
+            width: moonMap.width(),
+            height: moonMap.height(),
             xPos: cityX,
             yPos: cityY,
             mapTypeId: "cityMapType01",
-            parentMapId: "moonMap01",
+            parentMapId: moonMap._id(),
             mapGeneratorParams: [170000001, 10000, 14, 0.3, 70, gameData.objectTypes.get(cityType).initHeight]
         });
         gameData.layers.add(cityMap); // subLayerSeed,roughness,citySize,waterLevel,avgTemperature
@@ -151,6 +153,7 @@ if (node) {
         var cityType = "bigDome";
         var cityId = "firstCity";
         var cityMap = create_city(moonMap, cityId, cityType, cityX, cityY, gameData);
+        //var cityMap2 = create_city(moonMap, "smallCity", "dome", 0, 0, gameData);
 
         var solarSystem1 = new MapObject(galaxyMap.mapData.mapObjects,{
             _id: "solarSystem01",
