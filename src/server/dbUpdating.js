@@ -148,7 +148,7 @@ function finishSaving(gameData, layer) {
     // finish:
 
     delete lockedLayers[layer._id()];
-    console.log("saving is finished");
+    //console.log("saving is finished");
     // if in the mean time a new change request came in, then we start the saving from the beginning.
     if (resaveLayers.hasOwnProperty(layer._id())) {
         delete resaveLayers[layer._id()];

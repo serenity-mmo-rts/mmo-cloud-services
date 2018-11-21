@@ -87,6 +87,14 @@ loadDb.getGameData(gameData,gameVars,function() {
     console.log("finished loading game types...");
     loadDb.getMapById(gameData, serverMapId, function() {
         console.log("finished loading map " + serverMapId);
+        var layer = gameData.layers.get(serverMapId);
+        if (!layer.mapGenerator.isInitialized ) {
+            layer.mapGenerator.init();
+            dbUpdating.reflectLayerToDb(gameData, layer, function() {
+
+            });
+        }
+
         mapLoaded = true;
         for (var key in mapLoadedCallbacks){
             mapLoadedCallbacks[key]();
@@ -146,6 +154,7 @@ asyncSocket.on('getMap',function(msgData, reply) {
 asyncSocket.on('getUserData',function(msgData, reply) {
     var userId = msgData.userId;
     if (userId != null){
+        console.log("getting userData of userId="+userId);
         dbConn.get('users', function (err, collUsers) {
             if (err) throw err;
             collUsers.find({_id: userId}).toArray(function (err, documents) {

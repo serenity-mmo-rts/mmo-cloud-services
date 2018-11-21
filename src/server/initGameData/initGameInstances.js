@@ -85,7 +85,7 @@ if (node) {
             height: 20000,             // pixelsize / 2
             mapTypeId: "moonMapType01",
             parentMapId: "solarMap01",
-            mapGeneratorParams: [1,10000,15,0.4,20] // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
+            mapGeneratorParams: [170000002,10000,15,0.4,20] // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
         });
         gameData.layers.add(moonMap2);
 
@@ -96,7 +96,7 @@ if (node) {
             height: 20000,             // pixelsize / 2
             mapTypeId: "moonMapType01",
             parentMapId: "solarMap01",
-            mapGeneratorParams: [1,10000,15,0.3,-20] // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
+            mapGeneratorParams: [170000003,10000,15,0.3,-20] // subLayerSeed,roughness,planetSize,waterLevel,avgTemperature
         });
         gameData.layers.add(moonMap3);
 

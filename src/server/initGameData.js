@@ -32,10 +32,8 @@ if (node) {
         return gameData;
     }
 
-
     var gameVars = {
-        rootMapId: "moonMap01"
-        //rootMapId: "galaxyMap01"
+        rootMapId: "galaxyMap01"
     };
 
     exports.initGameData = initGameData;

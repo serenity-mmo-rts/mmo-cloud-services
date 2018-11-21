@@ -165,7 +165,7 @@ setTimeout(function() {startSocketioProxy("1")},600);
 //setTimeout(startLayerServerById("moonMap01"),1000);
 //startLayerServerById("moonMap01");
 //setTimeout(startLayerServerById("cityMap01"),1000);
-setTimeout(function() {startLayerServerById("moonMap01")},1000);
+setTimeout(function() {startLayerServerById("galaxyMap01")},1000);
 
 
 process.on("exit", function() {

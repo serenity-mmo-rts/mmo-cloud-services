@@ -23,7 +23,8 @@ if (node) {
         var redDwarf = new ObjectType(gameData, {
             _id: "redDwarf",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
@@ -61,7 +62,9 @@ if (node) {
         var normalStar = gameData.objectTypes.add(new ObjectType(gameData, {
             _id: "normalStar",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "solarMapType01"
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
@@ -97,7 +100,9 @@ if (node) {
         var doubleSystem = new ObjectType(gameData, {
             _id: "doubleSystem",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "solarMapType01"
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
@@ -135,7 +140,9 @@ if (node) {
         var neutronStar = new ObjectType(gameData, {
             _id: "neutronStar",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "solarMapType01"
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
@@ -172,7 +179,9 @@ if (node) {
         var blackHole = new ObjectType(gameData, {
             _id: "blackHole",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "solarMapType01"
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
@@ -1007,7 +1016,9 @@ if (node) {
         var dome = gameData.objectTypes.add(new ObjectType(gameData, {
             _id: "dome",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "cityMapType01"
+                },
                 HubNode: {
                     minRange: 400,
                     maxRange: 3000,
@@ -1105,7 +1116,9 @@ if (node) {
         var earthPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
             _id: "earthPlanet",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "moonMapType01"
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
@@ -1134,7 +1147,9 @@ if (node) {
         var marsPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
             _id: "marsPlanet",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "moonMapType01"
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
@@ -1163,7 +1178,9 @@ if (node) {
         var moonPlanet = gameData.objectTypes.add(new ObjectType(gameData, {
             _id: "moonPlanet",
             blocks: {
-                Sublayer: {},
+                Sublayer: {
+                    subLayerType: "moonMapType01"
+                },
                 HubConnectivity: {
                     numPorts: 12
                 },
