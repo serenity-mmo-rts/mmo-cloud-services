@@ -75,7 +75,7 @@ dbConn.connect(function() {
         function(req, res, next) {
             console.log('restarting server');
             var path_to_src = path.join(__dirname, '../..');
-            var compile_process = child_process.spawn('pm2', ["restart", "server"], {
+            var compile_process = child_process.spawn('pm2', ["restart", "ecosystem.config.js"], {
                 env: process.env,
                 cwd: path_to_src
             });
