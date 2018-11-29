@@ -24,6 +24,7 @@ if (node) {
             _id: "redDwarf",
             blocks: {
                 Sublayer: {
+                    subLayerType: "solarMapType01"
                 },
                 HubConnectivity: {
                     numPorts: 12
