@@ -1093,7 +1093,7 @@ if (node) {
             spriteScaling: 10,
             iconSpritesheetId: 'moonSprite01',
             iconSpriteFrame: 2,
-            buildTime: 20000
+            buildTime: 5000
         }));
 
 

@@ -10,7 +10,7 @@ if (node) {
         var cityMapType = new LayerType(gameData,{
             _id: "cityMapType01",
             name: "City",
-            scale: 1,
+            scale: 4,
             ratioWidthHeight: 2,
             bgColor: 0,
             groundImage: "resources/ground.png",
