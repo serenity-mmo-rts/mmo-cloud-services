@@ -1,5 +1,17 @@
+# MMO Cloud Service
 
-HowTo run Serenity on Windows 7, 64 bit System:
+Several microservices for the cloud of the mmo engine that simulates the game.
+
+## Microservices Architecture
+
+Backend communication is through ZeroMQ with horizontal scaling at each service layer.
+
+![microservices](/images/microservices.png)
+
+
+## Setup Instructions
+
+### HowTo run Service on Windows 7, 64 bit System:
 
 A) Install Phython: 2.7
 B) install Tortoise Git: https://code.google.com/p/tortoisegit/wiki/Download (Version 1.7.10, choose installation with path)
@@ -40,21 +52,7 @@ L) Configure Webstorm:
 	
 
 
-Development:
-
-javascript modules should be written as described at:
-http://caolanmcmahon.com/posts/writing_for_node_and_the_browser/
-
-
-
-
-
-
-
-
-###################################################################
-###### HowTo run Serenity on Linux 64 bit (without root access):
-###################################################################
+### HowTo run Serenity on Linux 64 bit:
 
 We assume you want to install under /work/username
 
@@ -145,3 +143,7 @@ Before running the server specify the environment variable: LD_LIBRARY_PATH=/wor
 For example in Webstorm there is the field Environment Variables in the Server Debug/Run Configuration. There you can also specify the path to the node.js executable as /work/username/local/bin/node
 
 
+## Development:
+
+Javascript modules should be written as described at:
+http://caolanmcmahon.com/posts/writing_for_node_and_the_browser/
