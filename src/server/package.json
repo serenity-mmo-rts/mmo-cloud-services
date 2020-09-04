@@ -12,7 +12,7 @@
     "freeport": "*",
     "http-proxy": "*",
     "json-socket": "*",
-    "mongodb": "2.2.33",
+    "mongodb": "3.6.1",
     "node-uuid": "*",
     "redis": "*",
     "console-stamp": "^0.2.6",
